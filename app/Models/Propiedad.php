@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\FotografiaPropiedad;
 
 class Propiedad extends Model
 {
@@ -45,6 +46,6 @@ class Propiedad extends Model
 
     public function fotografias()
     {
-        return $this->hasMany(Fotografia::class);
+        return $this->hasMany(FotografiaPropiedad::class);
     }
 }
