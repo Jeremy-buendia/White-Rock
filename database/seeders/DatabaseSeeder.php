@@ -15,12 +15,15 @@ class DatabaseSeeder extends Seeder
         // User::factory(10)->create(); //para crear datos de prueba
 
         $this->call([
+            OficinaSeeder::class,
+            ClienteSeeder::class,
+            AgenteInmobiliarioSeeder::class,
+            PropiedadSeeder::class,
             AgentePropiedadSeeder::class,
             FotografiaPropiedadSeeder::class,
             TransaccionSeeder::class,
             VisitaSeeder::class,
             SolicitudVisitaSeeder::class,
-            SessionSeeder::class,
             ContratoSeeder::class,
         ]);
     }

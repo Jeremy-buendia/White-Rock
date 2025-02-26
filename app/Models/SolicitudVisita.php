@@ -9,6 +9,8 @@ class SolicitudVisita extends Model
 {
     use HasFactory;
 
+    protected $table = 'solicitudes_visitas';
+
     protected $fillable = [
         'propiedad_id',
         'cliente_id',

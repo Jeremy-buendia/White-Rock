@@ -9,11 +9,14 @@ use App\Models\FotografiaPropiedad;
 class Propiedad extends Model
 {
     use HasFactory;
+
+    protected $table = 'propiedades';
+
     protected $fillable = [
         'direccion',
         'tipo_propiedad',
         'precio',
-        'tamaño',
+        'tamano',
         'descripcion',
         'estado',
         'fecha_publicacion',
