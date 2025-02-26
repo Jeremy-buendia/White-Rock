@@ -18,6 +18,10 @@ class DatabaseSeeder extends Seeder
             AgentePropiedadSeeder::class,
             FotografiaPropiedadSeeder::class,
             TransaccionSeeder::class,
+            VisitaSeeder::class,
+            SolicitudVisitaSeeder::class,
+            SessionSeeder::class,
+            ContratoSeeder::class,
         ]);
     }
 }
