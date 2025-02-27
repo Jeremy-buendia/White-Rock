@@ -16,6 +16,7 @@ class CreateClientesTable extends Migration
             $table->string('correo_electronico')->unique();
             $table->string('direccion')->nullable();
             $table->enum('tipo_cliente', ['comprador', 'vendedor', 'arrendatario', 'arrendador']);
+            $table->string('imagen')->nullable();
             $table->timestamps();
         });
     }
