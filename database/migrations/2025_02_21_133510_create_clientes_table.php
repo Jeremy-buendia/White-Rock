@@ -15,9 +15,10 @@ class CreateClientesTable extends Migration
             $table->string('telefono')->nullable();
             $table->string('correo_electronico')->unique();
             $table->string('direccion')->nullable();
-            $table->enum('tipo_cliente', ['comprador', 'vendedor', 'arrendatario', 'arrendador']);
             $table->string('imagen')->nullable();
-            $table->timestamps();
+            $table->string('password');  // Campo para la contraseña
+            $table->rememberToken();  // Campo para el remember_token
+            $table->timestamps();  // Para los timestamps
         });
     }
 
@@ -25,4 +26,4 @@ class CreateClientesTable extends Migration
     {
         Schema::dropIfExists('clientes');
     }
-};
+}

@@ -20,7 +20,7 @@ class ClienteFactory extends Factory
             'telefono' => $this->faker->phoneNumber,
             'correo_electronico' => $this->faker->unique()->safeEmail,
             'direccion' => $this->faker->address,
-            'tipo_cliente' => $this->faker->randomElement(['comprador', 'vendedor', 'arrendatario', 'arrendador']),
+            'password' => $this->faker->phoneNumber
         ];
     }
 }

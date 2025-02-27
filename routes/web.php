@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\PropiedadController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -16,8 +17,13 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
-    Route::get('agente/{idAgente}/propiedades');
-    Route::post('agente/{idAgente}/propiedades');
+    Route::get('/');
+
+    Route::get('agente/{idAgente}/propiedades', [PropiedadController::class,]);
+    Route::post('agente/{idAgente}/propiedades', [PropiedadController::class,]);
+    Route::get('agente/{idAgente}/propiedades/{idPropiedad}', [PropiedadController::class,]);
+    Route::put('agente/{idAgente}/propiedades/{idPropiedad}', [PropiedadController::class,]);
+    Route::delete('agente/{idAgente}/propiedades/{idPropiedad}', [PropiedadController::class,]);
 });
 
 require __DIR__ . '/auth.php';
