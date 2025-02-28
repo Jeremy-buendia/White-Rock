@@ -1,13 +1,4 @@
 <x-guest-layout>
-    @if ($errors->any())
-    <div class="alert alert-danger">
-        <ul>
-            @foreach ($errors->all() as $error)
-            <li>{{ $error }}</li>
-            @endforeach
-        </ul>
-    </div>
-    @endif
     <!-- Session Status -->
     <x-auth-session-status class="mb-4" :status="session('status')" />
 
@@ -16,9 +7,9 @@
 
         <!-- Email Address -->
         <div>
-            <x-input-label for="correo_electronico" :value="__('Correo electr´pnico')" />
-            <x-text-input id="correo_electronico" class="block mt-1 w-full" type="email" name="correo_electronico" :value="old('correo_electronico')" required autofocus autocomplete="username" />
-            <x-input-error :messages="$errors->get('correo_electronico')" class="mt-2" />
+            <x-input-label for="email" :value="__('Email')" />
+            <x-text-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required autofocus autocomplete="username" />
+            <x-input-error :messages="$errors->get('email')" class="mt-2" />
         </div>
 
         <!-- Password -->

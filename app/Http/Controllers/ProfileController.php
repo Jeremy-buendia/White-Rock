@@ -16,9 +16,8 @@ class ProfileController extends Controller
      */
     public function edit(Request $request): View
     {
-        $cliente = $request->user();
         return view('profile.edit', [
-            'cliente' => $cliente,
+            'user' => $request->user(),
         ]);
     }
 
@@ -27,39 +26,11 @@ class ProfileController extends Controller
      */
     public function update(ProfileUpdateRequest $request): RedirectResponse
     {
-        $request->validate([
-            'nombre' => 'required|string|max:255',
-            'apellido' => 'required|string|max:255',
-            'correo_electronico' => 'required|string|email|max:255|unique:clientes,correo_electronico,' . $request->user()->id,
-            'telefono' => 'nullable|string|max:15',
-            'direccion' => 'nullable|string|max:255',
-            'tipo_cliente' => 'required|in:comprador,vendedor,arrendatario,arrendador',
-            'imagen' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-            'password' => 'nullable|string|min:8|confirmed'
-        ]);
+        $request->user()->fill($request->validated());
 
-        $cliente = $request->user();
-
-        //$request->user()->fill($request->validated());
-
-        if ($request->filled('password')) {
-            $request->merge(['password' => bcrypt($request->password)]);
+        if ($request->user()->isDirty('email')) {
+            $request->user()->email_verified_at = null;
         }
-
-        // if ($request->user()->isDirty('email')) {
-        //     $request->user()->email_verified_at = null;
-        // }
-
-        $cliente->update([
-            'nombre' => $request->nombre,
-            'apellido' => $request->apellido,
-            'correo_electronico' => $request->correo_electronico,
-            'telefono' => $request->telefono,
-            'direccion' => $request->direccion,
-            'tipo_cliente' => $request->tipo_cliente,
-            'imagen' => $request->imagen ? $request->file('imagen')->store('images/cliente') : $cliente->imagen,
-            'password' => $request->password ?? $cliente->password
-        ]);
 
         $request->user()->save();
 
@@ -75,11 +46,11 @@ class ProfileController extends Controller
             'password' => ['required', 'current_password'],
         ]);
 
-        $cliente = $request->user();
+        $user = $request->user();
 
         Auth::logout();
 
-        $cliente->delete();
+        $user->delete();
 
         $request->session()->invalidate();
         $request->session()->regenerateToken();

@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
-use App\Models\Cliente; // Cambiado de User a Cliente
+use App\Models\User;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -29,46 +29,21 @@ class RegisteredUserController extends Controller
      */
     public function store(Request $request): RedirectResponse
     {
-        //dd($request->all());
         $request->validate([
-            'nombre' => ['required', 'string', 'max:255'],
-            'apellido' => ['required', 'string', 'max:255'],
-            'correo_electronico' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:clientes,correo_electronico'], // Cambiado de email a correo_electronico
-            'telefono' => ['nullable', 'string', 'max:15'],
-            'direccion' => ['nullable', 'string', 'max:255'],
+            'name' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:' . User::class],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
         ]);
 
-        $hashedPassword = Hash::make($request->password);
+        $user = User::create([
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => Hash::make($request->password),
+        ]);
 
-        // $cliente = Cliente::create([
-        //     'nombre' => $request->nombre,
-        //     'apellido' => $request->apellido,
-        //     //'apellido' => "Gonzalez",
-        //     'correo_electronico' => $request->correo_electronico,
-        //     'telefono' => $request->telefono,
-        //     //'telefono' => "600000000",
-        //     'direccion' => $request->direccion,
-        //     //'direccion' => "C/ Lorca n1",
-        //     'password' => $hashedPassword,
-        // ]);
+        event(new Registered($user));
 
-        $cliente = new Cliente();
-        $cliente->nombre = $request->nombre;
-        $cliente->apellido = $request->apellido;
-        $cliente->correo_electronico = $request->correo_electronico;
-        $cliente->telefono = $request->telefono;
-        $cliente->direccion = $request->direccion;
-        $cliente->forceFill(['password' => $hashedPassword]);
-
-        $cliente->save();
-
-        //dd($cliente);
-
-
-        event(new Registered($cliente));
-
-        Auth::login($cliente);
+        Auth::login($user);
 
         return redirect(route('dashboard', absolute: false));
     }
