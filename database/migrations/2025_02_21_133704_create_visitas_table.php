@@ -11,7 +11,7 @@ class CreateVisitasTable extends Migration
         Schema::create('visitas', function (Blueprint $table) {
             $table->id();
             $table->foreignId('propiedad_id')->constrained('propiedades')->onDelete('cascade');
-            $table->foreignId('cliente_id')->constrained('clientes')->onDelete('cascade');
+            $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
             $table->foreignId('agente_id')->constrained('agentes_inmobiliarios')->onDelete('cascade');
             $table->date('fecha_visita');
             $table->time('hora_visita');

@@ -25,9 +25,9 @@ class Transaccion extends Model
         return $this->belongsTo(Propiedad::class, 'propiedad_id');
     }
 
-    public function cliente()
+    public function user()
     {
-        return $this->belongsTo(Cliente::class, 'cliente_id');
+        return $this->belongsTo(user::class, 'user_id');
     }
 
     public function agente()

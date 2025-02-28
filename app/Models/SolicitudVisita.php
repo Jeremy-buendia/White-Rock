@@ -24,8 +24,8 @@ class SolicitudVisita extends Model
         return $this->belongsTo(Propiedad::class);
     }
 
-    public function cliente()
+    public function user()
     {
-        return $this->belongsTo(Cliente::class);
+        return $this->belongsTo(User::class);
     }
 }

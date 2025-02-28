@@ -11,7 +11,7 @@ class CreateSolicitudesVisitasTable extends Migration
         Schema::create('solicitudes_visitas', function (Blueprint $table) {
             $table->id();
             $table->foreignId('propiedad_id')->constrained('propiedades')->onDelete('cascade');
-            $table->foreignId('cliente_id')->constrained('clientes')->onDelete('cascade');
+            $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
             $table->date('fecha_solicitud');
             $table->enum('estado', ['pendiente', 'aprobada', 'rechazada']);
             $table->date('fecha_propuesta')->nullable();
