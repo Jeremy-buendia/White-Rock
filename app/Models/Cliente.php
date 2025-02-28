@@ -63,8 +63,8 @@ class Cliente extends Authenticatable  // Extiende de Authenticatable
 
     // Si usas un campo diferente para la verificación del correo electrónico, modifícalo aquí
     // Si 'correo_electronico' es tu campo para el email, asegúrate de que esté bien.
-    public function getEmailForPasswordReset()
-    {
-        return $this->correo_electronico;
-    }
+    // public function getEmailForPasswordReset()
+    // {
+    //     return $this->correo_electronico;
+    // }
 }
