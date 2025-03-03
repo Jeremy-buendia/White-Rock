@@ -3,17 +3,25 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
+use Illuminate\Foundation\Auth\User as Authenticatable;
 use App\Models\Oficina;
 use App\Models\Propiedad;
 
-class AgenteInmobiliario extends Model
+class AgenteInmobiliario extends Authenticatable
 {
     use HasFactory;
 
+    // protected $primaryKey = 'id';
+    // public $incrementing = true;
+    // protected $keyType = 'int';
+
     protected $table = 'agentes_inmobiliarios';
 
-    protected $fillable = ['nombre', 'apellido', 'telefono', 'correo_electronico', 'direccion', 'fecha_contratacion', 'oficina_id'];
+    protected $fillable = ['nombre', 'apellido', 'telefono', 'correo_electronico', 'direccion', 'fecha_contratacion', 'password', 'oficina_id'];
+
+    protected $hidden = ['password', 'remember_token'];
+
+    // protected $casts = ['password' => 'hashed'];
 
     public function oficina()
     {
@@ -38,5 +46,10 @@ class AgenteInmobiliario extends Model
     public function contratos()
     {
         return $this->hasMany(Contrato::class);
+    }
+
+    public function getAuthIdentifierName()
+    {
+        return 'correo_electronico';
     }
 }

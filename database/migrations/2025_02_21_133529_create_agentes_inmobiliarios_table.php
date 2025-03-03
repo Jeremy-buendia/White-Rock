@@ -14,9 +14,11 @@ class CreateAgentesInmobiliariosTable extends Migration
             $table->string('apellido');
             $table->string('telefono');
             $table->string('correo_electronico')->unique();
-            $table->string('direccion')->nullable();
+            $table->string('direccion')->nullable(); //nullable
             $table->date('fecha_contratacion');
-            $table->foreignId('oficina_id')->nullable()->constrained('oficinas')->onDelete('set null');
+            $table->string('password');
+            $table->rememberToken();
+            $table->foreignId('oficina_id')->nullable()->constrained('oficinas')->onDelete('set null'); //nullable
             $table->timestamps();
         });
     }

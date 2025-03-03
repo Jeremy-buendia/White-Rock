@@ -40,6 +40,11 @@ return [
             'driver' => 'session',
             'provider' => 'users',
         ],
+
+        'agente' => [
+            'driver' => 'session',
+            'provider' => 'agentes',
+        ],
     ],
 
     /*
@@ -65,10 +70,10 @@ return [
             'model' => env('AUTH_MODEL', App\Models\User::class),
         ],
 
-        // 'users' => [
-        //     'driver' => 'database',
-        //     'table' => 'users',
-        // ],
+        'agentes' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\AgenteInmobiliario::class
+        ]
     ],
 
     /*

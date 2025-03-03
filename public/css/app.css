@@ -1,0 +1,49 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+
+body{
+    background-color: aliceblue;
+}
+
+main{
+    padding-top: 80px;
+}
+
+header h1{
+    font-family: "DM Serif Text", serif;
+    font-weight: 400;
+    font-style: italic;
+}
+
+header{
+    position: fixed;
+    width: 100%;
+    padding: 15px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    background-color: aliceblue;
+}
+
+header nav{
+    display: flex;
+    align-items: center;
+}
+
+header a{
+    color: black;
+    text-decoration: none;
+    margin-right: 25px;
+    font-family: "DM Serif Text", serif;
+    font-weight: 400;
+    font-style: italic;
+    font-size: 20px;
+    transition: 0.3s ease all;
+}
+
+header a:hover{
+    color:slategray;
+    transition: 0.3s ease all;
+}
