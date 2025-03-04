@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Auth\Events\Registered;
+use Illuminate\Validation\Rule;
 use Illuminate\Validation\Rules;
 use App\Models\AgenteInmobiliario;
 use Illuminate\Http\RedirectResponse;
@@ -24,16 +25,22 @@ class AgenteAuthController extends Controller
 
     public function registro(Request $request): RedirectResponse
     {
-
-        //dd($request->all());
-        // $request->validate([
-        //     'nombre' => ['required', 'string', 'max:255'],
-        //     'apellido' => ['required', 'string', 'max:255'],
-        //     'correo_electronico' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:agentes_inmobiliarios,correo_electronico'],
-        //     'telefono' => ['required', 'string', 'max:20'],
-        //     'direccion' => ['required', 'string', 'max:255'],
-        //     'password' => ['required', 'confirmed', Rules\Password::defaults()],
-        // ]);
+        $request->validate([
+            'nombre' => ['required', 'string', 'max:255'],
+            'apellido' => ['required', 'string', 'max:255'],
+            'correo_electronico' => [
+                'required',
+                'string',
+                'lowercase',
+                'email',
+                'max:255',
+                Rule::unique('agentes_inmobiliarios', 'correo_electronico'),
+                Rule::unique('users', 'email'),
+            ],
+            'telefono' => ['required', 'string', 'max:20'],
+            'direccion' => ['required', 'string', 'max:255'],
+            'password' => ['required', 'confirmed', Rules\Password::defaults()],
+        ]);
 
         $agente = AgenteInmobiliario::create([
             'nombre' => $request->nombre,
@@ -45,7 +52,6 @@ class AgenteAuthController extends Controller
             'password' => Hash::make($request->password),
             'oficina_id' => null,
         ]);
-        //dd($agente);
 
         Auth::login($agente);
 

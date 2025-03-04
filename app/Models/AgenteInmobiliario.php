@@ -50,6 +50,6 @@ class AgenteInmobiliario extends Authenticatable
 
     public function getAuthIdentifierName()
     {
-        return 'correo_electronico';
+        return 'id';
     }
 }
