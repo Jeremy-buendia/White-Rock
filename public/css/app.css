@@ -3,12 +3,16 @@
     padding: 0;
 }
 
+html {
+    scroll-behavior: smooth;
+}
+
 body{
-    background-color: aliceblue;
+    background-color: #fff;
 }
 
 main{
-    padding-top: 80px;
+    padding-top: 100px;
 }
 
 header h1{
@@ -24,7 +28,10 @@ header{
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    background-color: aliceblue;
+    background-image: url('../img/marmol2.jpg');
+    background-repeat: repeat;
+    background-attachment: fixed;
+    border-bottom: 3px solid slategray;
 }
 
 header nav{
@@ -35,7 +42,7 @@ header nav{
 header a{
     color: black;
     text-decoration: none;
-    margin-right: 25px;
+    margin-right: 35px;
     font-family: "DM Serif Text", serif;
     font-weight: 400;
     font-style: italic;
@@ -43,7 +50,48 @@ header a{
     transition: 0.3s ease all;
 }
 
-header a:hover{
+a:hover{
     color:slategray;
     transition: 0.3s ease all;
+}
+
+footer{
+    margin: 0 30px;
+    border-top: 1px solid rgb(183, 183, 183);
+    text-align: center;
+    font-family: "DM Serif Text", serif;
+}
+
+footer a{
+    text-decoration: none;
+    color: black;
+}
+
+footer > a{
+    border-bottom: 1px solid rgb(183, 183, 183);
+    padding: 15px;
+    display: block;
+    color: black;
+    text-decoration: none;
+
+    font-weight: 400;
+    font-style: italic;
+    font-size: 20px;
+    transition: 0.3s ease all;
+}
+
+footer nav a{
+    color: black;
+    text-decoration: none;
+    margin-right: 35px;
+    font-weight: 400;
+    font-style: italic;
+    font-size: 15px;
+    transition: 0.3s ease all;
+}
+
+#volverArriba:hover{
+    background: slategray;
+    transition: 0.3s ease all;
+    color: white;
 }

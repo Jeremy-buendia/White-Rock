@@ -28,7 +28,15 @@
     </main>
 
     <footer>
-        <p>© 2025 Mi Sitio. Todos los derechos reservados.</p>
+        <a href="#" id="volverArriba">Volver arriba</a>
+        <br>
+        <nav>
+            <a href="#">Acceso Agentes</a>
+            <a href="#">Sobre Nosotros</a>
+            <a href="#">Contacto</a>
+        </nav>
+        <br>
+        <p>© 2025 White Rock. Todos los derechos reservados.</p>
     </footer>
 
 </body>
