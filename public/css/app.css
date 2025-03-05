@@ -95,3 +95,48 @@ footer nav a{
     transition: 0.3s ease all;
     color: white;
 }
+
+.login{
+    display: flex;
+    background-image: url('../img/marmol.jpg');
+}
+
+.login img{
+    height: 100vh;
+}
+
+form{
+    margin: 130px auto;
+    background-color: rgb(252, 252, 252);
+    color: rgb(0, 0, 0);
+    padding: 30px;
+    border-radius: 20px;
+    width: 400px;
+    height: 600px;
+    box-shadow: 2px 2px 5px 2px rgba(0, 0, 0, 0.2);
+}
+
+form label{
+    display: block;
+}
+
+form input{
+    padding: 15px;
+    border-radius: 10px;
+    border:1px solid black;
+    width: 93%;
+}
+
+.iniciar-sesion{
+    margin-top: 20px;
+    padding: 30px;
+    border-radius: 20px;
+    border:1px solid black;
+    transition: 0.3s all ease;
+}
+
+.iniciar-sesion:hover{
+    background-color: rgb(231, 231, 231);
+    transition: 0.3s all ease;
+    color: slategray;
+}
