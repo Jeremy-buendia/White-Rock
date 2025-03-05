@@ -39,6 +39,8 @@ Route::prefix('agente')->group(function () {
             return view('agente.dashboard');
         })->name('agente.dashboard');
 
+        Route::get('/crear_inmueble', [PropiedadController::class, 'crearForm'])->name('agente.crear_inmueble');
+
         Route::get('/solicitudes/{idPropiedad}', function ($idPropiedad) {
             return view('agente.solicitudes_visitas', ['idPropiedad' => $idPropiedad]);
         })->name('agente.solicitudes_visitas');

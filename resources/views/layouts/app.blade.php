@@ -31,7 +31,7 @@
         <a href="#" id="volverArriba">Volver arriba</a>
         <br>
         <nav>
-            <a href="/agente/login">Acceso Agentes</a>
+            <a href="{{ route('agente.login') }}">Acceso Agentes</a>
             <a href="#">Sobre Nosotros</a>
             <a href="#">Contacto</a>
         </nav>
