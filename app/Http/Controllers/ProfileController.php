@@ -8,6 +8,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\View\View;
+use App\Models\Cliente;
+use App\Models\Propiedad;
 
 class ProfileController extends Controller
 {
@@ -56,5 +58,40 @@ class ProfileController extends Controller
         $request->session()->regenerateToken();
 
         return Redirect::to('/');
+    }
+
+    // Lista todas las propiedades en estado "disponible".
+    
+    public function obtenerPropiedadesDisponibles(): View
+    {
+        $propiedades = Propiedad::where('estado', 'disponible')->get();
+        return view('propiedades.disponibles', compact('propiedades'));
+    }
+
+    // Filtra propiedades según precio, tipo, ubicación, etc.
+    
+    public function buscarPropiedades(Request $request): View
+    {
+        $criterios = $request->all();
+        $propiedades = Propiedad::where($criterios)->get();
+        return view('propiedades.resultados', compact('propiedades'));
+    }
+
+    // Muestra la información completa de una propiedad.
+    
+    public function verDetallesPropiedad($idPropiedad): View
+    {
+        $propiedad = Propiedad::findOrFail($idPropiedad);
+        return view('propiedades.detalles', compact('propiedad'));
+    }
+
+    
+    // Marca una propiedad como favorita.
+
+    public function guardarPropiedadFavorita($idCliente, $idPropiedad): RedirectResponse
+    {
+        $cliente = Cliente::findOrFail($idCliente);
+        $cliente->favoritas()->attach($idPropiedad);
+        return Redirect::back()->with('status', 'propiedad-favorita-guardada');
     }
 }

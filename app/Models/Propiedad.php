@@ -51,4 +51,5 @@ class Propiedad extends Model
     {
         return $this->hasMany(FotografiaPropiedad::class);
     }
+
 }
