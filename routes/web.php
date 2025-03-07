@@ -39,9 +39,12 @@ Route::prefix('agente')->group(function () {
     Route::middleware(['auth:agente'])->group(function () {
         Route::get('/dashboard', [AgenteInmobiliarioController::class, 'dashboard'])->name('agente.dashboard');
 
-        Route::get('/crear_inmueble', [PropiedadController::class, 'create'])->name('agente.crear_inmueble');
+        Route::get('/crear_inmueble', [PropiedadController::class, 'create'])->name('agente.crearInmueble');
         Route::post('/crear_inmueble', [PropiedadController::class, 'store']);
         Route::get('/ver_inmueble/{id}', [PropiedadController::class, 'index'])->name('agente.ver_inmueble');
+
+        Route::get('/inmueble/{id}/editar', [PropiedadController::class, 'edit'])->name('inmueble.editar');
+        Route::put('/inmueble/{id}', [PropiedadController::class, 'update'])->name('inmueble.actualizar');;
 
         Route::get('/crear_solicitud', [VisitaController::class, 'formularioSolicitarVisita'])->name('agente.solicitar_visita');
         Route::post('/crear_solicitud', [VisitaController::class, 'solicitarVisitaAgente']);

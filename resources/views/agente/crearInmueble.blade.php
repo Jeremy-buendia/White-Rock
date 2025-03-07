@@ -1,5 +1,5 @@
 <x-guest-layout>
-    <form method="POST" action="{{ route('agente.crear_inmueble') }}" enctype='multipart/form-data'>
+    <form method="POST" action="{{ route('agente.crearInmueble') }}" enctype='multipart/form-data'>
         @csrf
 
         <!-- Dirección -->

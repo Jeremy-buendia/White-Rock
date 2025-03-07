@@ -7,7 +7,7 @@
             <div class="inmuebles">
                 <div class="mini-header">
                     <h3>Ver inmuebles</h3>
-                    <a href="{{ route('agente.crear_inmueble') }}">Añadir Inmueble</a>
+                    <a href="{{ route('agente.crearInmueble') }}">Añadir Inmueble</a>
                 </div>
 
                 <div>
@@ -23,7 +23,7 @@
                             </div>
 
                             <div class="btnItem">
-                                <a href="" class="btn">Editar</a>
+                                <a href="{{ route('inmueble.editar', $inmueble->id) }}" class="btn">Editar</a>
                                 <a href="" class="btn">Eliminar</a>
                             </div>
                         </div>
