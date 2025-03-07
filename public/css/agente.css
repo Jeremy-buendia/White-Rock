@@ -17,7 +17,7 @@ body{
     height: 100vh; */
 }
 
-main{
+.contenedor{
     display: grid;
     grid-template-columns: 1fr 5fr;
 }
