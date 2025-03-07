@@ -94,41 +94,41 @@ class PropiedadController extends Controller
         return view('propiedad.update', compact('inmueble', 'imagenes'));
     }
 
-    public function actualizar(Request $request, $id)
-    {
+    // public function actualizar(Request $request, $id)
+    // {
 
-        //Validar
-        try {
-            DB::transaction(function () use ($request) { // Corregido: usa 'use ($request)' para acceder a $request
-                $inmueble = Propiedad::findOrFail($id);
+    //     //Validar
+    //     try {
+    //         DB::transaction(function () use ($request) { // Corregido: usa 'use ($request)' para acceder a $request
+    //             $inmueble = Propiedad::findOrFail($id);
 
-                $agente = Auth::user();
-                $agenteId = $agente->id;
-                $propiedad->agentes()->attach($agenteId);
+    //             $agente = Auth::user();
+    //             $agenteId = $agente->id;
+    //             $propiedad->agentes()->attach($agenteId);
 
-                $carpetaPropiedad = 'imagenes/propiedad/' . $propiedad->id;
+    //             $carpetaPropiedad = 'imagenes/propiedad/' . $propiedad->id;
 
-                if ($request->hasFile('imagenes')) { // Verifica si se subieron archivos
+    //             if ($request->hasFile('imagenes')) { // Verifica si se subieron archivos
 
-                    if ($inmueble->imagen) {
-                        Storage::disk('public')->delete($cliente->imagen);
-                    }
+    //                 if ($inmueble->imagen) {
+    //                     Storage::disk('public')->delete($cliente->imagen);
+    //                 }
 
-                    foreach ($request->file('imagenes') as $imagen) { // Itera sobre cada archivo
-                        // Guardamos el archivo y obtenemos la ruta completa
-                        $imagePath = $imagen->store($carpetaPropiedad, 'public');
+    //                 foreach ($request->file('imagenes') as $imagen) { // Itera sobre cada archivo
+    //                     // Guardamos el archivo y obtenemos la ruta completa
+    //                     $imagePath = $imagen->store($carpetaPropiedad, 'public');
 
-                        // Actualizamos la base de datos con la nueva imagen
-                        FotografiaPropiedad::create([
-                            'propiedad_id' => $propiedad->id,
-                            'url_fotografia' => $imagePath,
-                            'descripcion' => 'si'
-                        ]);
-                    }
-                }
-            });
+    //                     // Actualizamos la base de datos con la nueva imagen
+    //                     FotografiaPropiedad::create([
+    //                         'propiedad_id' => $propiedad->id,
+    //                         'url_fotografia' => $imagePath,
+    //                         'descripcion' => 'si'
+    //                     ]);
+    //                 }
+    //             }
+    //         });
 
-        $inmueble->update($data);
-        //return view('propiedad.update', compact('id'));
-    }
+    //     $inmueble->update($data);
+    //     //return view('propiedad.update', compact('id'));
+    // }
 }
