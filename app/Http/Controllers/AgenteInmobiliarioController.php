@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use App\Models\AgenteInmobiliario;
+use Carbon\Carbon;
 
 class AgenteInmobiliarioController extends Controller
 {
@@ -19,11 +20,17 @@ class AgenteInmobiliarioController extends Controller
 
         // Cargar el agente y las propiedades en la misma consulta
         $inmuebles = $agente->propiedades()->paginate(3);
+        $visitas = $agente->solicitudesVisitas()
+            ->with('user')
+            ->where('fecha_propuesta', '>=', Carbon::now())
+            ->orderBy('fecha_propuesta', 'asc')
+            ->take(3)
+            ->get();
 
         // Paginación de las propiedades
         //$inmuebles = $agente->propiedades()->paginate(10);
 
-        return view('agente.dashboard', compact('inmuebles'));
+        return view('agente.dashboard', compact('inmuebles', 'visitas'));
 
         //return view('agente.dashboard');
     }

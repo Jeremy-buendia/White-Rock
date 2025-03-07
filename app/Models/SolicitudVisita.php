@@ -13,7 +13,8 @@ class SolicitudVisita extends Model
 
     protected $fillable = [
         'propiedad_id',
-        'cliente_id',
+        'user_id',
+        'agente_id',
         'fecha_solicitud',
         'estado',
         'fecha_propuesta',
@@ -22,6 +23,11 @@ class SolicitudVisita extends Model
     public function propiedad()
     {
         return $this->belongsTo(Propiedad::class);
+    }
+
+    public function agente()
+    {
+        return $this->belongsTo(AgenteInmobiliario::class, 'agente_id');
     }
 
     public function user()

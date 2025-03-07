@@ -11,78 +11,32 @@
                 <x-input-error :messages="$errors->get('correo_electronico')" class="mt-2" />
             </div>
 
-            <!-- Tipo de propiedad -->
+            <!-- Propiedad -->
             <div>
-                <x-input-label for="tipo_propiedad" :value="__('Tipo de Propiedad: ')" />
+                <x-input-label for="propiedad_id" :value="__('Propiedad: ')" />
 
-                <select id="tipo_propiedad" name="tipo_propiedad"
+                <select id="propiedad_id" name="propiedad_id"
                     class="block mt-1 w-full border-gray-300 rounded-md shadow-sm focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-                    <option value="casa" {{ old('tipo_propiedad') == 'casa' ? 'selected' : '' }}>Casa</option>
-                    <option value="apartamento" {{ old('tipo_propiedad') == 'apartamento' ? 'selected' : '' }}>
-                        Apartamento
-                    </option>
-                    <option value="terreno" {{ old('tipo_propiedad') == 'terreno' ? 'selected' : '' }}>Terreno</option>
+                    @foreach ($propiedades as $propiedad)
+                        <option value="{{ $propiedad->id }}">{{ $propiedad->nombre }}</option>
+                    @endforeach
                 </select>
 
-                <x-input-error :messages="$errors->get('tipo_propiedad')" class="mt-2" />
+                <x-input-error :messages="$errors->get('propiedad_id')" class="mt-2" />
             </div>
 
-            <!-- Precio -->
+            <!-- Fecha Propuesta -->
+
             <div>
-                <x-input-label for="precio" :value="__('Precio: ')" />
-                <x-text-input id="precio" type="text" name="precio" :value="old('precio')" required
-                    autocomplete="precio" />
-                <x-input-error :messages="$errors->get('precio')" class="mt-2" />
-            </div>
-
-            <!-- Tamaño -->
-            <div>
-                <x-input-label for="tamano" :value="__('Tamaño: ')" />
-                <x-text-input id="tamano" type="text" name="tamano" :value="old('tamano')" required
-                    autocomplete="tamano" />
-                <x-input-error :messages="$errors->get('tamano')" class="mt-2" />
-            </div>
-
-            <!-- Dirección -->
-            <div>
-                <x-input-label for="direccion" :value="__('Dirección: ')" />
-                <x-text-input id="direccion" class="" type="text" name="direccion" :value="old('direccion')" required
-                    autocomplete="direccion" />
-                <x-input-error :messages="$errors->get('direccion')" class="mt-2" />
-            </div>
-
-            <!-- Estado -->
-            <div>
-                <x-input-label for="estado" :value="__('Estado: ')" />
-
-                <select id="estado" name="estado" class="">
-                    <option value="disponible" {{ old('estado') == 'disponible' ? 'selected' : '' }}>Disponible</option>
-                    <option value="vendido" {{ old('estado') == 'vendido' ? 'selected' : '' }}>Vendido</option>
-                    <option value="alquilado" {{ old('estado') == 'alquilado' ? 'selected' : '' }}>Alquilado</option>
-                </select>
-
-                <x-input-error :messages="$errors->get('estado')" class="mt-2" />
-            </div>
-
-
-            <!-- Descripción -->
-            <div>
-                <x-input-label for="descripcion" :value="__('Descripción: ')" />
-
-                <textarea name="descripcion" id="descripcion" rows="4" cols="50">{{ old('descripcion') }}</textarea>
-
-                <x-input-error :messages="$errors->get('descripcion')" class="mt-2" />
-            </div>
-
-            <div class="form-group">
-                <label for="imagenes">Selecciona las imágenes:</label>
-                <input type="file" class="form-control" id="imagenes" name="imagenes[]"
-                    accept=".jpg,.jpeg,.png,.svg" multiple>
+                <x-input-label for="fecha_propuesta" :value="__('Fecha y Hora: ')" />
+                <x-text-input id="fecha_propuesta" type="datetime-local" name="fecha_propuesta" :value="old('fecha_propuesta')"
+                    required autocomplete="fecha_propuesta" />
+                <x-input-error :messages="$errors->get('fecha_propuesta')" class="mt-2" />
             </div>
 
             <div class="">
                 <x-primary-button class="ms-4">
-                    {{ __('Añadir Inmueble') }}
+                    {{ __('Establecer Visita') }}
                 </x-primary-button>
             </div>
 

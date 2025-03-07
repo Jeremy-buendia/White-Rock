@@ -5,12 +5,18 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\SolicitudVisita;
 use App\Models\Visita;
+use Illuminate\Support\Facades\Auth;
+use App\Models\Propiedad;
+use App\Models\AgenteInmobiliario;
+use App\Models\User;
 
 class VisitaController extends Controller
 {
     public function formularioSolicitarVisita()
     {
-        return view('agente.crearSolicitudVisita');
+        $agente = Auth::user();
+        $propiedades = $agente->propiedades()->get();
+        return view('agente.crearSolicitudVisita', compact('propiedades'));
     }
 
     // Envía una solicitud de visita a un agente
@@ -26,16 +32,22 @@ class VisitaController extends Controller
         return response()->json(['mensaje' => 'Solicitud de visita enviada']);
     }
 
-    public function solicitarVisitaAgente($idCliente, $idPropiedad, $fechaPropuesta)
+    public function solicitarVisitaAgente(Request $request)
     {
-        $solicitud = new SolicitudVisita();
-        $solicitud->id_cliente = $idCliente;
-        $solicitud->id_propiedad = $idPropiedad;
-        $solicitud->fecha_propuesta = $fechaPropuesta;
-        $solicitud->estado = 'aprobada';
-        $solicitud->save();
+        //Validar
 
-        return response()->json(['mensaje' => 'Solicitud de visita enviada']);
+        $idCliente = User::findByEmail($request->input('correo_electronico'))->id;
+        $agenteId = Auth::user()->id;
+
+        SolicitudVisita::create([
+            'propiedad_id' => $request->input('propiedad_id'),
+            'user_id' => $idCliente,
+            'agente_id' => $agenteId,
+            'fecha_solicitud' => now(),
+            'fecha_propuesta' => $request->input('fecha_propuesta')
+        ]);
+
+        return redirect()->route('agente.dashboard')->with('success', 'La visita ha sido añadida');
     }
 
     // Consulta el estado de una solicitud de visita

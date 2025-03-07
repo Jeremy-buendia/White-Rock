@@ -12,9 +12,10 @@ class CreateSolicitudesVisitasTable extends Migration
             $table->id();
             $table->foreignId('propiedad_id')->constrained('propiedades')->onDelete('cascade');
             $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
-            $table->date('fecha_solicitud');
+            $table->dateTime('fecha_solicitud');
             $table->enum('estado', ['pendiente', 'aprobada', 'rechazada']);
-            $table->date('fecha_propuesta')->nullable();
+            $table->foreignId('agente_id')->constrained('agentes_inmobiliarios')->onDelete('cascade');
+            $table->dateTime('fecha_propuesta')->nullable();
             $table->timestamps();
         });
     }

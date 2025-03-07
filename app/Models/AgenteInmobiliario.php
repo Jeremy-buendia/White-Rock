@@ -30,6 +30,11 @@ class AgenteInmobiliario extends Authenticatable
         return $this->belongsToMany(Propiedad::class, 'agente_propiedad', 'agente_inmobiliario_id', 'propiedad_id');
     }
 
+    public function solicitudesVisitas()
+    {
+        return $this->hasMany(SolicitudVisita::class, 'agente_id');
+    }
+
     public function transacciones()
     {
         return $this->hasMany(Transaccion::class);
