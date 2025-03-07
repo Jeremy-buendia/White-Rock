@@ -20,7 +20,7 @@
             <h3>Inmuebles</h3>
             <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4" id="inmuebles-list">
                 @foreach($inmuebles as $inmueble)
-                    <div class="col">
+                    <div class="col mb-4">
                         <div class="card h-100 shadow-sm rounded">
                             <div class="card-body">
                                 <h5 class="card-title">{{ $inmueble->nombre }}</h5>

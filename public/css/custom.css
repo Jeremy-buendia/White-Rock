@@ -4,13 +4,19 @@ body {
     min-height: 100vh;
 }
 
-header, footer {
-    flex-shrink: 0;
+header {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1000;
+    background-color: #f8f9fa;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 main {
     flex: 1;
     display: flex;
+    margin-top: 80px; /* Ajusta este valor según la altura del header */
 }
 
 .sidebar {
@@ -24,4 +30,14 @@ main {
     background-color: rgba(255, 255, 255, 0.8);
     color: #333;
     margin-bottom: 20px;
+}
+
+.header-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.header-container nav a {
+    margin-left: 15px;
 }

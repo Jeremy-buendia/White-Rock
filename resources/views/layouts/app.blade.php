@@ -16,8 +16,8 @@
 
 <body>
     <header class="bg-light py-3">
-        <div class="container">
-            <a href="#">
+        <div class="container header-container">
+            <a href="{{ url('/') }}">
                 <h1>White Rock</h1>
             </a>
             <nav>
