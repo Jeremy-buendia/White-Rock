@@ -8,7 +8,6 @@
                 <div class="mini-header">
                     <h3>Ver inmuebles</h3>
                     <a href="{{ route('agente.crear_inmueble') }}">Añadir Inmueble</a>
-                    {{ $inmuebles->links() }} <!-- Para mostrar los enlaces de paginación -->
                 </div>
 
                 <div class>
@@ -29,6 +28,9 @@
                             </div>
                         </div>
                     @endforeach
+                    <div class="d-flex mx-5">
+                        {{ $inmuebles->links('pagination::bootstrap-5') }}
+                    </div> <!-- Para mostrar los enlaces de paginación -->
                 </div>
 
             </div>

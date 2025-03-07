@@ -23,14 +23,8 @@
                     <span class="visually-hidden">Next</span>
                 </button>
             </div>
-
-            {{-- @foreach ($imagenes as $imagen)
-            <img src="{{ Storage::url($imagen->url_fotografia) }}" alt="{{ $imagen->descripcion }}">
-        @endforeach --}}
-            <br>
-
-            <div class="table-responsive w-50 d-flex align-items-center justify-content-center">
-                <table class="table table-secondary">
+            <div class="table-responsive w-50" style="overflow-y:hidden;">
+                <table class="table table-secondary" style="height: 100%;">
                     <tbody>
                         <tr class="">
                             <td scope="row"><b>Precio</b></td>
