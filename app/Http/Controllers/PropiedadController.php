@@ -71,4 +71,12 @@ class PropiedadController extends Controller
         $propiedad = Propiedad::findOrFail($id);
         return view('propiedad.view', compact('propiedad'));
     }
+
+    public function index_clientes()
+    {
+        $inmuebles = Propiedad::all();
+        $categorias = Propiedad::select('tipo_propiedad')->distinct()->get();
+
+        return view('propiedades.index', compact('inmuebles', 'categorias'));
+    }
 }
