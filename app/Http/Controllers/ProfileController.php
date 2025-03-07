@@ -94,4 +94,9 @@ class ProfileController extends Controller
         $cliente->favoritas()->attach($idPropiedad);
         return Redirect::back()->with('status', 'propiedad-favorita-guardada');
     }
+    public function show()
+    {
+        $user = Auth::user();
+        return view('profile.show', compact('user'));
+    }
 }
