@@ -6,6 +6,7 @@ use App\Http\Requests\ProfileUpdateRequest;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\View\View;
 use App\Models\Cliente;
@@ -13,28 +14,47 @@ use App\Models\Propiedad;
 
 class ProfileController extends Controller
 {
-    /**
-     * Display the user's profile form.
-     */
-    public function edit(Request $request): View
+    public function show()
     {
-        return view('profile.edit', [
-            'user' => $request->user(),
-        ]);
+        $user = Auth::user();
+        return view('profile.show', compact('user'));
     }
 
-    /**
-     * Update the user's profile information.
-     */
+    public function edit(Request $request): View
+    {
+        $user = Auth::user();
+        return view('profile.edit', compact('user'));
+    }
+
     public function update(ProfileUpdateRequest $request): RedirectResponse
     {
-        $request->user()->fill($request->validated());
+        $user = $request->user();
 
-        if ($request->user()->isDirty('email')) {
-            $request->user()->email_verified_at = null;
+        // Validar los datos
+        $validatedData = $request->validate([
+            'email' => 'required|string|email|max:255|unique:users,email,' . $user->id,
+            'current_password' => 'required_with:password|string',
+            'password' => 'nullable|string|min:8|confirmed',
+            'telefono' => 'required|string|max:255',
+        ]);
+
+        // Verificar la contraseña actual
+        if ($request->filled('password') && !Hash::check($request->input('current_password'), $user->password)) {
+            return Redirect::route('profile.edit')->withErrors(['current_password' => 'La contraseña actual no es correcta.']);
         }
 
-        $request->user()->save();
+        // Actualizar los datos del usuario
+        $user->fill($validatedData);
+
+        if ($user->isDirty('email')) {
+            $user->email_verified_at = null;
+        }
+
+        if (!empty($validatedData['password'])) {
+            $user->password = bcrypt($validatedData['password']);
+        }
+
+        $user->save();
 
         return Redirect::route('profile.edit')->with('status', 'profile-updated');
     }
@@ -94,9 +114,5 @@ class ProfileController extends Controller
         $cliente->favoritas()->attach($idPropiedad);
         return Redirect::back()->with('status', 'propiedad-favorita-guardada');
     }
-    public function show()
-    {
-        $user = Auth::user();
-        return view('profile.show', compact('user'));
-    }
+    
 }

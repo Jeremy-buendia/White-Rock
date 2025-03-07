@@ -12,6 +12,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\AgenteInmobiliarioController;
 use App\Models\AgenteInmobiliario;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Auth;
 
 Route::get('/', function () {
     return view('home');
@@ -64,7 +65,15 @@ Route::get('/agente/solicitudes/{idPropiedad}', [IntegracionController::class, '
 Route::get('/agente/solicitudes', [IntegracionController::class, 'verTodasSolicitudesVisitas'])->name('agente.todas_solicitudes_visitas');
 
 Route::get('/inmuebles', [PropiedadController::class, 'index_clientes'])->name('inmuebles.index');
+
 Route::get('/perfil', [ProfileController::class, 'show'])->name('perfil')->middleware('auth');
+Route::get('/perfil/editar', [ProfileController::class, 'edit'])->name('profile.edit')->middleware('auth');
+Route::patch('/perfil', [ProfileController::class, 'update'])->name('profile.update')->middleware('auth');
+
+Route::post('/logout', function () {
+    Auth::logout();
+    return redirect('/login');
+})->name('logout');
 
 Route::get('/propiedades/{id}', [PropiedadController::class, 'show'])->name('propiedades.show');
 
