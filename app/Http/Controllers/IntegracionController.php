@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\SolicitudVisita;
 use App\Models\User;
+use App\Models\Visita;
+use App\Models\Transaccion;
+use App\Models\Contrato;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Notification;
 use App\Notifications\SolicitudVisitaEstadoChanged;
@@ -55,5 +58,29 @@ class IntegracionController extends Controller
     {
         $solicitudes = SolicitudVisita::all();
         return view('agente.todas_solicitudes_visitas', compact('solicitudes'));
+    }
+
+    //Lista las visitas confirmadas para el agente.
+    
+    public function verVisitasProgramadas($idAgente)
+    {
+        $visitas = Visita::where('agente_id', $idAgente)->where('estado', 'confirmada')->get();
+        return view('agente.visitas_programadas', compact('visitas'));
+    }
+    
+    //Permite a clientes y agentes ver transacciones de una propiedad.
+     
+    public function verTransaccionesPropiedad($idPropiedad)
+    {
+        $transacciones = Transaccion::where('propiedad_id', $idPropiedad)->get();
+        return view('propiedades.transacciones', compact('transacciones'));
+    }
+    
+    //Permite a clientes y agentes acceder al contrato de una transacción.
+     
+    public function verContrato($idContrato)
+    {
+        $contrato = Contrato::findOrFail($idContrato);
+        return view('contratos.detalles', compact('contrato'));
     }
 }
