@@ -69,7 +69,8 @@ class PropiedadController extends Controller
     {
         //FindOrFail nos permite recuperar un cliente por su id y si no lo encuentra nos devuelve un error 404
         $propiedad = Propiedad::findOrFail($id);
-        return view('propiedad.view', compact('propiedad'));
+        $imagenes = $propiedad->fotografias;
+        return view('propiedad.view', compact('propiedad', 'imagenes'));
     }
 
     public function index_clientes(Request $request)

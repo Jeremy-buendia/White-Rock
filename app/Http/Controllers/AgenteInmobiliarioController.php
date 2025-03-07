@@ -18,7 +18,7 @@ class AgenteInmobiliarioController extends Controller
         //$inmuebles = $agente->load('propiedades')->propiedades()->paginate(10);
 
         // Cargar el agente y las propiedades en la misma consulta
-        $inmuebles = $agente->propiedades()->paginate(10);
+        $inmuebles = $agente->propiedades()->paginate(3);
 
         // Paginación de las propiedades
         //$inmuebles = $agente->propiedades()->paginate(10);

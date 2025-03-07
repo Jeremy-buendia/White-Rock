@@ -50,7 +50,6 @@ class Propiedad extends Model
 
     public function fotografias()
     {
-        return $this->hasMany(FotografiaPropiedad::class);
+        return $this->hasMany(FotografiaPropiedad::class, 'propiedad_id');
     }
-
 }
