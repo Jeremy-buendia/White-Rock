@@ -33,3 +33,22 @@ footer{
 .mini-header{
     display: flex;
 }
+
+.item{
+    background-color: beige;
+    padding: 20px;
+    margin-bottom: 15px;
+    display: flex;
+}
+
+.btnItem{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    margin-left: 30px;
+}
+
+.btnItem a{
+    background-color: green;
+    color: white;
+}

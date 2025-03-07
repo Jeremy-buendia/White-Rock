@@ -28,11 +28,20 @@
                     {{ $inmuebles->links() }} <!-- Para mostrar los enlaces de paginación -->
                 </div>
 
-                <div>
+                <div class>
                     @foreach ($inmuebles as $inmueble)
-                        <div>
-                            <div>{{ $inmueble->nombre }}</div>
-                            <div>{{ $inmueble->direccion }}</div>
+                        <div class="item">
+                            <div class="datos">
+                                <h2>{{ $inmueble->nombre }}</h2>
+                                <p><b>Dirección: </b>{{ $inmueble->direccion }}</p>
+                                <p><b>Precio: </b>{{ $inmueble->precio }}</p>
+                                <p>{{ $inmueble->tamano }} metros cuadrados</p>
+                            </div>
+
+                            <div class="btnItem">
+                                <a href="" class="btn">Editar</a>
+                                <a href="" class="btn">Eliminar</a>
+                            </div>
                         </div>
                     @endforeach
                 </div>

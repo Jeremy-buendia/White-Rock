@@ -1,5 +1,5 @@
 <x-guest-layout>
-    <form method="POST" action="{{ route('agente.crear_inmueble') }}">
+    <form method="POST" action="{{ route('agente.crear_inmueble') }}" enctype='multipart/form-data'>
         @csrf
 
         <!-- Dirección -->
@@ -71,6 +71,12 @@
             <textarea name="descripcion" id="descripcion" rows="4" cols="50">{{ old('descripcion') }}</textarea>
 
             <x-input-error :messages="$errors->get('descripcion')" class="mt-2" />
+        </div>
+
+        <div class="form-group">
+            <label for="imagenes">Selecciona las imágenes:</label>
+            <input type="file" class="form-control" id="imagenes" name="imagenes[]" accept=".jpg,.jpeg,.png,.svg"
+                multiple>
         </div>
 
         <div class="flex items-center justify-end mt-4">
