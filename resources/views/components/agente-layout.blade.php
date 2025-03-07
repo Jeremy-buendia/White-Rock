@@ -18,11 +18,16 @@
 
     <!-- Scripts -->
     <!--@vite(['resources/css/app.css', 'resources/js/app.js'])-->
+    <style>
+        img {
+            width: 100px;
+        }
+    </style>
 </head>
 
 <body class="font-sans text-gray-900 antialiased">
     <header>
-        <h4>White Rock</h4>
+        <h4><a href="{{ route('agente.dashboard') }}">White Rock</a></h4>
     </header>
 
     <div class="min-h-screen flex flex-col sm:justify-center items-center pt-6 sm:pt-0 bg-gray-100 dark:bg-gray-900">

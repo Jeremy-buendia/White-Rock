@@ -1,15 +1,10 @@
-<!DOCTYPE html>
-<html lang="en">
+<x-agente-layout>
+    <main class="contenedor">
+        <h1>{{ $propiedad->nombre }}</h1>
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
-</head>
-
-<body>
-    <h5>PErreando en la bichota</h5>
-</body>
-
-</html>
+        <br>
+        @foreach ($imagenes as $imagen)
+            <img src="{{ Storage::url($imagen->url_fotografia) }}" alt="{{ $imagen->descripcion }}">
+        @endforeach
+    </main>
+</x-agente-layout>
