@@ -72,11 +72,17 @@ class PropiedadController extends Controller
         return view('propiedad.view', compact('propiedad'));
     }
 
-    public function index_clientes()
+    public function index_clientes(Request $request)
     {
-        $inmuebles = Propiedad::all();
+        $categoria = $request->input('categoria');
         $categorias = Propiedad::select('tipo_propiedad')->distinct()->get();
 
-        return view('propiedades.index', compact('inmuebles', 'categorias'));
+        if ($categoria) {
+            $inmuebles = Propiedad::where('tipo_propiedad', $categoria)->get();
+        } else {
+            $inmuebles = Propiedad::all();
+        }
+
+        return view('propiedades.index', compact('inmuebles', 'categorias', 'categoria'));
     }
 }

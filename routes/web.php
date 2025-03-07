@@ -65,6 +65,8 @@ Route::get('/agente/solicitudes', [IntegracionController::class, 'verTodasSolici
 
 Route::get('/inmuebles', [PropiedadController::class, 'index_clientes'])->name('inmuebles.index');
 
+Route::get('/propiedades/{id}', [PropiedadController::class, 'show'])->name('propiedades.show');
+
 // Add routes for other controllers
 Route::resource('visitas', VisitaController::class);
 Route::resource('contratos', ContratoController::class);
