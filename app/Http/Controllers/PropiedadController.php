@@ -64,4 +64,11 @@ class PropiedadController extends Controller
             return redirect()->back()->with('error', 'Error al crear la propiedad.  Por favor, inténtelo de nuevo. ' . $e->getMessage())->withInput();
         }
     }
+
+    public function index($id)
+    {
+        //FindOrFail nos permite recuperar un cliente por su id y si no lo encuentra nos devuelve un error 404
+        $propiedad = Propiedad::findOrFail($id);
+        return view('propiedad.view', compact('propiedad'));
+    }
 }
