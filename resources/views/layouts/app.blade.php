@@ -18,7 +18,7 @@
             <h1>White Rock</h1>
         </a>
         <nav>
-            <a href="#">Inmuebles</a>
+            <a href="{{ route('inmuebles.index') }}">Inmuebles</a>
             <a href="#">Perfil</a>
         </nav>
     </header>

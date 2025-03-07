@@ -64,4 +64,12 @@ class PropiedadController extends Controller
             return redirect()->back()->with('error', 'Error al crear la propiedad.  Por favor, inténtelo de nuevo. ' . $e->getMessage())->withInput();
         }
     }
+
+    public function index()
+    {
+        $inmuebles = Propiedad::all();
+        $categorias = Propiedad::select('tipo_propiedad')->distinct()->get();
+
+        return view('propiedades.index', compact('inmuebles', 'categorias'));
+    }
 }

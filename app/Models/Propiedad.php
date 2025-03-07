@@ -19,7 +19,8 @@ class Propiedad extends Model
         'precio',
         'tamano',
         'descripcion',
-        'estado'
+        'estado',
+        'oficina_id'
     ];
 
     public function agentes()
