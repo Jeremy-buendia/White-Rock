@@ -120,12 +120,12 @@ form label{
     display: block;
 }
 
-form input{
+/* form input{
     padding: 15px;
     border-radius: 10px;
     border:1px solid black;
     width: 93%;
-}
+} */
 
 .iniciar-sesion{
     margin-top: 20px;

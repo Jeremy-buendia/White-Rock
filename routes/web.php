@@ -40,6 +40,7 @@ Route::prefix('agente')->group(function () {
 
         Route::get('/crear_inmueble', [PropiedadController::class, 'create'])->name('agente.crear_inmueble');
         Route::post('/crear_inmueble', [PropiedadController::class, 'store']);
+        Route::get('/ver_inmueble/{id}', [PropiedadController::class, 'index'])->name('agente.ver_inmueble');
 
         Route::get('/solicitudes/{idPropiedad}', function ($idPropiedad) {
             return view('agente.solicitudes_visitas', ['idPropiedad' => $idPropiedad]);
