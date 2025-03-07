@@ -79,9 +79,9 @@ class PropiedadController extends Controller
         $categorias = Propiedad::select('tipo_propiedad')->distinct()->get();
 
         if ($categoria) {
-            $inmuebles = Propiedad::where('tipo_propiedad', $categoria)->get();
+            $inmuebles = Propiedad::where('tipo_propiedad', $categoria)->with('fotografias')->get();
         } else {
-            $inmuebles = Propiedad::all();
+            $inmuebles = Propiedad::with('fotografias')->get();
         }
 
         return view('propiedades.index', compact('inmuebles', 'categorias', 'categoria'));

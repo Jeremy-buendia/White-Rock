@@ -41,3 +41,15 @@ main {
 .header-container nav a {
     margin-left: 15px;
 }
+
+.custom-carousel-control {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+.custom-carousel-control .carousel-control-prev-icon,
+.custom-carousel-control .carousel-control-next-icon {
+    width: 15px;
+    height: 15px;
+}
