@@ -64,6 +64,7 @@ Route::get('/agente/solicitudes/{idPropiedad}', [IntegracionController::class, '
 Route::get('/agente/solicitudes', [IntegracionController::class, 'verTodasSolicitudesVisitas'])->name('agente.todas_solicitudes_visitas');
 
 Route::get('/inmuebles', [PropiedadController::class, 'index_clientes'])->name('inmuebles.index');
+Route::get('/perfil', [ProfileController::class, 'show'])->name('perfil')->middleware('auth');
 
 Route::get('/propiedades/{id}', [PropiedadController::class, 'show'])->name('propiedades.show');
 

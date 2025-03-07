@@ -22,7 +22,7 @@
             </a>
             <nav>
                 <a href="{{ route('inmuebles.index') }}">Inmuebles</a>
-                <a href="#">Perfil</a>
+                <a href="{{ route('perfil') }}">Perfil</a>
             </nav>
         </div>
     </header>
