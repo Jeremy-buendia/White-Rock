@@ -13,13 +13,13 @@ class Propiedad extends Model
     protected $table = 'propiedades';
 
     protected $fillable = [
+        'nombre',
         'direccion',
         'tipo_propiedad',
         'precio',
         'tamano',
         'descripcion',
-        'estado',
-        'fecha_publicacion',
+        'estado'
     ];
 
     public function agentes()

@@ -25,6 +25,16 @@
                 <div class="mini-header">
                     <h3>Ver inmuebles</h3>
                     <a href="{{ route('agente.crear_inmueble') }}">Añadir Inmueble</a>
+                    {{ $inmuebles->links() }} <!-- Para mostrar los enlaces de paginación -->
+                </div>
+
+                <div>
+                    @foreach ($inmuebles as $inmueble)
+                        <div>
+                            <div>{{ $inmueble->nombre }}</div>
+                            <div>{{ $inmueble->direccion }}</div>
+                        </div>
+                    @endforeach
                 </div>
 
             </div>

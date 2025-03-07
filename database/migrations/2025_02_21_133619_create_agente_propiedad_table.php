@@ -10,7 +10,7 @@ class CreateAgentePropiedadTable extends Migration
     {
         Schema::create('agente_propiedad', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('agente_id')->constrained('agentes_inmobiliarios')->onDelete('cascade');
+            $table->foreignId('agente_inmobiliario_id')->constrained('agentes_inmobiliarios')->onDelete('cascade');
             $table->foreignId('propiedad_id')->constrained('propiedades')->onDelete('cascade');
             $table->timestamps();
         });

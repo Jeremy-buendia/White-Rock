@@ -10,6 +10,7 @@ use App\Http\Controllers\ContratoController;
 use App\Http\Controllers\OficinaController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\AgenteInmobiliarioController;
+use App\Models\AgenteInmobiliario;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -35,11 +36,10 @@ Route::prefix('agente')->group(function () {
     Route::post('/logout', [AgenteAuthController::class, 'logout'])->name('agente.logout');
 
     Route::middleware(['auth:agente'])->group(function () {
-        Route::get('/dashboard', function () {
-            return view('agente.dashboard');
-        })->name('agente.dashboard');
+        Route::get('/dashboard', [AgenteInmobiliarioController::class, 'dashboard'])->name('agente.dashboard');
 
-        Route::get('/crear_inmueble', [PropiedadController::class, 'crearForm'])->name('agente.crear_inmueble');
+        Route::get('/crear_inmueble', [PropiedadController::class, 'create'])->name('agente.crear_inmueble');
+        Route::post('/crear_inmueble', [PropiedadController::class, 'store']);
 
         Route::get('/solicitudes/{idPropiedad}', function ($idPropiedad) {
             return view('agente.solicitudes_visitas', ['idPropiedad' => $idPropiedad]);

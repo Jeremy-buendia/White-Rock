@@ -4,24 +4,31 @@
 
         <!-- Dirección -->
         <div>
-            <x-input-label for="direccion" :value="__('Dirección: ')" />
-            <x-text-input id="direccion" class="block mt-1 w-full" type="text" name="direccion" :value="old('direccion')"
-                required autofocus autocomplete="direccion" />
-            <x-input-error :messages="$errors->get('direccion')" class="mt-2" />
+            <x-input-label for="nombre" :value="__('Nombre: ')" />
+            <x-text-input id="nombre" class="block mt-1 w-full" type="text" name="nombre" :value="old('nombre')" required
+                autofocus autocomplete="nombre" />
+            <x-input-error :messages="$errors->get('nombre')" class="mt-2" />
         </div>
 
         <!-- Tipo de propiedad -->
         <div class="mt-4">
             <x-input-label for="tipo_propiedad" :value="__('Tipo de Propiedad: ')" />
-            <x-text-input id="tipo_propiedad" class="block mt-1 w-full" type="text" name="tipo_propiedad"
-                :value="old('tipo_propiedad')" required autocomplete="tipo_propiedad" />
+
+            <select id="tipo_propiedad" name="tipo_propiedad"
+                class="block mt-1 w-full border-gray-300 rounded-md shadow-sm focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                <option value="casa" {{ old('tipo_propiedad') == 'casa' ? 'selected' : '' }}>Casa</option>
+                <option value="apartamento" {{ old('tipo_propiedad') == 'apartamento' ? 'selected' : '' }}>Apartamento
+                </option>
+                <option value="terreno" {{ old('tipo_propiedad') == 'terreno' ? 'selected' : '' }}>Terreno</option>
+            </select>
+
             <x-input-error :messages="$errors->get('tipo_propiedad')" class="mt-2" />
         </div>
 
         <!-- Precio -->
         <div class="mt-4">
             <x-input-label for="precio" :value="__('Precio: ')" />
-            <x-text-input id="precio" class="block mt-1 w-full" type="email" name="precio" :value="old('precio')"
+            <x-text-input id="precio" class="block mt-1 w-full" type="text" name="precio" :value="old('precio')"
                 required autocomplete="precio" />
             <x-input-error :messages="$errors->get('precio')" class="mt-2" />
         </div>
@@ -44,11 +51,18 @@
 
         <!-- Estado -->
         <div class="mt-4">
-            <x-input-label for="estado" :value="__('Dirección: ')" />
-            <x-text-input id="estado" class="block mt-1 w-full" type="text" name="estado" :value="old('estado')"
-                required autocomplete="estado" />
+            <x-input-label for="estado" :value="__('Estado: ')" />
+
+            <select id="estado" name="estado"
+                class="block mt-1 w-full border-gray-300 rounded-md shadow-sm focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                <option value="disponible" {{ old('estado') == 'disponible' ? 'selected' : '' }}>Disponible</option>
+                <option value="vendido" {{ old('estado') == 'vendido' ? 'selected' : '' }}>Vendido</option>
+                <option value="alquilado" {{ old('estado') == 'alquilado' ? 'selected' : '' }}>Alquilado</option>
+            </select>
+
             <x-input-error :messages="$errors->get('estado')" class="mt-2" />
         </div>
+
 
         <!-- Descripción -->
         <div class="mt-4">

@@ -72,7 +72,7 @@ return [
 
         'agentes' => [
             'driver' => 'eloquent',
-            'model' => App\Models\AgenteInmobiliario::class
+            'model' => App\Models\AgenteInmobiliario::class,
         ]
     ],
 
