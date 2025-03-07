@@ -43,14 +43,15 @@ Route::prefix('agente')->group(function () {
         Route::post('/crear_inmueble', [PropiedadController::class, 'store']);
         Route::get('/ver_inmueble/{id}', [PropiedadController::class, 'index'])->name('agente.ver_inmueble');
 
+        Route::get('/crear_solicitud', [VisitaController::class, 'formularioSolicitarVisita'])->name('agente.solicitar_visita');
+        Route::post('/crear_solicitud', [VisitaController::class, 'solicitarVisitaAgente']);
+
         Route::get('/solicitudes/{idPropiedad}', function ($idPropiedad) {
             return view('agente.solicitudes_visitas', ['idPropiedad' => $idPropiedad]);
         })->name('agente.solicitudes_visitas');
     });
 });
 
-Route::get('agente/{idAgente}/propiedades', [PropiedadController::class,]);
-Route::post('agente/{idAgente}/propiedades', [PropiedadController::class,]);
 Route::get('agente/{idAgente}/propiedades/{idPropiedad}', [PropiedadController::class,]);
 Route::put('agente/{idAgente}/propiedades/{idPropiedad}', [PropiedadController::class,]);
 Route::delete('agente/{idAgente}/propiedades/{idPropiedad}', [PropiedadController::class,]);

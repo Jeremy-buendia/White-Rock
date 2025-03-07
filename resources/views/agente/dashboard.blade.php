@@ -36,8 +36,8 @@
             </div>
             <div class="visitas">
                 <div class="mini-header">
-                    <h3>Visitas</h3>
-                    <a href="#">Crear nueva visita</a>
+                    <h3>Solicitudes de Visita</h3>
+                    <a href="{{ route('agente.solicitar_visita') }}">Crear nueva visita</a>
                 </div>
             </div>
             <div class="contratos">

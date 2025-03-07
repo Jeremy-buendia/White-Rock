@@ -8,6 +8,11 @@ use App\Models\Visita;
 
 class VisitaController extends Controller
 {
+    public function formularioSolicitarVisita()
+    {
+        return view('agente.crearSolicitudVisita');
+    }
+
     // Envía una solicitud de visita a un agente
     public function solicitarVisita($idCliente, $idPropiedad, $fechaPropuesta)
     {
@@ -16,6 +21,18 @@ class VisitaController extends Controller
         $solicitud->id_propiedad = $idPropiedad;
         $solicitud->fecha_propuesta = $fechaPropuesta;
         $solicitud->estado = 'pendiente';
+        $solicitud->save();
+
+        return response()->json(['mensaje' => 'Solicitud de visita enviada']);
+    }
+
+    public function solicitarVisitaAgente($idCliente, $idPropiedad, $fechaPropuesta)
+    {
+        $solicitud = new SolicitudVisita();
+        $solicitud->id_cliente = $idCliente;
+        $solicitud->id_propiedad = $idPropiedad;
+        $solicitud->fecha_propuesta = $fechaPropuesta;
+        $solicitud->estado = 'aprobada';
         $solicitud->save();
 
         return response()->json(['mensaje' => 'Solicitud de visita enviada']);
