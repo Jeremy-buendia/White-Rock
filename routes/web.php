@@ -63,6 +63,8 @@ Route::post('/enviar-oferta-compra/{idPropiedad}/{montoOferta}', [TransaccionesC
 Route::get('/agente/solicitudes/{idPropiedad}', [IntegracionController::class, 'verSolicitudesVisitasPorPropiedad'])->name('agente.solicitudes_visitas');
 Route::get('/agente/solicitudes', [IntegracionController::class, 'verTodasSolicitudesVisitas'])->name('agente.todas_solicitudes_visitas');
 
+Route::get('/inmuebles', [PropiedadController::class, 'index'])->name('inmuebles.index');
+
 // Add routes for other controllers
 Route::resource('visitas', VisitaController::class);
 Route::resource('contratos', ContratoController::class);
