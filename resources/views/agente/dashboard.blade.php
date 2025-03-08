@@ -1,7 +1,30 @@
 <x-agente-layout>
     <main class="contenedor">
         <aside>
-            <h3>Ver próximas visitas</h3>
+            <div class="mini-header">
+                <h3>Próximas Visitas</h3>
+                <a href="{{ route('agente.solicitar_visita') }}">Crear nueva visita</a>
+            </div>
+            @foreach ($visitas as $visita)
+                <div class="item">
+                    <div class="datos">
+                        <h2><a href="">{{ $visita->fecha_propuesta }}</a></h2>
+                        <p><b>Nombre: </b>{{ $visita->user->name }} {{ $visita->user->apellido }}</p>
+                        <p><b>Email: </b>{{ $visita->user->email }}</p>
+                        <p><b>Teléfono: </b>{{ $visita->user->telefono }}</p>
+                    </div>
+
+                    <div class="btnItem">
+                        <a href="{{ route('visita.editar', $visita->id) }}" class="btn">Editar</a>
+                        <form action="{{ route('visita.destroy', $visita->id) }}" method="POST"
+                            onsubmit="confirmarEliminacion(event)">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" class="btn">Eliminar</button>
+                        </form>
+                    </div>
+                </div>
+            @endforeach
         </aside>
         <section>
             <div class="inmuebles">
@@ -42,22 +65,27 @@
             <div class="visitas">
                 <div class="mini-header">
                     <h3>Solicitudes de Visita</h3>
-                    <a href="{{ route('agente.solicitar_visita') }}">Crear nueva visita</a>
                 </div>
 
                 <div>
-                    @foreach ($visitas as $visita)
+                    @foreach ($solicitudVisitas as $solicitudVisita)
                         <div class="item">
                             <div class="datos">
-                                <h2><a href="">{{ $visita->fecha_propuesta }}</a></h2>
-                                <p><b>Nombre: </b>{{ $visita->user->name }} {{ $visita->user->apellido }}</p>
-                                <p><b>Email: </b>{{ $visita->user->email }}</p>
-                                <p><b>Teléfono: </b>{{ $visita->user->telefono }}</p>
+                                <h2><a href="">{{ $solicitudVisita->fecha_propuesta }}</a></h2>
+                                <p><b>Nombre: </b>{{ $solicitudVisita->user->name }}
+                                    {{ $solicitudVisita->user->apellido }}</p>
+                                <p><b>Email: </b>{{ $solicitudVisita->user->email }}</p>
+                                <p><b>Teléfono: </b>{{ $solicitudVisita->user->telefono }}</p>
                             </div>
 
                             <div class="btnItem">
-                                <a href="" class="btn">Editar</a>
-                                <a href="" class="btn">Eliminar</a>
+                                <a href="{{ route('visita.editar', $solicitudVisita->id) }}" class="btn">Editar</a>
+                                <form action="{{ route('visita.destroy', $solicitudVisita->id) }}" method="POST"
+                                    onsubmit="confirmarEliminacion(event)">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="btn">Eliminar</button>
+                                </form>
                             </div>
                         </div>
                     @endforeach

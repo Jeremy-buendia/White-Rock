@@ -50,6 +50,9 @@ Route::prefix('agente')->group(function () {
 
         Route::get('/crear_solicitud', [VisitaController::class, 'formularioSolicitarVisita'])->name('agente.solicitar_visita');
         Route::post('/crear_solicitud', [VisitaController::class, 'solicitarVisitaAgente']);
+        Route::get('/editar_solicitud/{id}', [VisitaController::class, 'edit'])->name('visita.editar');
+        Route::put('/editar_solicitud/{id}', [VisitaController::class, 'update']);
+        Route::delete('/editar_solicitud/{id}', [VisitaController::class, 'destroy'])->name('visita.destroy');
 
         Route::get('/solicitudes/{idPropiedad}', function ($idPropiedad) {
             return view('agente.solicitudes_visitas', ['idPropiedad' => $idPropiedad]);

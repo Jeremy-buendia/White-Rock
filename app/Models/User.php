@@ -72,8 +72,13 @@ class User extends Authenticatable
         return $this->hasMany(Visita::class);
     }
 
-    public static function findByEmail(string $email)
+    public static function findByEmail($email)
     {
         return self::where('email', $email)->first();
+    }
+
+    public static function findById($id)
+    {
+        return self::where('id', $id)->first();
     }
 }

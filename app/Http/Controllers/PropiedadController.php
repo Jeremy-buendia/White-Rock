@@ -139,5 +139,10 @@ class PropiedadController extends Controller
         }
     }
 
-    public function destroy($id) {}
+    public function destroy($id)
+    {
+        $inmueble = Propiedad::findOrFail($id);
+        $inmueble->delete();
+        return redirect()->route('agente.dashboard')->with('success', 'La propiedad ha sido eliminada');
+    }
 }

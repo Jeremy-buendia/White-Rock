@@ -22,7 +22,24 @@ class AgenteInmobiliarioController extends Controller
         $inmuebles = $agente->propiedades()->paginate(3);
         $visitas = $agente->solicitudesVisitas()
             ->with('user')
-            ->where('fecha_propuesta', '>=', Carbon::now())
+            ->where(
+                [
+                    ['fecha_propuesta', '>=', Carbon::now()],
+                    ['estado', '=', 'aprobada']
+                ]
+            )
+            ->orderBy('fecha_propuesta', 'asc')
+            ->take(3)
+            ->get();
+
+        $solicitudVisitas = $agente->solicitudesVisitas()
+            ->with('user')
+            ->where(
+                [
+                    ['fecha_propuesta', '>=', Carbon::now()],
+                    ['estado', '=', 'pendiente']
+                ]
+            )
             ->orderBy('fecha_propuesta', 'asc')
             ->take(3)
             ->get();
@@ -30,7 +47,7 @@ class AgenteInmobiliarioController extends Controller
         // Paginación de las propiedades
         //$inmuebles = $agente->propiedades()->paginate(10);
 
-        return view('agente.dashboard', compact('inmuebles', 'visitas'));
+        return view('agente.dashboard', compact('inmuebles', 'visitas', 'solicitudVisitas'));
 
         //return view('agente.dashboard');
     }

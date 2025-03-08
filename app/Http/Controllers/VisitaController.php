@@ -16,7 +16,7 @@ class VisitaController extends Controller
     {
         $agente = Auth::user();
         $propiedades = $agente->propiedades()->get();
-        return view('agente.crearSolicitudVisita', compact('propiedades'));
+        return view('visita.crearSolicitudVisita', compact('propiedades'));
     }
 
     // Envía una solicitud de visita a un agente
@@ -43,6 +43,7 @@ class VisitaController extends Controller
             'propiedad_id' => $request->input('propiedad_id'),
             'user_id' => $idCliente,
             'agente_id' => $agenteId,
+            'estado' => 'aprobada',
             'fecha_solicitud' => now(),
             'fecha_propuesta' => $request->input('fecha_propuesta')
         ]);
@@ -62,5 +63,31 @@ class VisitaController extends Controller
     {
         $visitas = Visita::where('cliente_id', $idCliente)->get();
         return response()->json($visitas);
+    }
+
+    public function edit($id)
+    {
+        $solicitudVisita = SolicitudVisita::findOrFail($id);
+        $agente = Auth::user();
+        $propiedades = $agente->propiedades()->get();
+
+        $emailCliente = User::findByid($solicitudVisita->user_id)->email;
+        $propiedadVisita = Propiedad::findOrFail($solicitudVisita->propiedad_id);
+
+        return view('visita.update', compact('solicitudVisita', 'propiedades', 'emailCliente', 'propiedadVisita'));
+    }
+
+    public function update(Request $request, $id)
+    {
+        $solicitudVisita = SolicitudVisita::findOrFail($id);
+        $solicitudVisita->update($request->all());
+        return redirect()->route('agente.dashboard')->with('success', 'La solicitud de visita ha sido actualizada');
+    }
+
+    public function destroy($id)
+    {
+        $solicitudVisita = SolicitudVisita::findOrFail($id);
+        $solicitudVisita->delete();
+        return redirect()->route('agente.dashboard')->with('success', 'La propiedad ha sido eliminada');
     }
 }
