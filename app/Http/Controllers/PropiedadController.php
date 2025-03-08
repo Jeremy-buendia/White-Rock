@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use App\Models\Propiedad;
 use App\Models\FotografiaPropiedad;
 use Illuminate\Support\Facades\DB;
@@ -32,7 +33,7 @@ class PropiedadController extends Controller
         ]);
 
         try {
-            DB::transaction(function () use ($request) { // Corregido: usa 'use ($request)' para acceder a $request
+            DB::transaction(function () use ($request) {
                 // Creamos la propiedad
                 $propiedad = Propiedad::create($request->except('imagenes'));
 
@@ -42,9 +43,10 @@ class PropiedadController extends Controller
 
                 $carpetaPropiedad = 'imagenes/propiedad/' . $propiedad->id;
 
-                if ($request->hasFile('imagenes')) { // Verifica si se subieron archivos
+                // Verifica si se subieron archivos
+                if ($request->hasFile('imagenes')) {
 
-                    foreach ($request->file('imagenes') as $imagen) { // Itera sobre cada archivo
+                    foreach ($request->file('imagenes') as $imagen) {
                         // Guardamos el archivo y obtenemos la ruta completa
                         $imagePath = $imagen->store($carpetaPropiedad, 'public');
 
@@ -94,41 +96,46 @@ class PropiedadController extends Controller
         return view('propiedad.update', compact('inmueble', 'imagenes'));
     }
 
-    // public function actualizar(Request $request, $id)
-    // {
+    public function update(Request $request, $id)
+    {
+        //Validar
+        try {
+            DB::transaction(function () use ($request, $id) {
+                $propiedad = Propiedad::findOrFail($id);
 
-    //     //Validar
-    //     try {
-    //         DB::transaction(function () use ($request) { // Corregido: usa 'use ($request)' para acceder a $request
-    //             $inmueble = Propiedad::findOrFail($id);
+                //Traspaso de agente futuro ?¿
+                // $agente = Auth::user();
+                // $agenteId = $agente->id;
+                // $propiedad->agentes()->attach($agenteId);
 
-    //             $agente = Auth::user();
-    //             $agenteId = $agente->id;
-    //             $propiedad->agentes()->attach($agenteId);
+                $imagenes = FotografiaPropiedad::where('propiedad_id', $id)->get();
 
-    //             $carpetaPropiedad = 'imagenes/propiedad/' . $propiedad->id;
+                $carpetaPropiedad = 'imagenes/propiedad/' . $propiedad->id;
 
-    //             if ($request->hasFile('imagenes')) { // Verifica si se subieron archivos
+                if ($request->hasFile('imagenes')) { // Verifica si se subieron archivos
 
-    //                 if ($inmueble->imagen) {
-    //                     Storage::disk('public')->delete($cliente->imagen);
-    //                 }
+                    foreach ($imagenes as $imagen) {
+                        Storage::disk('public')->delete($imagen->url_fotografia);
+                        $imagen->delete();
+                    }
 
-    //                 foreach ($request->file('imagenes') as $imagen) { // Itera sobre cada archivo
-    //                     // Guardamos el archivo y obtenemos la ruta completa
-    //                     $imagePath = $imagen->store($carpetaPropiedad, 'public');
+                    foreach ($request->file('imagenes') as $imagen) {
+                        // Guardamos el archivo y obtenemos la ruta completa
+                        $imagePath = $imagen->store($carpetaPropiedad, 'public');
 
-    //                     // Actualizamos la base de datos con la nueva imagen
-    //                     FotografiaPropiedad::create([
-    //                         'propiedad_id' => $propiedad->id,
-    //                         'url_fotografia' => $imagePath,
-    //                         'descripcion' => 'si'
-    //                     ]);
-    //                 }
-    //             }
-    //         });
+                        // Actualizamos la base de datos con la nueva imagen
+                        FotografiaPropiedad::create([
+                            'propiedad_id' => $propiedad->id,
+                            'url_fotografia' => $imagePath,
+                            'descripcion' => 'si'
+                        ]);
+                    }
+                }
+                $propiedad->update($request->except('imagenes'));
+            });
 
-    //     $inmueble->update($data);
-    //     //return view('propiedad.update', compact('id'));
-    // }
+            return redirect()->route('agente.dashboard')->with('success', 'La propiedad ha sido actualizada');
+        } catch (\Exception $e) {
+        }
+    }
 }

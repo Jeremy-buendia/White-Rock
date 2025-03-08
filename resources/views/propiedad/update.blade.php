@@ -1,6 +1,7 @@
 <x-agente-layout>
-    <form method="POST" action="{{ route('inmueble.actualizar', $inmueble->id) }}">
+    <form action="{{ route('inmueble.actualizar', $inmueble->id) }}" method="POST" enctype="multipart/form-data">
         @csrf
+        @method('PUT')
         <h3>Editar Inmueble</h3>
         <br>
         <!-- Correo Electrónico -->
