@@ -1,10 +1,12 @@
 <x-agente-layout>
-    <main class="contenedor">
+    <main class="contenedor container-fluid">
         <aside>
-            <div class="mini-header">
+            <div class="mini-header position-fixed">
                 <h3>Próximas Visitas</h3>
                 <a href="{{ route('agente.solicitar_visita') }}">Crear nueva visita</a>
             </div>
+            <br>
+            <br>
             @foreach ($visitas as $visita)
                 <div class="item">
                     <div class="datos">
@@ -17,12 +19,12 @@
                     </div>
 
                     <div class="btnItem">
-                        <a href="{{ route('visita.editar', $visita->id) }}" class="btn">Editar</a>
+                        <a href="{{ route('visita.editar', $visita->id) }}" class="btn btn-primary">Editar</a>
                         <form action="{{ route('visita.destroy', $visita->id) }}" method="POST"
                             onsubmit="confirmarEliminacion(event)">
                             @csrf
                             @method('DELETE')
-                            <button type="submit" class="btn">Eliminar</button>
+                            <button type="submit" class="btn btn-outline-danger">Eliminar</button>
                         </form>
                     </div>
                 </div>
@@ -39,7 +41,7 @@
                     <a href="{{ route('agente.crearInmueble') }}">Añadir Inmueble</a>
                 </div>
 
-                <div>
+                <div class="items">
                     @foreach ($inmuebles as $inmueble)
                         <div class="item">
                             <div class="datos">
@@ -52,20 +54,21 @@
                             </div>
 
                             <div class="btnItem">
-                                <a href="{{ route('inmueble.editar', $inmueble->id) }}" class="btn">Editar</a>
+                                <a href="{{ route('inmueble.editar', $inmueble->id) }}"
+                                    class="btn btn-primary">Editar</a>
                                 <form action="{{ route('inmueble.destroy', $inmueble->id) }}" method="POST"
                                     onsubmit="confirmarEliminacion(event)">
                                     @csrf
                                     @method('DELETE')
-                                    <button type="submit" class="btn">Eliminar</button>
+                                    <button type="submit" class="btn btn-outline-danger">Eliminar</button>
                                 </form>
                             </div>
                         </div>
                     @endforeach
-                    <div class="d-flex mx-5">
-                        {{ $inmuebles->links('pagination::bootstrap-5') }}
-                    </div> <!-- Para mostrar los enlaces de paginación -->
                 </div>
+                <div class="d-flex mx-5">
+                    {{ $inmuebles->links('pagination::bootstrap-5') }}
+                </div> <!-- Para mostrar los enlaces de paginación -->
 
             </div>
             <div class="visitas">
@@ -73,7 +76,7 @@
                     <h3>Solicitudes de Visita</h3>
                 </div>
 
-                <div>
+                <div class="items">
                     @foreach ($solicitudVisitas as $solicitudVisita)
                         <div class="item">
                             <div class="datos">
@@ -87,33 +90,34 @@
                             </div>
 
                             <div class="btnItem">
-                                <a href="{{ route('visita.editar', $solicitudVisita->id) }}" class="btn">Editar</a>
+                                <a href="{{ route('visita.editar', $solicitudVisita->id) }}"
+                                    class="btn btn-primary">Editar</a>
                                 <form action="{{ route('visita.destroy', $solicitudVisita->id) }}" method="POST"
                                     onsubmit="confirmarEliminacion(event)">
                                     @csrf
                                     @method('DELETE')
-                                    <button type="submit" class="btn">Eliminar</button>
+                                    <button type="submit" class="btn btn-outline-danger">Eliminar</button>
                                 </form>
                             </div>
                         </div>
                     @endforeach
-                    <div class="d-flex mx-5">
-                        {{ $solicitudVisitas->links('pagination::bootstrap-5') }}
-                    </div> <!-- Para mostrar los enlaces de paginación -->
                 </div>
+                <div class="d-flex mx-5">
+                    {{ $solicitudVisitas->links('pagination::bootstrap-5') }}
+                </div> <!-- Para mostrar los enlaces de paginación -->
             </div>
             <div class="contratos">
                 <div class="mini-header">
                     <h3>Contratos</h3>
-                    <a href="{{ route('contrato.crear') }}">Crear nuevo contrato</a>
                 </div>
+                <a href="{{ route('contrato.crear') }}">Crear nuevo contrato</a>
                 <a href="{{ route('contrato.index_all') }}">Ver contratos</a>
             </div>
             <div class="transacciones">
                 <div class="mini-header">
                     <h3>Transacciones</h3>
-                    <a href="{{ route('transaccion.crear') }}">Crear Transacción</a>
                 </div>
+                <a href="{{ route('transaccion.crear') }}">Crear Transacción</a>
                 <a href="{{ route('transaccion.index_all') }}">Ver transacciones</a>
             </div>
         </section>

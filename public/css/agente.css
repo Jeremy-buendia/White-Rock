@@ -3,6 +3,13 @@
     margin: 0;
 }
 
+body{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    min-height: 100vh;
+}
+
 header{
     padding: 5px;
     background-color: rgb(50, 50, 50);
@@ -10,18 +17,27 @@ header{
     font-family: "DM Serif Text", serif;
 }
 
-body{
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    height: 100vh;
-}
-
 .contenedor{
     display: grid;
-    grid-template-columns: 1fr 5fr;
+    grid-template-columns: 1fr 4fr;
+    flex-grow: 1;
 }
 
+aside {
+    overflow-y: auto;
+    overflow-x: hidden;
+    max-height: 87vh;
+    padding-right: 10px;
+    border-right: 1px solid black;
+    direction: rtl;
+    unicode-bidi: bidi-override;
+    padding-left: 10px;
+    text-align: left;
+}
+
+aside > * {
+    direction: ltr;
+}
 
 footer{
     padding: 5px;
@@ -30,15 +46,37 @@ footer{
     margin-top: 20px;
 }
 
+section{
+    padding-left: 20px;
+}
+
+aside .mini-header{
+    background-color: white;
+    width: 18%;
+}
+
 .mini-header{
     display: flex;
+    justify-content: space-between;
 }
+
+.pagination{
+    margin-left: 20px;
+}
+
+.items{
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 20px;
+}
+
 
 .item{
     background-color: beige;
     padding: 20px;
     margin-bottom: 15px;
     display: flex;
+    justify-content: space-between;
 }
 
 .btnItem{
@@ -46,9 +84,4 @@ footer{
     flex-direction: column;
     justify-content: space-between;
     margin-left: 30px;
-}
-
-.btnItem a{
-    background-color: green;
-    color: white;
 }
