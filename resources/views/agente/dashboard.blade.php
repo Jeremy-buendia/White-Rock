@@ -18,13 +18,18 @@
                                         href="{{ route('agente.ver_inmueble', $inmueble->id) }}">{{ $inmueble->nombre }}</a>
                                 </h2>
                                 <p><b>Dirección: </b>{{ $inmueble->direccion }}</p>
-                                <p><b>Precio: </b>{{ $inmueble->precio }}</p>
-                                <p>{{ $inmueble->tamano }} metros cuadrados</p>
+                                <p><b>Precio: </b>{{ $inmueble->precio }}€</p>
+                                <p><b>Dimensiones: </b>{{ $inmueble->tamano }} metros cuadrados</p>
                             </div>
 
                             <div class="btnItem">
                                 <a href="{{ route('inmueble.editar', $inmueble->id) }}" class="btn">Editar</a>
-                                <a href="" class="btn">Eliminar</a>
+                                <form action="{{ route('inmueble.destroy', $inmueble->id) }}" method="POST"
+                                    onsubmit="confirmarEliminacion(event)">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="btn">Eliminar</button>
+                                </form>
                             </div>
                         </div>
                     @endforeach
