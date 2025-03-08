@@ -10,7 +10,6 @@ use App\Http\Controllers\ContratoController;
 use App\Http\Controllers\OficinaController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\AgenteInmobiliarioController;
-use App\Models\AgenteInmobiliario;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 
@@ -85,6 +84,8 @@ Route::post('/logout', function () {
 })->name('logout');
 
 Route::get('/propiedades/{id}', [PropiedadController::class, 'show'])->name('propiedades.show');
+
+Route::get('/propiedades/{propiedad}', [PropiedadController::class, 'show'])->name('propiedades.show');
 
 // Add routes for other controllers
 Route::resource('visitas', VisitaController::class);

@@ -144,4 +144,9 @@ class PropiedadController extends Controller
         $inmueble->delete();
         return redirect()->route('agente.dashboard')->with('success', 'La propiedad ha sido eliminada');
     }
+
+    public function show(Propiedad $propiedad)
+    {
+        return view('propiedades.show', compact('propiedad'));
+    }
 }
