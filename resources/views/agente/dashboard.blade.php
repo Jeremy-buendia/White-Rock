@@ -112,9 +112,9 @@
             <div class="transacciones">
                 <div class="mini-header">
                     <h3>Transacciones</h3>
-                    <a href="#">Crear Transacción</a>
+                    <a href="{{ route('transaccion.crear') }}">Crear Transacción</a>
                 </div>
-                <a href="">Ver transacciones</a>
+                <a href="{{ route('transaccion.index_all') }}">Ver transacciones</a>
             </div>
         </section>
     </main>

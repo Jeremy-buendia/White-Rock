@@ -29,9 +29,10 @@
                 <x-input-label for="tipo_contrato" :value="__('Tipo de Contrato: ')" />
 
                 <select id="tipo_contrato" name="tipo_contrato" class="" onchange="habilitarDeshabilitarCampo()">
-                    <option value="compra" {{ old('estado') == 'compra' ? 'selected' : '' }}>Compra</option>
-                    <option value="venta" {{ old('estado') == 'venta' ? 'selected' : '' }}>Venta</option>
-                    <option value="alquiler" {{ old('estado') == 'alquiler' ? 'selected' : '' }}>Alquiler</option>
+                    <option value="compra" {{ old('tipo_contrato') == 'compra' ? 'selected' : '' }}>Compra</option>
+                    <option value="venta" {{ old('tipo_contrato') == 'venta' ? 'selected' : '' }}>Venta</option>
+                    <option value="alquiler" {{ old('tipo_contrato') == 'alquiler' ? 'selected' : '' }}>Alquiler
+                    </option>
                 </select>
 
                 <x-input-error :messages="$errors->get('estado')" class="mt-2" />

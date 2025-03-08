@@ -4,7 +4,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\AgenteAuthController;
 use App\Http\Controllers\PropiedadController;
 use App\Http\Controllers\IntegracionController;
-use App\Http\Controllers\TransaccionesController;
+use App\Http\Controllers\TransaccionController;
 use App\Http\Controllers\VisitaController;
 use App\Http\Controllers\ContratoController;
 use App\Http\Controllers\OficinaController;
@@ -58,6 +58,11 @@ Route::prefix('agente')->group(function () {
         Route::get('/contratos', [ContratoController::class, 'index_all'])->name('contrato.index_all');
         Route::get('/contratos/{id}', [ContratoController::class, 'index'])->name('contrato.index');
 
+        Route::get('/crear_transaccion', [TransaccionController::class, 'create'])->name('transaccion.crear');
+        Route::post('/crear_transaccion', [TransaccionController::class, 'store'])->name('transaccion.store');
+        Route::get('/transaccion', [TransaccionController::class, 'index_all'])->name('transaccion.index_all');
+        Route::get('/transaccion/{id}', [TransaccionController::class, 'index'])->name('transaccion.index');
+
         //Sacar datos tabla relacionada
         // Route::get('/solicitudes/{idPropiedad}', function ($idPropiedad) {
         //     return view('agente.solicitudes_visitas', ['idPropiedad' => $idPropiedad]);
@@ -69,7 +74,7 @@ Route::get('/solicitudes/{idPropiedad}', [IntegracionController::class, 'verSoli
 Route::post('/notificar-cliente/{idSolicitud}/{estado}', [IntegracionController::class, 'notificarClienteCambioEstadoSolicitud']);
 Route::post('/notificar-agente/{idAgente}/{idSolicitud}', [IntegracionController::class, 'notificarAgenteNuevaSolicitudVisita']);
 
-Route::post('/enviar-oferta-compra/{idPropiedad}/{montoOferta}', [TransaccionesController::class, 'enviarOfertaCompra']);
+Route::post('/enviar-oferta-compra/{idPropiedad}/{montoOferta}', [TransaccionController::class, 'enviarOfertaCompra']);
 
 Route::get('/agente/solicitudes/{idPropiedad}', [IntegracionController::class, 'verSolicitudesVisitasPorPropiedad'])->name('agente.solicitudes_visitas');
 Route::get('/agente/solicitudes', [IntegracionController::class, 'verTodasSolicitudesVisitas'])->name('agente.todas_solicitudes_visitas');

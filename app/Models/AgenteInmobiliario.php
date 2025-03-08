@@ -37,7 +37,7 @@ class AgenteInmobiliario extends Authenticatable
 
     public function transacciones()
     {
-        return $this->hasMany(Transaccion::class);
+        return $this->hasMany(Transaccion::class, 'agente_id');
     }
 
     public function visitas()

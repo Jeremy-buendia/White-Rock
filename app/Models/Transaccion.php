@@ -13,7 +13,7 @@ class Transaccion extends Model
 
     protected $fillable = [
         'propiedad_id',
-        'cliente_id',
+        'user_id',
         'agente_id',
         'tipo_transaccion',
         'fecha_transaccion',
