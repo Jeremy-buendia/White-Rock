@@ -55,6 +55,8 @@ Route::prefix('agente')->group(function () {
 
         Route::get('/crear_contrato', [ContratoController::class, 'create'])->name('contrato.crear');
         Route::post('/crear_contrato', [ContratoController::class, 'store'])->name('contrato.store');
+        Route::get('/contratos', [ContratoController::class, 'index_all'])->name('contrato.index_all');
+        Route::get('/contratos/{id}', [ContratoController::class, 'index'])->name('contrato.index');
 
         //Sacar datos tabla relacionada
         // Route::get('/solicitudes/{idPropiedad}', function ($idPropiedad) {

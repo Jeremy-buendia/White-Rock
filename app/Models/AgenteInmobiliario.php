@@ -47,7 +47,7 @@ class AgenteInmobiliario extends Authenticatable
 
     public function contratos()
     {
-        return $this->hasMany(Contrato::class);
+        return $this->hasMany(Contrato::class, 'agente_id');
     }
 
     public function getAuthIdentifierName()

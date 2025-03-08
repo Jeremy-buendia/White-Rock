@@ -107,12 +107,14 @@
                     <h3>Contratos</h3>
                     <a href="{{ route('contrato.crear') }}">Crear nuevo contrato</a>
                 </div>
+                <a href="{{ route('contrato.index_all') }}">Ver contratos</a>
             </div>
             <div class="transacciones">
                 <div class="mini-header">
                     <h3>Transacciones</h3>
-                    <a href="#">Enlace Transacciones</a>
+                    <a href="#">Crear Transacción</a>
                 </div>
+                <a href="">Ver transacciones</a>
             </div>
         </section>
     </main>

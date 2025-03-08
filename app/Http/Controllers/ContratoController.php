@@ -11,6 +11,27 @@ use Illuminate\Support\Facades\Log;
 
 class ContratoController extends Controller
 {
+    public function index_all()
+    {
+        $agente = Auth::user();
+        $agenteId = $agente->id;
+
+        /** @var \App\Models\Agente $agente */
+        $contratos = $agente->contratos()->with(['user', 'propiedad'])->get();
+
+        return view('contrato.index_all', compact('contratos'));
+    }
+
+    public function index($id)
+    {
+        $contrato = Contrato::findOrFail($id);
+
+        $usuario = $contrato->user()->first();
+        $propiedad = $contrato->propiedad()->first();
+
+        return view('contrato.index', compact('contrato', 'usuario', 'propiedad'));
+    }
+
     public function create()
     {
         $agente = Auth::user();
