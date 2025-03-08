@@ -105,7 +105,7 @@
             <div class="contratos">
                 <div class="mini-header">
                     <h3>Contratos</h3>
-                    <a href="#">Crear nuevo contrato</a>
+                    <a href="{{ route('contrato.crear') }}">Crear nuevo contrato</a>
                 </div>
             </div>
             <div class="transacciones">

@@ -11,7 +11,7 @@ class Contrato extends Model
 
     protected $fillable = [
         'propiedad_id',
-        'cliente_id',
+        'user_id',
         'agente_id',
         'tipo_contrato',
         'fecha_inicio',

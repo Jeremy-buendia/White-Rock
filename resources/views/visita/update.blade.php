@@ -1,6 +1,6 @@
 <x-agente-layout>
     <main class="">
-        <form method="POST" action="{{ route('visita.editar', $solicitudVisita->id) }}" enctype='multipart/form-data'>
+        <form method="POST" action="{{ route('visita.editar', $solicitudVisita->id) }}">
             @csrf
             @method('PUT')
 

@@ -54,15 +54,15 @@ Route::prefix('agente')->group(function () {
         Route::put('/editar_solicitud/{id}', [VisitaController::class, 'update']);
         Route::delete('/editar_solicitud/{id}', [VisitaController::class, 'destroy'])->name('visita.destroy');
 
-        Route::get('/solicitudes/{idPropiedad}', function ($idPropiedad) {
-            return view('agente.solicitudes_visitas', ['idPropiedad' => $idPropiedad]);
-        })->name('agente.solicitudes_visitas');
+        Route::get('/crear_contrato', [ContratoController::class, 'create'])->name('contrato.crear');
+        Route::post('/crear_contrato', [ContratoController::class, 'store'])->name('contrato.store');
+
+        //Sacar datos tabla relacionada
+        // Route::get('/solicitudes/{idPropiedad}', function ($idPropiedad) {
+        //     return view('agente.solicitudes_visitas', ['idPropiedad' => $idPropiedad]);
+        // })->name('agente.solicitudes_visitas');
     });
 });
-
-Route::get('agente/{idAgente}/propiedades/{idPropiedad}', [PropiedadController::class,]);
-Route::put('agente/{idAgente}/propiedades/{idPropiedad}', [PropiedadController::class,]);
-Route::delete('agente/{idAgente}/propiedades/{idPropiedad}', [PropiedadController::class,]);
 
 Route::get('/solicitudes/{idPropiedad}', [IntegracionController::class, 'verSolicitudesVisitasPorPropiedad']);
 Route::post('/notificar-cliente/{idSolicitud}/{estado}', [IntegracionController::class, 'notificarClienteCambioEstadoSolicitud']);

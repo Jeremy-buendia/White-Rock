@@ -1,6 +1,6 @@
 <x-agente-layout>
     <main class="">
-        <form method="POST" action="{{ route('agente.solicitar_visita') }}" enctype='multipart/form-data'>
+        <form method="POST" action="{{ route('agente.solicitar_visita') }}">
             @csrf
 
             <!-- Correo Electrónico -->
