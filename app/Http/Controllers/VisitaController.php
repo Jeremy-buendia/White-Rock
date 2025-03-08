@@ -15,6 +15,8 @@ class VisitaController extends Controller
     public function formularioSolicitarVisita()
     {
         $agente = Auth::user();
+
+        /** @var \App\Models\Agente $agente */
         $propiedades = $agente->propiedades()->get();
         return view('visita.crearSolicitudVisita', compact('propiedades'));
     }
@@ -68,6 +70,8 @@ class VisitaController extends Controller
     public function edit($id)
     {
         $solicitudVisita = SolicitudVisita::findOrFail($id);
+
+        /** @var \App\Models\Agente $agente */
         $agente = Auth::user();
         $propiedades = $agente->propiedades()->get();
 

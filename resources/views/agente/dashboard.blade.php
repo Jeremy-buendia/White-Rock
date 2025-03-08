@@ -8,7 +8,7 @@
             @foreach ($visitas as $visita)
                 <div class="item">
                     <div class="datos">
-                        <h2><a href="">{{ $visita->fecha_propuesta }}</a></h2>
+                        <h2>{{ $visita->fecha_propuesta }}</h2>
                         <p><b>Nombre: </b>{{ $visita->user->name }} {{ $visita->user->apellido }}</p>
                         <p><b>Email: </b>{{ $visita->user->email }}</p>
                         <p><b>Teléfono: </b>{{ $visita->user->telefono }}</p>
@@ -77,7 +77,7 @@
                     @foreach ($solicitudVisitas as $solicitudVisita)
                         <div class="item">
                             <div class="datos">
-                                <h2><a href="">{{ $solicitudVisita->fecha_propuesta }}</a></h2>
+                                <h2>{{ $solicitudVisita->fecha_propuesta }}</h2>
                                 <p><b>Nombre: </b>{{ $solicitudVisita->user->name }}
                                     {{ $solicitudVisita->user->apellido }}</p>
                                 <p><b>Email: </b>{{ $solicitudVisita->user->email }}</p>

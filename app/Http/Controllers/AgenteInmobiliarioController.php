@@ -21,7 +21,10 @@ class AgenteInmobiliarioController extends Controller
         //$inmuebles = $agente->load('propiedades')->propiedades()->paginate(10);
 
         // Cargar el agente y las propiedades en la misma consulta
+        /** @var \App\Models\Agente $agente */
         $inmuebles = $agente->propiedades()->paginate(3, ['*'], 'inmuebles');
+
+        /** @var \App\Models\Agente $agente */
         $visitas = $agente->solicitudesVisitas()
             ->with(['user', 'propiedad'])
             ->where(
@@ -34,6 +37,7 @@ class AgenteInmobiliarioController extends Controller
             ->take(3)
             ->get();
 
+        /** @var \App\Models\Agente $agente */
         $solicitudVisitas = $agente->solicitudesVisitas()
             ->with('user', 'propiedad')
             ->where(
