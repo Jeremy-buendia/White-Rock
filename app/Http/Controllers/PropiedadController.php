@@ -45,7 +45,6 @@ class PropiedadController extends Controller
 
                 // Verifica si se subieron archivos
                 if ($request->hasFile('imagenes')) {
-
                     foreach ($request->file('imagenes') as $imagen) {
                         // Guardamos el archivo y obtenemos la ruta completa
                         $imagePath = $imagen->store($carpetaPropiedad, 'public');
@@ -54,7 +53,7 @@ class PropiedadController extends Controller
                         FotografiaPropiedad::create([
                             'propiedad_id' => $propiedad->id,
                             'url_fotografia' => $imagePath,
-                            'descripcion' => 'si'
+                            'descripcion' => $imagen->getClientOriginalName()
                         ]);
                     }
                 }

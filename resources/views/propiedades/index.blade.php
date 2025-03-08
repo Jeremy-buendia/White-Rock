@@ -27,7 +27,7 @@
                                     <div class="carousel-inner">
                                         @foreach($inmueble->fotografias as $key => $imagen)
                                             <div class="carousel-item {{ $key == 0 ? 'active' : '' }}">
-                                                <img src="{{ Storage::url($imagen->url_fotografia) }}" class="d-block w-100" alt="{{ $imagen->descripcion }}" style="height: 300px; object-fit: contain;">
+                                                <img src="{{ asset('storage/imagenes/propiedad/' . $inmueble->id . '/' . basename($imagen->url_fotografia)) }}" class="d-block w-100" alt="{{ $imagen->descripcion }}" style="height: 300px; object-fit: contain;">
                                             </div>
                                         @endforeach
                                     </div>
@@ -41,7 +41,7 @@
                                     </button>
                                 </div>
                             @elseif($inmueble->fotografias->count() == 1)
-                                <img src="{{ Storage::url($inmueble->fotografias->first()->url_fotografia) }}" class="card-img-top" alt="{{ $inmueble->fotografias->first()->descripcion }}" style="height: 300px; object-fit: contain;">
+                                <img src="{{ asset('storage/imagenes/propiedad/' . $inmueble->id . '/' . basename($inmueble->fotografias->first()->url_fotografia)) }}" class="card-img-top" alt="{{ $inmueble->fotografias->first()->descripcion }}" style="height: 300px; object-fit: contain;">
                             @else
                                 <img src="{{ asset('path/to/default-image.jpg') }}" class="card-img-top" alt="{{ $inmueble->nombre }}" style="height: 300px; object-fit: contain;">
                             @endif
