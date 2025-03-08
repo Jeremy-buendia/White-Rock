@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use App\Models\AgenteInmobiliario;
+use App\Models\Propiedad;
+use App\Models\SolicitudVisita;
 use Carbon\Carbon;
 
 class AgenteInmobiliarioController extends Controller
@@ -19,9 +21,9 @@ class AgenteInmobiliarioController extends Controller
         //$inmuebles = $agente->load('propiedades')->propiedades()->paginate(10);
 
         // Cargar el agente y las propiedades en la misma consulta
-        $inmuebles = $agente->propiedades()->paginate(3);
+        $inmuebles = $agente->propiedades()->paginate(3, ['*'], 'inmuebles');
         $visitas = $agente->solicitudesVisitas()
-            ->with('user')
+            ->with(['user', 'propiedad'])
             ->where(
                 [
                     ['fecha_propuesta', '>=', Carbon::now()],
@@ -33,7 +35,7 @@ class AgenteInmobiliarioController extends Controller
             ->get();
 
         $solicitudVisitas = $agente->solicitudesVisitas()
-            ->with('user')
+            ->with('user', 'propiedad')
             ->where(
                 [
                     ['fecha_propuesta', '>=', Carbon::now()],
@@ -41,8 +43,7 @@ class AgenteInmobiliarioController extends Controller
                 ]
             )
             ->orderBy('fecha_propuesta', 'asc')
-            ->take(3)
-            ->get();
+            ->paginate(3, ['*'], 'solicitudes');
 
         // Paginación de las propiedades
         //$inmuebles = $agente->propiedades()->paginate(10);

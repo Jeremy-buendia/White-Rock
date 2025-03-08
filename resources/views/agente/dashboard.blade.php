@@ -12,6 +12,8 @@
                         <p><b>Nombre: </b>{{ $visita->user->name }} {{ $visita->user->apellido }}</p>
                         <p><b>Email: </b>{{ $visita->user->email }}</p>
                         <p><b>Teléfono: </b>{{ $visita->user->telefono }}</p>
+                        <p><b>Nombre Propiedad: </b> {{ $visita->propiedad->nombre }}</p>
+                        <p><b>Direccion: </b> {{ $visita->propiedad->direccion }}</p>
                     </div>
 
                     <div class="btnItem">
@@ -25,6 +27,10 @@
                     </div>
                 </div>
             @endforeach
+
+            @if (count($visitas) >= 3)
+                <a href="#">Ver todas</a>
+            @endif
         </aside>
         <section>
             <div class="inmuebles">
@@ -76,6 +82,8 @@
                                     {{ $solicitudVisita->user->apellido }}</p>
                                 <p><b>Email: </b>{{ $solicitudVisita->user->email }}</p>
                                 <p><b>Teléfono: </b>{{ $solicitudVisita->user->telefono }}</p>
+                                <p><b>Nombre Propiedad: </b> {{ $solicitudVisita->propiedad->nombre }}</p>
+                                <p><b>Direccion: </b> {{ $solicitudVisita->propiedad->direccion }}</p>
                             </div>
 
                             <div class="btnItem">
@@ -90,7 +98,7 @@
                         </div>
                     @endforeach
                     <div class="d-flex mx-5">
-                        {{ $inmuebles->links('pagination::bootstrap-5') }}
+                        {{ $solicitudVisitas->links('pagination::bootstrap-5') }}
                     </div> <!-- Para mostrar los enlaces de paginación -->
                 </div>
             </div>
