@@ -13,9 +13,7 @@ use App\Http\Controllers\AgenteInmobiliarioController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 
-Route::get('/', function () {
-    return view('home');
-});
+Route::get('/', [PropiedadController::class, 'index_home'])->name('home');
 
 Route::get('/dashboard', function () {
     return view('dashboard');

@@ -76,18 +76,12 @@ class PropiedadController extends Controller
         return view('propiedad.view', compact('propiedad', 'imagenes'));
     }
 
-    public function index_clientes(Request $request)
+    public function index_clientes()
     {
-        $categoria = $request->input('categoria');
+        $inmuebles = Propiedad::where('estado', 'disponible')->get();
         $categorias = Propiedad::select('tipo_propiedad')->distinct()->get();
 
-        if ($categoria) {
-            $inmuebles = Propiedad::where('tipo_propiedad', $categoria)->with('fotografias')->get();
-        } else {
-            $inmuebles = Propiedad::with('fotografias')->get();
-        }
-
-        return view('propiedades.index', compact('inmuebles', 'categorias', 'categoria'));
+        return view('propiedades.index', compact('inmuebles', 'categorias'));
     }
 
     public function edit($id)
@@ -173,7 +167,7 @@ class PropiedadController extends Controller
         if (SolicitudVisita::where('propiedad_id', $propiedad->id)
                            ->where('user_id', Auth::id())
                            ->exists()) {
-            return redirect()->route('propiedades.show', $propiedad)->with('visita_solicitada', true);
+            return response()->json(['message' => 'Visita ya solicitada'], 400);
         }
 
         // Obtener un agente aleatorio
@@ -188,6 +182,15 @@ class PropiedadController extends Controller
             'fecha_solicitud' => now(),
         ]);
 
-        return redirect()->route('propiedades.show', $propiedad)->with('visita_solicitada', true);
+        return response()->json(['message' => 'Visita solicitada correctamente']);
+    }
+
+    public function index_home()
+    {
+        $recientes = Propiedad::orderBy('created_at', 'desc')->take(5)->get();
+        $masCaras = Propiedad::orderBy('precio', 'desc')->take(5)->get();
+        $masBaratas = Propiedad::orderBy('precio', 'asc')->take(5)->get();
+
+        return view('home', compact('recientes', 'masCaras', 'masBaratas'));
     }
 }
