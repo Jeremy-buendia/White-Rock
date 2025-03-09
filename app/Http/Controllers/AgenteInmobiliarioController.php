@@ -16,11 +16,6 @@ class AgenteInmobiliarioController extends Controller
         $agente = Auth::user();
         $agenteId = $agente->id;
 
-        //$visitasProximas = Visita::where('agente_id', $agenteId)->where('fecha_visita', '>=', now())->orderBy('fecha', 'asc')->take(3)->get();
-
-        //$inmuebles = $agente->load('propiedades')->propiedades()->paginate(10);
-
-        // Cargar el agente y las propiedades en la misma consulta
         /** @var \App\Models\Agente $agente */
         $inmuebles = $agente->propiedades()->paginate(3, ['*'], 'inmuebles');
 
@@ -49,11 +44,8 @@ class AgenteInmobiliarioController extends Controller
             ->orderBy('fecha_propuesta', 'asc')
             ->paginate(3, ['*'], 'solicitudes');
 
-        // Paginación de las propiedades
-        //$inmuebles = $agente->propiedades()->paginate(10);
+
 
         return view('agente.dashboard', compact('inmuebles', 'visitas', 'solicitudVisitas'));
-
-        //return view('agente.dashboard');
     }
 }

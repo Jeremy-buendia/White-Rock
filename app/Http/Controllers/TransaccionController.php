@@ -7,6 +7,7 @@ use App\Models\OfertaCompra;
 use App\Models\Transaccion;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Validation\Rule;
 use App\Models\User;
 use Carbon\Carbon;
 
@@ -62,7 +63,19 @@ class TransaccionController extends Controller
 
     public function store(Request $request)
     {
-        //Validar
+        $request->validate([
+            'propiedad_id' => ['required', 'integer', 'exists:propiedades,id'],
+            'correo_electronico' => [
+                'required',
+                'string',
+                'lowercase',
+                'email',
+                'max:255',
+                Rule::exists('users', 'email'),
+            ],
+            'tipo_transaccion' => ['required', Rule::in(['compra', 'venta', 'alquiler'])],
+            'precio_transaccion' => ['required', 'numeric', 'min:0'],
+        ]);
 
         $idCliente = User::findByEmail($request->input('correo_electronico'))->id;
         $agenteId = Auth::user()->id;

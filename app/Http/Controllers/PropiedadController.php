@@ -97,7 +97,18 @@ class PropiedadController extends Controller
 
     public function update(Request $request, $id)
     {
-        //Validar
+        $request->validate([
+            'nombre' => 'required|string|max:255|min:3',
+            'direccion' => 'required|string|max:255',
+            'tipo_propiedad' => 'required|in:casa,apartamento,terreno',
+            'precio' => 'required|numeric',
+            'tamano' => 'required|integer',
+            'descripcion' => 'required|string',
+            'estado' => 'required|in:disponible,vendido,alquilado',
+            'imagenes' => 'array',
+            'imagenes.*' => 'file|mimes:jpeg,jpg,png,svg|max:2048'
+        ]);
+
         try {
             DB::transaction(function () use ($request, $id) {
                 $propiedad = Propiedad::findOrFail($id);

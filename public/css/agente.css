@@ -22,6 +22,17 @@ header{
     z-index: 1000;
 }
 
+header a{
+    color: white;
+    text-decoration: none;
+    margin: 0 10px;
+}
+
+header a:hover{
+    color: rgb(209, 206, 206);
+    text-decoration: none;
+}
+
 .contenedor{
     display: grid;
     grid-template-columns: 1fr 4fr;
@@ -57,15 +68,6 @@ footer{
 
 section{
     padding-left: 20px;
-}
-
-.aside-mini-header{
-    display: flex;
-    justify-content: space-between;
-    position: sticky; /* Ahora es sticky */
-    top: 0;          /* Se "pega" a la parte superior del aside */
-    background-color: white; /*To avoid traspassing*/
-    z-index: 1;
 }
 
 .mini-header{

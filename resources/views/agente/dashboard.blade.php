@@ -1,8 +1,8 @@
 <x-agente-layout>
     <main class="contenedor container-fluid">
-        <a href="" class="prox-visitas">Ver Próximas visitas</a>
+        <a href="/agente/solicitudes" class="prox-visitas">Ver Próximas visitas</a>
         <aside>
-            <div class="aside-mini-header">
+            <div class="mini-header">
                 <h3>Próximas Visitas</h3>
                 <a href="{{ route('agente.solicitar_visita') }}">Crear nueva visita</a>
             </div>

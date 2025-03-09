@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\Propiedad;
 use App\Models\AgenteInmobiliario;
 use App\Models\User;
+use Illuminate\Validation\Rule;
 use Carbon\Carbon;
 
 class VisitaController extends Controller
@@ -18,7 +19,7 @@ class VisitaController extends Controller
         $agente = Auth::user();
 
         /** @var \App\Models\Agente $agente */
-        $propiedades = $agente->propiedades()->get();
+        $propiedades = $agente->propiedades()->where(['estado' => 'disponible'])->get();
         return view('visita.crearSolicitudVisita', compact('propiedades'));
     }
 
@@ -37,7 +38,18 @@ class VisitaController extends Controller
 
     public function solicitarVisitaAgente(Request $request)
     {
-        //Validar
+        $request->validate([
+            'propiedad_id' => ['required', 'integer', 'exists:propiedades,id'],
+            'correo_electronico' => [
+                'required',
+                'string',
+                'lowercase',
+                'email',
+                'max:255',
+                Rule::exists('users', 'email'),
+            ],
+            'fecha_propuesta' => ['required', 'date', 'after:now'],
+        ]);
 
         $idCliente = User::findByEmail($request->input('correo_electronico'))->id;
         $agenteId = Auth::user()->id;
@@ -85,6 +97,20 @@ class VisitaController extends Controller
     public function update(Request $request, $id)
     {
         $solicitudVisita = SolicitudVisita::findOrFail($id);
+
+        $request->validate([
+            'propiedad_id' => ['required', 'integer', 'exists:propiedades,id'],
+            'correo_electronico' => [
+                'required',
+                'string',
+                'lowercase',
+                'email',
+                'max:255',
+                Rule::exists('users', 'email'),
+            ],
+            'fecha_propuesta' => ['required', 'date', 'after:now'],
+        ]);
+
         $solicitudVisita->update($request->all());
         return redirect()->route('agente.dashboard')->with('success', 'La solicitud de visita ha sido actualizada');
     }
