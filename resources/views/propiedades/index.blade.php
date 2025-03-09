@@ -30,11 +30,11 @@
         <div class="col-lg-9">
             <h3 class="fw-bold text-white text-center p-3 rounded mb-3" style="background: #333;">Inmuebles Disponibles</h3>
 
-            <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+            <div class="row row-cols-1 g-4">
                 @foreach($inmuebles as $inmueble)
                     <div class="col">
-                        <div class="card border-0 shadow-sm rounded overflow-hidden position-relative" style="background: #111; color: #fff;">
-                            @if($recientes->contains($inmueble))
+                        <div class="card border-0 shadow-sm rounded overflow-hidden position-relative" style="background: #111; color: #fff; max-width: 600px; margin: auto;">
+                            @if($inmueble->es_reciente)
                                 <span class="badge bg-success position-absolute top-0 start-0 m-2">Nueva</span>
                             @endif
                             @if($inmueble->fotografias->count() > 1)
