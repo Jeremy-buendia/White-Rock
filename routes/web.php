@@ -46,6 +46,11 @@ Route::prefix('agente')->group(function () {
         Route::get('/dashboard', [AgenteInmobiliarioController::class, 'dashboard'])->name('agente.dashboard');
 
         Route::get('/oficina', [OficinaController::class, 'index'])->name('agente.oficina');
+        Route::get('/crear_oficina', [OficinaController::class, 'create'])->name('oficina.crear');
+        Route::post('/crear_oficina', [OficinaController::class, 'store'])->name('oficina.crear');
+
+        Route::get('/editar_oficina/{id}', [OficinaController::class, 'edit'])->name('oficina.editar');
+        Route::put('/editar_oficina/{id}', [OficinaController::class, 'update'])->name('oficina.editar');
 
         Route::get('/crear_inmueble', [PropiedadController::class, 'create'])->name('agente.crearInmueble');
         Route::post('/crear_inmueble', [PropiedadController::class, 'store']);
