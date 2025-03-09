@@ -27,37 +27,34 @@ class ProfileController extends Controller
     }
 
     public function update(ProfileUpdateRequest $request): RedirectResponse
-    {
-        $user = $request->user();
+{
+    $user = $request->user();
 
-        // Validar los datos
-        $validatedData = $request->validate([
-            'email' => 'required|string|email|max:255|unique:users,email,' . $user->id,
-            'current_password' => 'required_with:password|string',
-            'password' => 'nullable|string|min:8|confirmed',
-            'telefono' => 'required|string|max:255',
-        ]);
+    // Validar los datos
+    $validatedData = $request->validated();
 
-        // Verificar la contraseña actual
-        if ($request->filled('password') && !Hash::check($request->input('current_password'), $user->password)) {
-            return Redirect::route('profile.edit')->withErrors(['current_password' => 'La contraseña actual no es correcta.']);
-        }
-
-        // Actualizar los datos del usuario
-        $user->fill($validatedData);
-
-        if ($user->isDirty('email')) {
-            $user->email_verified_at = null;
-        }
-
-        if (!empty($validatedData['password'])) {
-            $user->password = bcrypt($validatedData['password']);
-        }
-
-        $user->save();
-
-        return Redirect::route('profile.edit')->with('status', 'profile-updated');
+    // Verificar la contraseña actual
+    if ($request->filled('password') && !Hash::check($request->input('current_password'), $user->password)) {
+        return Redirect::route('profile.edit')->withErrors(['current_password' => 'La contraseña actual no es correcta.']);
     }
+
+    // Actualizar los datos del usuario
+    $user->name = $validatedData['name'];
+    $user->email = $validatedData['email'];
+    $user->telefono = $validatedData['telefono'];
+
+    if ($user->isDirty('email')) {
+        $user->email_verified_at = null;
+    }
+
+    if (!empty($validatedData['password'])) {
+        $user->password = bcrypt($validatedData['password']);
+    }
+
+    $user->save();
+
+    return Redirect::route('profile.edit')->with('status', 'profile-updated');
+}
 
     /**
      * Delete the user's account.
