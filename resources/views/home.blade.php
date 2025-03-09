@@ -16,7 +16,7 @@
             <p>Nuestra misión es ofrecerte un servicio de alta calidad, con transparencia, innovación y compromiso. Nos esforzamos por mantener altos estándares de calidad en cada una de nuestras transacciones, asegurando la satisfacción de nuestros clientes.</p>
         </div>
         <div>
-        <img src="{{ asset('favicon.ico') }}" alt="White Rock Logo" style="width: 200px; height: 200px;">
+            <img src="{{ asset('favicon.ico') }}" alt="White Rock Logo" style="width: 200px; height: 200px;">
         </div>
     </div>
 

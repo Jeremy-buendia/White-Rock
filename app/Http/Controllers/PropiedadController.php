@@ -128,7 +128,10 @@ class PropiedadController extends Controller
         $inmuebles = $query->get();
         $categorias = Propiedad::select('tipo_propiedad')->distinct()->get();
 
-        return view('propiedades.index', compact('inmuebles', 'categorias'));
+        // Obtener las tres propiedades más recientes
+        $recientes = Propiedad::where('estado', 'disponible')->orderBy('created_at', 'desc')->take(3)->get();
+
+        return view('propiedades.index', compact('inmuebles', 'categorias', 'recientes'));
     }
 
     // Método para mostrar la vista de edición de una propiedad específica
@@ -277,14 +280,9 @@ class PropiedadController extends Controller
     {
         try {
             // Obtenemos las propiedades más recientes
-            $recientes = Propiedad::orderBy('created_at', 'desc')->take(5)->get();
-            // Obtenemos las propiedades más caras
-            $masCaras = Propiedad::orderBy('precio', 'desc')->take(5)->get();
-            // Obtenemos las propiedades más baratas
-            $masBaratas = Propiedad::orderBy('precio', 'asc')->take(5)->get();
-
+            $recientes = Propiedad::where('estado', 'disponible')->orderBy('created_at', 'desc')->take(3)->get();
             // Mostramos la vista de inicio con las propiedades obtenidas
-            return view('home', compact('recientes', 'masCaras', 'masBaratas'));
+            return view('home', compact('recientes'));
         } catch (\Exception $e) {
             Log::error($e);
             return redirect()->back()->with('error', 'Error al mostrar la página de inicio. Por favor, inténtalo de nuevo.');
