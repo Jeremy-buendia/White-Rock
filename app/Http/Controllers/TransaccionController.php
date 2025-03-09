@@ -26,11 +26,20 @@ class TransaccionController extends Controller
     }
 
     // Muestra compras, ventas o alquileres realizadas por un cliente.
-
     public function verHistorialTransaccionesCliente($idCliente)
     {
+        try{
+        
+        // Obtenemos todas las transacciones del cliente especificado por su ID
         $transacciones = Transaccion::where('cliente_id', $idCliente)->get();
+        
+        // Mostramos la vista del historial de transacciones con los datos obtenidos
         return view('transacciones.historial', compact('transacciones'));
+
+        } catch (\Exception $e) {
+            Log::error($e);
+            return redirect()->back()->with('error', 'Error al mostrar el historial de transacciones. Por favor, inténtalo de nuevo.');
+        }
     }
 
     public function index_all()

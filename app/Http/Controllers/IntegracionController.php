@@ -11,6 +11,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Notification;
 use App\Notifications\SolicitudVisitaEstadoChanged;
 use App\Notifications\NuevaSolicitudVisita;
+use Illuminate\Container\Attributes\Log;
 
 class IntegracionController extends Controller
 {
@@ -61,26 +62,44 @@ class IntegracionController extends Controller
     }
 
     //Lista las visitas confirmadas para el agente.
-    
     public function verVisitasProgramadas($idAgente)
     {
+        try{
+        // Obtenemos todas las visitas confirmadas del agente especificado por su ID
         $visitas = Visita::where('agente_id', $idAgente)->where('estado', 'confirmada')->get();
-        return view('agente.visitas_programadas', compact('visitas'));
-    }
     
-    //Permite a clientes y agentes ver transacciones de una propiedad.
-     
+        // Mostramos la vista de visitas programadas con los datos obtenidos
+        return view('agente.visitas_programadas', compact('visitas'));
+        } catch (\Exception $e) {
+            return response()->json(['mensaje' => 'Error al obtener las visitas programadas'], 500);
+        }
+    }
+
+    // Permite a clientes y agentes ver transacciones de una propiedad.
     public function verTransaccionesPropiedad($idPropiedad)
     {
+        try{
+        // Obtenemos todas las transacciones de la propiedad especificada por su ID
         $transacciones = Transaccion::where('propiedad_id', $idPropiedad)->get();
-        return view('propiedades.transacciones', compact('transacciones'));
-    }
     
-    //Permite a clientes y agentes acceder al contrato de una transacción.
-     
+        // Mostramos la vista de transacciones de la propiedad con los datos obtenidos
+        return view('propiedades.transacciones', compact('transacciones'));
+    } catch (\Exception $e) {
+        return response()->json(['mensaje' => 'Error al obtener las visitas programadas'], 500);
+    }
+    }
+
+    // Permite a clientes y agentes acceder al contrato de una transacción.
     public function verContrato($idContrato)
     {
+        try{
+        // Obtenemos el contrato especificado por su ID o lanzamos un error 404 si no se encuentra
         $contrato = Contrato::findOrFail($idContrato);
+    
+        // Mostramos la vista de detalles del contrato con los datos obtenidos
         return view('contratos.detalles', compact('contrato'));
+    } catch (\Exception $e) {
+        return response()->json(['mensaje' => 'Error al obtener las visitas programadas'], 500);
+    }
     }
 }

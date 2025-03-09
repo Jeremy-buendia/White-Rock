@@ -14,14 +14,21 @@ use App\Models\AgenteInmobiliario;
 
 class PropiedadController extends Controller
 {
+    // Método para mostrar la vista de creación de una nueva propiedad
     public function create()
     {
-        return view('agente.crearInmueble');
+        try {
+            return view('agente.crearInmueble');
+        } catch (\Exception $e) {
+            Log::error($e);
+            return redirect()->back()->with('error', 'Error al mostrar el formulario de creación de propiedad. Por favor, inténtalo de nuevo.');
+        }
     }
 
+    // Método para almacenar una nueva propiedad en la base de datos
     public function store(Request $request)
     {
-        // Comprobamos que los datos sean correctos
+        // Validación de los datos recibidos
         $request->validate([
             'nombre' => 'required|string|max:255|min:3',
             'direccion' => 'required|string|max:255',
@@ -35,23 +42,27 @@ class PropiedadController extends Controller
         ]);
 
         try {
+            // Iniciamos una transacción para asegurar la consistencia de los datos
             DB::transaction(function () use ($request) {
-                // Creamos la propiedad
+                // Creamos la propiedad con los datos recibidos, excepto las imágenes
                 $propiedad = Propiedad::create($request->except('imagenes'));
 
+                // Obtenemos el agente autenticado y su ID
                 $agente = Auth::user();
                 $agenteId = $agente->id;
+                // Asociamos la propiedad con el agente
                 $propiedad->agentes()->attach($agenteId);
 
+                // Definimos la carpeta donde se guardarán las imágenes de la propiedad
                 $carpetaPropiedad = 'imagenes/propiedad/' . $propiedad->id;
 
-                // Verifica si se subieron archivos
+                // Verificamos si se subieron archivos
                 if ($request->hasFile('imagenes')) {
                     foreach ($request->file('imagenes') as $imagen) {
                         // Guardamos el archivo y obtenemos la ruta completa
                         $imagePath = $imagen->store($carpetaPropiedad, 'public');
 
-                        // Actualizamos la base de datos con la nueva imagen
+                        // Creamos un registro en la base de datos para cada imagen
                         FotografiaPropiedad::create([
                             'propiedad_id' => $propiedad->id,
                             'url_fotografia' => $imagePath,
@@ -61,38 +72,68 @@ class PropiedadController extends Controller
                 }
             });
 
+            // Redirigimos al dashboard del agente con un mensaje de éxito
             return redirect()->route('agente.dashboard')->with('success', 'La propiedad ha sido añadida');
         } catch (\Exception $e) {
+            // Registramos el error en el log y redirigimos con un mensaje de error
             Log::error('Error al crear la propiedad y subir imágenes: ' . $e->getMessage());
             return redirect()->back()->with('error', 'Error al crear la propiedad.  Por favor, inténtelo de nuevo. ' . $e->getMessage())->withInput();
         }
     }
 
+    // Método para mostrar una propiedad específica por su ID
     public function index($id)
     {
-        //FindOrFail nos permite recuperar un cliente por su id y si no lo encuentra nos devuelve un error 404
-        $propiedad = Propiedad::findOrFail($id);
-        $imagenes = $propiedad->fotografias;
-        return view('propiedad.view', compact('propiedad', 'imagenes'));
+        try {
+            // Recuperamos la propiedad por su ID o lanzamos un error 404 si no se encuentra
+            $propiedad = Propiedad::findOrFail($id);
+            // Obtenemos las imágenes asociadas a la propiedad
+            $imagenes = $propiedad->fotografias;
+            // Mostramos la vista con los datos de la propiedad y sus imágenes
+            return view('propiedad.view', compact('propiedad', 'imagenes'));
+        } catch (\Exception $e) {
+            Log::error($e);
+            return redirect()->back()->with('error', 'Error al mostrar la propiedad. Por favor, inténtalo de nuevo.');
+        }
     }
 
+    // Método para mostrar todas las propiedades disponibles para los clientes
     public function index_clientes()
     {
-        $inmuebles = Propiedad::where('estado', 'disponible')->get();
-        $categorias = Propiedad::select('tipo_propiedad')->distinct()->get();
+        try {
+            // Obtenemos todas las propiedades disponibles
+            $inmuebles = Propiedad::where('estado', 'disponible')->get();
+            // Obtenemos las categorías de propiedades disponibles
+            $categorias = Propiedad::select('tipo_propiedad')->distinct()->get();
 
-        return view('propiedades.index', compact('inmuebles', 'categorias'));
+            // Mostramos la vista con las propiedades y sus categorías
+            return view('propiedades.index', compact('inmuebles', 'categorias'));
+        } catch (\Exception $e) {
+            Log::error($e);
+            return redirect()->back()->with('error', 'Error al mostrar las propiedades. Por favor, inténtalo de nuevo.');
+        }
     }
 
+    // Método para mostrar la vista de edición de una propiedad específica
     public function edit($id)
     {
-        $inmueble = Propiedad::findOrFail($id);
-        $imagenes = $inmueble->fotografias;
-        return view('propiedad.update', compact('inmueble', 'imagenes'));
+        try {
+            // Recuperamos la propiedad por su ID o lanzamos un error 404 si no se encuentra
+            $inmueble = Propiedad::findOrFail($id);
+            // Obtenemos las imágenes asociadas a la propiedad
+            $imagenes = $inmueble->fotografias;
+            // Mostramos la vista de edición con los datos de la propiedad y sus imágenes
+            return view('propiedad.update', compact('inmueble', 'imagenes'));
+        } catch (\Exception $e) {
+            Log::error($e);
+            return redirect()->back()->with('error', 'Error al mostrar el formulario de edición de propiedad. Por favor, inténtalo de nuevo.');
+        }
     }
 
+    // Método para actualizar una propiedad específica
     public function update(Request $request, $id)
     {
+        // Validación de los datos recibidos
         $request->validate([
             'nombre' => 'required|string|max:255|min:3',
             'direccion' => 'required|string|max:255',
@@ -106,30 +147,31 @@ class PropiedadController extends Controller
         ]);
 
         try {
+            // Iniciamos una transacción para asegurar la consistencia de los datos
             DB::transaction(function () use ($request, $id) {
+                // Recuperamos la propiedad por su ID o lanzamos un error 404 si no se encuentra
                 $propiedad = Propiedad::findOrFail($id);
 
-                //Traspaso de agente futuro ?¿
-                // $agente = Auth::user();
-                // $agenteId = $agente->id;
-                // $propiedad->agentes()->attach($agenteId);
-
+                // Obtenemos las imágenes asociadas a la propiedad
                 $imagenes = FotografiaPropiedad::where('propiedad_id', $id)->get();
 
+                // Definimos la carpeta donde se guardarán las imágenes de la propiedad
                 $carpetaPropiedad = 'imagenes/propiedad/' . $propiedad->id;
 
-                if ($request->hasFile('imagenes')) { // Verifica si se subieron archivos
-
+                // Verificamos si se subieron archivos
+                if ($request->hasFile('imagenes')) {
+                    // Eliminamos las imágenes existentes
                     foreach ($imagenes as $imagen) {
                         Storage::disk('public')->delete($imagen->url_fotografia);
                         $imagen->delete();
                     }
 
+                    // Guardamos las nuevas imágenes
                     foreach ($request->file('imagenes') as $imagen) {
                         // Guardamos el archivo y obtenemos la ruta completa
                         $imagePath = $imagen->store($carpetaPropiedad, 'public');
 
-                        // Actualizamos la base de datos con la nueva imagen
+                        // Creamos un registro en la base de datos para cada imagen
                         FotografiaPropiedad::create([
                             'propiedad_id' => $propiedad->id,
                             'url_fotografia' => $imagePath,
@@ -137,64 +179,98 @@ class PropiedadController extends Controller
                         ]);
                     }
                 }
+                // Actualizamos la propiedad con los datos recibidos, excepto las imágenes
                 $propiedad->update($request->except('imagenes'));
             });
 
+            // Redirigimos al dashboard del agente con un mensaje de éxito
             return redirect()->route('agente.dashboard')->with('success', 'La propiedad ha sido actualizada');
         } catch (\Exception $e) {
+            // Registramos el error en el log y redirigimos con un mensaje de error
+            Log::error('Error al actualizar la propiedad: ' . $e->getMessage());
+            return redirect()->back()->with('error', 'Error al actualizar la propiedad.  Por favor, inténtelo de nuevo. ' . $e->getMessage())->withInput();
         }
     }
 
+    // Método para eliminar una propiedad específica
     public function destroy($id)
     {
-        $inmueble = Propiedad::findOrFail($id);
-        $inmueble->delete();
-        return redirect()->route('agente.dashboard')->with('success', 'La propiedad ha sido eliminada');
+        try {
+            // Recuperamos la propiedad por su ID o lanzamos un error 404 si no se encuentra
+            $inmueble = Propiedad::findOrFail($id);
+            // Eliminamos la propiedad
+            $inmueble->delete();
+            // Redirigimos al dashboard del agente con un mensaje de éxito
+            return redirect()->route('agente.dashboard')->with('success', 'La propiedad ha sido eliminada');
+        } catch (\Exception $e) {
+            Log::error($e);
+            return redirect()->back()->with('error', 'Error al eliminar la propiedad. Por favor, inténtalo de nuevo.');
+        }
     }
 
+    // Método para mostrar una propiedad específica
     public function show(Propiedad $propiedad)
     {
-        // Verificar si ya se ha solicitado una visita para esta propiedad
-        $propiedad->visita_solicitada = SolicitudVisita::where('propiedad_id', $propiedad->id)
-                                                        ->where('user_id', Auth::id())
-                                                        ->exists();
-        return view('propiedades.show', compact('propiedad'));
+        try {
+            // Verificamos si ya se ha solicitado una visita para esta propiedad
+            $propiedad->visita_solicitada = SolicitudVisita::where('propiedad_id', $propiedad->id)
+                                                            ->where('user_id', Auth::id())
+                                                            ->exists();
+            // Mostramos la vista con los datos de la propiedad
+            return view('propiedades.show', compact('propiedad'));
+        } catch (\Exception $e) {
+            Log::error($e);
+            return redirect()->back()->with('error', 'Error al mostrar la propiedad. Por favor, inténtalo de nuevo.');
+        }
     }
 
-    public function solicitarVisita(Request $request, $id)
+    // Método para solicitar una visita a una propiedad específica
+    public function solicitarVisita(Request $request, Propiedad $propiedad)
     {
-        // Verificar si el usuario está autenticado
-        if (!Auth::check()) {
-            return redirect()->back()->with('error', 'Debes iniciar sesión para solicitar una visita.');
+        try {
+            // Verificamos si ya se ha solicitado una visita para esta propiedad
+            if (SolicitudVisita::where('propiedad_id', $propiedad->id)
+                               ->where('user_id', Auth::id())
+                               ->exists()) {
+                return response()->json(['message' => 'Visita ya solicitada'], 400);
+            }
+
+            // Obtenemos un agente aleatorio
+            $agente = AgenteInmobiliario::inRandomOrder()->first();
+
+            // Creamos la solicitud de visita
+            SolicitudVisita::create([
+                'propiedad_id' => $propiedad->id,
+                'user_id' => Auth::id(),
+                'agente_id' => $agente->id,
+                'estado' => 'pendiente',
+                'fecha_solicitud' => now(),
+            ]);
+
+            // Devolvemos una respuesta JSON con un mensaje de éxito
+            return response()->json(['message' => 'Visita solicitada correctamente']);
+        } catch (\Exception $e) {
+            Log::error($e);
+            return response()->json(['message' => 'Error al solicitar la visita. Por favor, inténtalo de nuevo.']);
         }
-
-        // Verificar si ya se ha solicitado una visita para esta propiedad
-        if (SolicitudVisita::where('propiedad_id', $id)->where('user_id', Auth::id())->exists()) {
-            return redirect()->back()->with('error', 'Ya has solicitado una visita para esta propiedad.');
-        }
-
-        // Obtener un agente aleatorio
-        $agente = AgenteInmobiliario::inRandomOrder()->first();
-
-        // Crear la solicitud de visita
-        SolicitudVisita::create([
-            'propiedad_id' => $id,
-            'user_id' => Auth::id(),
-            'agente_id' => $agente->id,
-            'estado' => 'pendiente',
-            'fecha_solicitud' => now(),
-        ]);
-
-        return redirect()->back()->with('success', 'Visita solicitada correctamente.');
     }
 
+    // Método para mostrar las propiedades en la página de inicio
     public function index_home()
     {
-        $recientes = Propiedad::orderBy('created_at', 'desc')->take(3)->get();
-        $masCaras = Propiedad::orderBy('precio', 'desc')->take(3)->get();
-        $masBaratas = Propiedad::orderBy('precio', 'asc')->take(3)->get();
-        $masGrandes = Propiedad::orderBy('tamano', 'desc')->take(3)->get();
+        try {
+            // Obtenemos las propiedades más recientes
+            $recientes = Propiedad::orderBy('created_at', 'desc')->take(5)->get();
+            // Obtenemos las propiedades más caras
+            $masCaras = Propiedad::orderBy('precio', 'desc')->take(5)->get();
+            // Obtenemos las propiedades más baratas
+            $masBaratas = Propiedad::orderBy('precio', 'asc')->take(5)->get();
 
-        return view('home', compact('recientes', 'masCaras', 'masBaratas', 'masGrandes'));
+            // Mostramos la vista de inicio con las propiedades obtenidas
+            return view('home', compact('recientes', 'masCaras', 'masBaratas'));
+        } catch (\Exception $e) {
+            Log::error($e);
+            return redirect()->back()->with('error', 'Error al mostrar la página de inicio. Por favor, inténtalo de nuevo.');
+        }
     }
 }
