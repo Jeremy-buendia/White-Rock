@@ -42,6 +42,11 @@ main{
     padding-top: 47px;
 }
 
+h3{
+    font-family: "DM Serif Text", serif;
+    font-weight: bolder;
+}
+
 aside {
     max-height: 100%;
     padding-right: 10px;
