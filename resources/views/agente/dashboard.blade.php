@@ -1,5 +1,6 @@
 <x-agente-layout>
     <main class="contenedor container-fluid">
+        <a href="" class="prox-visitas">Ver Próximas visitas</a>
         <aside>
             <div class="mini-header position-fixed">
                 <h3>Próximas Visitas</h3>
@@ -45,7 +46,7 @@
                     @foreach ($inmuebles as $inmueble)
                         <div class="item">
                             <div class="datos">
-                                <h2><a
+                                <h2 class="truncate"><a
                                         href="{{ route('agente.ver_inmueble', $inmueble->id) }}">{{ $inmueble->nombre }}</a>
                                 </h2>
                                 <p><b>Dirección: </b>{{ $inmueble->direccion }}</p>

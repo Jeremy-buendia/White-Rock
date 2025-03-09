@@ -15,28 +15,20 @@ header{
     background-color: rgb(50, 50, 50);
     color: white;
     font-family: "DM Serif Text", serif;
+    display: flex;
+    justify-content: space-between;
 }
 
 .contenedor{
     display: grid;
     grid-template-columns: 1fr 4fr;
-    flex-grow: 1;
 }
 
 aside {
-    overflow-y: auto;
-    overflow-x: hidden;
-    max-height: 87vh;
+    max-height: 100%;
     padding-right: 10px;
     border-right: 1px solid black;
-    direction: rtl;
-    unicode-bidi: bidi-override;
-    padding-left: 10px;
-    text-align: left;
-}
 
-aside > * {
-    direction: ltr;
 }
 
 footer{
@@ -52,7 +44,6 @@ section{
 
 aside .mini-header{
     background-color: white;
-    width: 18%;
 }
 
 .mini-header{
@@ -70,7 +61,6 @@ aside .mini-header{
     gap: 20px;
 }
 
-
 .item{
     background-color: beige;
     padding: 20px;
@@ -84,4 +74,71 @@ aside .mini-header{
     flex-direction: column;
     justify-content: space-between;
     margin-left: 30px;
+}
+
+.truncate {
+    white-space: nowrap; /* Evita que el texto se envuelva a la siguiente línea */
+    overflow: hidden;     /* Oculta el texto que excede el ancho del contenedor */
+    text-overflow: ellipsis; /* Muestra los puntos suspensivos ("...") */
+    width: 250px;         /* Define un ancho para el contenedor (ajusta este valor) */
+}
+
+.prox-visitas{
+    display: none;
+}
+
+@media (max-width:1645px){
+    .truncate {
+        white-space: nowrap; /* Evita que el texto se envuelva a la siguiente línea */
+        overflow: hidden;     /* Oculta el texto que excede el ancho del contenedor */
+        text-overflow: ellipsis; /* Muestra los puntos suspensivos ("...") */
+        width: 200px;         /* Define un ancho para el contenedor (ajusta este valor) */
+    }
+}
+
+@media (max-width: 1480px) {
+    .contenedor{
+        grid-template-columns: 1fr;
+    }
+
+    .prox-visitas{
+        display: block;
+    }
+
+    aside{
+        display: none;
+    }
+}
+
+@media (max-width: 1160px) {
+    .items{
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 20px;
+    }
+
+    .item:last-child{
+        grid-column: 1 / span 2;
+    }
+
+    .truncate {
+        text-overflow:ellipsis; /* Muestra los puntos suspensivos ("...") */
+        width: 300px;         /* Define un ancho para el contenedor (ajusta este valor) */
+    }
+}
+
+@media (max-width: 980px) {
+    .items{
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+
+    .item:last-child{
+        grid-column: 1 / span 1;
+    }
+
+    aside{
+        display: none;
+    }
 }
