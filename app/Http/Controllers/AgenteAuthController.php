@@ -26,6 +26,7 @@ class AgenteAuthController extends Controller
     public function registro(Request $request): RedirectResponse
     {
         $request->validate([
+            'oficina_id' => ['required', 'integer', 'exists:oficinas,id'],
             'nombre' => ['required', 'string', 'max:255'],
             'apellido' => ['required', 'string', 'max:255'],
             'correo_electronico' => [
@@ -50,7 +51,7 @@ class AgenteAuthController extends Controller
             'direccion' => $request->direccion,
             'fecha_contratacion' => now(),
             'password' => Hash::make($request->password),
-            'oficina_id' => null,
+            'oficina_id' => $request->id_oficina,
         ]);
 
         Auth::login($agente);

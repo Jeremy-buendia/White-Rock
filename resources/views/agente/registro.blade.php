@@ -2,11 +2,19 @@
     <form method="POST" action="{{ route('agente.registro') }}">
         @csrf
 
+        <!-- ID oficina -->
+        <div>
+            <x-input-label for="id_oficina" :value="__('ID oficina: ')" />
+            <x-text-input id="id_oficina" class="block mt-1 w-full" type="text" name="id_oficina" :value="old('id_oficina')"
+                required autofocus autocomplete="id_oficina" />
+            <x-input-error :messages="$errors->get('id_oficina')" class="mt-2" />
+        </div>
+
         <!-- Nombre -->
         <div>
             <x-input-label for="nombre" :value="__('Nombre')" />
-            <x-text-input id="nombre" class="block mt-1 w-full" type="text" name="nombre" :value="old('nombre')" required
-                autofocus autocomplete="nombre" />
+            <x-text-input id="nombre" class="block mt-1 w-full" type="text" name="nombre" :value="old('nombre')"
+                required autofocus autocomplete="nombre" />
             <x-input-error :messages="$errors->get('nombre')" class="mt-2" />
         </div>
 
