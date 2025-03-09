@@ -20,7 +20,7 @@ class TransaccionesExport implements FromCollection, WithHeadings
             ->map(function ($transaccion) {
                 return [
                     'propiedad' => $transaccion->propiedad->nombre, // Asegúrate de tener el nombre de la propiedad o cualquier campo relevante
-                    'usuario' => $transaccion->user->nombre, // Asegúrate de tener el nombre del usuario
+                    'usuario' => $transaccion->user->name, // Asegúrate de tener el nombre del usuario
                     'agente' => $transaccion->agente->nombre, // Asegúrate de tener el nombre del agente
                     'tipo_transaccion' => $transaccion->tipo_transaccion,
                     'fecha_transaccion' => Carbon::parse($transaccion->fecha_transaccion)->format('Y-m-d'), // Formatea la fecha
