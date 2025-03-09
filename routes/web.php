@@ -113,6 +113,8 @@ Route::post('/logout', function () {
 Route::get('/propiedades/{propiedad}', [PropiedadController::class, 'show'])->name('propiedades.show');
 Route::post('/propiedades/{propiedad}/solicitar-visita', [PropiedadController::class, 'solicitarVisita'])->name('solicitar.visita');
 
+Route::post('/propiedades/{id}/solicitar-visita', [PropiedadController::class, 'solicitarVisita'])->name('propiedades.solicitar-visita');
+
 // Add routes for other controllers
 Route::resource('visitas', VisitaController::class);
 Route::resource('contratos', ContratoController::class);
