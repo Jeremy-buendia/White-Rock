@@ -37,8 +37,8 @@
             <br>
             <nav>
                 <a href="{{ route('agente.login') }}">Acceso Agentes</a>
-                <a href="#">Sobre Nosotros</a>
-                <a href="#">Contacto</a>
+                <a href="{{ route('about') }}">Sobre Nosotros</a>
+                <a href="{{ route('contacto') }}">Contacto</a>
             </nav>
             <br>
             <p>© 2025 White Rock. Todos los derechos reservados.</p>

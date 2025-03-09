@@ -28,6 +28,14 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
+Route::get('/contacto', function () {
+    return view('contact');
+})->name('contacto');
+
+Route::get('/sobre-nosotros', function () {
+    return view('about');
+})->name('about');
+
 Route::prefix('agente')->group(function () {
     Route::get('/registro', [AgenteAuthController::class, 'registroForm'])->name('agente.registro');
     Route::post('/registro', [AgenteAuthController::class, 'registro']);
