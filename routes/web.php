@@ -53,6 +53,11 @@ Route::prefix('agente')->group(function () {
         Route::put('/editar_solicitud/{id}', [VisitaController::class, 'update']);
         Route::delete('/editar_solicitud/{id}', [VisitaController::class, 'destroy'])->name('visita.destroy');
 
+        Route::get('/solicitudes', [VisitaController::class, 'index_all'])->name('solicitud.index_all');
+
+
+        Route::get('/aprobar_solicitud/{id}', [VisitaController::class, 'aceptar'])->name('visita.aceptar');
+
         Route::get('/crear_contrato', [ContratoController::class, 'create'])->name('contrato.crear');
         Route::post('/crear_contrato', [ContratoController::class, 'store'])->name('contrato.store');
         Route::get('/contratos', [ContratoController::class, 'index_all'])->name('contrato.index_all');
@@ -77,7 +82,7 @@ Route::post('/notificar-agente/{idAgente}/{idSolicitud}', [IntegracionController
 Route::post('/enviar-oferta-compra/{idPropiedad}/{montoOferta}', [TransaccionController::class, 'enviarOfertaCompra']);
 
 Route::get('/agente/solicitudes/{idPropiedad}', [IntegracionController::class, 'verSolicitudesVisitasPorPropiedad'])->name('agente.solicitudes_visitas');
-Route::get('/agente/solicitudes', [IntegracionController::class, 'verTodasSolicitudesVisitas'])->name('agente.todas_solicitudes_visitas');
+//Route::get('/agente/solicitudes', [IntegracionController::class, 'verTodasSolicitudesVisitas'])->name('agente.todas_solicitudes_visitas');
 
 Route::get('/inmuebles', [PropiedadController::class, 'index_clientes'])->name('inmuebles.index');
 

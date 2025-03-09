@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\Propiedad;
 use App\Models\AgenteInmobiliario;
 use App\Models\User;
+use Carbon\Carbon;
 
 class VisitaController extends Controller
 {
@@ -92,6 +93,33 @@ class VisitaController extends Controller
     {
         $solicitudVisita = SolicitudVisita::findOrFail($id);
         $solicitudVisita->delete();
-        return redirect()->route('agente.dashboard')->with('success', 'La propiedad ha sido eliminada');
+        return redirect()->route('agente.dashboard')->with('success', 'La solicitud ha sido eliminada');
+    }
+
+    public function aceptar($id)
+    {
+        $solicitudVisita = SolicitudVisita::findOrFail($id);
+        $solicitudVisita->update(['estado' => 'aprobada']);
+        return redirect()->route('agente.dashboard')->with('success', 'La solicitud ha sido aceptada');
+    }
+
+    public function index_all()
+    {
+        $agente = Auth::user();
+        $agenteId = $agente->id;
+
+        /** @var \App\Models\Agente $agente */
+        $visitas = $agente->solicitudesVisitas()
+            ->with(['user', 'propiedad'])
+            ->where(
+                [
+                    ['fecha_propuesta', '>=', Carbon::now()],
+                    ['estado', '=', 'aprobada']
+                ]
+            )
+            ->orderBy('fecha_propuesta', 'asc')
+            ->get();
+
+        return view('visita.index_all', compact('visitas'));
     }
 }

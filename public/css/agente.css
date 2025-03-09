@@ -17,6 +17,9 @@ header{
     font-family: "DM Serif Text", serif;
     display: flex;
     justify-content: space-between;
+    position: fixed;
+    width: 100%;
+    z-index: 1000;
 }
 
 .contenedor{
@@ -24,11 +27,25 @@ header{
     grid-template-columns: 1fr 4fr;
 }
 
+main{
+    padding-top: 47px;
+}
+
 aside {
     max-height: 100%;
     padding-right: 10px;
     border-right: 1px solid black;
+    grid-column: 1fr;
+    position: relative;
+    min-height: 100px;
+}
 
+.solicitudVisitas .item{
+    background-color: rgb(245, 230, 233);
+}
+
+aside .item{
+    background-color: rgb(222, 241, 235);
 }
 
 footer{
@@ -42,8 +59,13 @@ section{
     padding-left: 20px;
 }
 
-aside .mini-header{
-    background-color: white;
+.aside-mini-header{
+    display: flex;
+    justify-content: space-between;
+    position: sticky; /* Ahora es sticky */
+    top: 0;          /* Se "pega" a la parte superior del aside */
+    background-color: white; /*To avoid traspassing*/
+    z-index: 1;
 }
 
 .mini-header{
@@ -61,8 +83,11 @@ aside .mini-header{
     gap: 20px;
 }
 
-.item{
+.inmuebles .item{
     background-color: beige;
+}
+
+.item{
     padding: 20px;
     margin-bottom: 15px;
     display: flex;
@@ -77,22 +102,33 @@ aside .mini-header{
 }
 
 .truncate {
-    white-space: nowrap; /* Evita que el texto se envuelva a la siguiente línea */
-    overflow: hidden;     /* Oculta el texto que excede el ancho del contenedor */
-    text-overflow: ellipsis; /* Muestra los puntos suspensivos ("...") */
-    width: 250px;         /* Define un ancho para el contenedor (ajusta este valor) */
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 250px;
 }
 
 .prox-visitas{
     display: none;
 }
 
+.contenedor-unico{
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 20px;
+    padding: 20px;
+}
+
+.contenedor-unico .item{
+    background-color: rgb(222, 241, 235);
+}
+
 @media (max-width:1645px){
     .truncate {
-        white-space: nowrap; /* Evita que el texto se envuelva a la siguiente línea */
-        overflow: hidden;     /* Oculta el texto que excede el ancho del contenedor */
-        text-overflow: ellipsis; /* Muestra los puntos suspensivos ("...") */
-        width: 200px;         /* Define un ancho para el contenedor (ajusta este valor) */
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        width: 200px;
     }
 }
 
@@ -122,8 +158,8 @@ aside .mini-header{
     }
 
     .truncate {
-        text-overflow:ellipsis; /* Muestra los puntos suspensivos ("...") */
-        width: 300px;         /* Define un ancho para el contenedor (ajusta este valor) */
+        text-overflow:ellipsis;
+        width: 300px;
     }
 }
 

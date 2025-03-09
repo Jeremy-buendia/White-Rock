@@ -34,7 +34,7 @@ class AgenteInmobiliarioController extends Controller
                 ]
             )
             ->orderBy('fecha_propuesta', 'asc')
-            ->take(3)
+            ->take(2)
             ->get();
 
         /** @var \App\Models\Agente $agente */

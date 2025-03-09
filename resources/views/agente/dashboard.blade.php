@@ -2,12 +2,11 @@
     <main class="contenedor container-fluid">
         <a href="" class="prox-visitas">Ver Próximas visitas</a>
         <aside>
-            <div class="mini-header position-fixed">
+            <div class="aside-mini-header">
                 <h3>Próximas Visitas</h3>
                 <a href="{{ route('agente.solicitar_visita') }}">Crear nueva visita</a>
             </div>
-            <br>
-            <br>
+
             @foreach ($visitas as $visita)
                 <div class="item">
                     <div class="datos">
@@ -31,8 +30,12 @@
                 </div>
             @endforeach
 
-            @if (count($visitas) >= 3)
-                <a href="#">Ver todas</a>
+            @if (count($visitas) == 0)
+                <p>No hay próximas visitas</p>
+            @endif
+
+            @if (count($visitas) >= 2)
+                <a href="/agente/solicitudes">Ver todas</a>
             @endif
         </aside>
         <section>
@@ -66,13 +69,17 @@
                             </div>
                         </div>
                     @endforeach
+
+                    @if (count($inmuebles) == 0)
+                        <p>No hay inmuebles</p>
+                    @endif
                 </div>
                 <div class="d-flex mx-5">
                     {{ $inmuebles->links('pagination::bootstrap-5') }}
                 </div> <!-- Para mostrar los enlaces de paginación -->
 
             </div>
-            <div class="visitas">
+            <div class="solicitudVisitas">
                 <div class="mini-header">
                     <h3>Solicitudes de Visita</h3>
                 </div>
@@ -91,8 +98,8 @@
                             </div>
 
                             <div class="btnItem">
-                                <a href="{{ route('visita.editar', $solicitudVisita->id) }}"
-                                    class="btn btn-primary">Editar</a>
+                                <a href="{{ route('visita.aceptar', $solicitudVisita->id) }}"
+                                    class="btn btn-outline-success">Aprobar</a>
                                 <form action="{{ route('visita.destroy', $solicitudVisita->id) }}" method="POST"
                                     onsubmit="confirmarEliminacion(event)">
                                     @csrf
@@ -102,6 +109,10 @@
                             </div>
                         </div>
                     @endforeach
+
+                    @if (count($solicitudVisitas) == 0)
+                        <p>No hay solicitudes de visita</p>
+                    @endif
                 </div>
                 <div class="d-flex mx-5">
                     {{ $solicitudVisitas->links('pagination::bootstrap-5') }}
