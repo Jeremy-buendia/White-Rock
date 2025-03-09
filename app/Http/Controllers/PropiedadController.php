@@ -99,39 +99,49 @@ class PropiedadController extends Controller
 
     public function index_clientes(Request $request)
     {
-        $query = Propiedad::query()->where('estado', 'disponible');
+        try {
+            $query = Propiedad::query()->where('estado', 'disponible');
 
-        if ($request->has('categoria')) {
-            $query->where('tipo_propiedad', $request->input('categoria'));
-        }
-
-        if ($request->has('orden')) {
-            switch ($request->input('orden')) {
-                case 'mas_grande':
-                    $query->orderBy('tamano', 'desc');
-                    break;
-                case 'mas_chica':
-                    $query->orderBy('tamano', 'asc');
-                    break;
-                case 'mas_cara':
-                    $query->orderBy('precio', 'desc');
-                    break;
-                case 'mas_barata':
-                    $query->orderBy('precio', 'asc');
-                    break;
-                case 'recientes':
-                    $query->orderBy('created_at', 'desc')->take(3);
-                    break;
+            if ($request->has('categoria')) {
+                $query->where('tipo_propiedad', $request->input('categoria'));
             }
+
+            if ($request->has('orden')) {
+                switch ($request->input('orden')) {
+                    case 'mas_grande':
+                        $query->orderBy('tamano', 'desc');
+                        break;
+                    case 'mas_chica':
+                        $query->orderBy('tamano', 'asc');
+                        break;
+                    case 'mas_cara':
+                        $query->orderBy('precio', 'desc');
+                        break;
+                    case 'mas_barata':
+                        $query->orderBy('precio', 'asc');
+                        break;
+                    case 'recientes':
+                        $query->orderBy('created_at', 'desc')->take(3);
+                        break;
+                }
+            }
+
+            $inmuebles = $query->get();
+            $categorias = Propiedad::select('tipo_propiedad')->distinct()->get();
+
+            // Obtener las tres propiedades más recientes
+            $recientes = Propiedad::where('estado', 'disponible')->orderBy('created_at', 'desc')->take(3)->get();
+
+            // Marcar las propiedades recientes
+            foreach ($inmuebles as $inmueble) {
+                $inmueble->es_reciente = $recientes->contains($inmueble);
+            }
+
+            return view('propiedades.index', compact('inmuebles', 'categorias', 'recientes'));
+        } catch (\Exception $e) {
+            Log::error('Error al obtener las propiedades: ' . $e->getMessage());
+            return redirect()->back()->with('error', 'Error al obtener las propiedades. Por favor, inténtelo de nuevo.');
         }
-
-        $inmuebles = $query->get();
-        $categorias = Propiedad::select('tipo_propiedad')->distinct()->get();
-
-        // Obtener las tres propiedades más recientes
-        $recientes = Propiedad::where('estado', 'disponible')->orderBy('created_at', 'desc')->take(3)->get();
-
-        return view('propiedades.index', compact('inmuebles', 'categorias', 'recientes'));
     }
 
     // Método para mostrar la vista de edición de una propiedad específica
