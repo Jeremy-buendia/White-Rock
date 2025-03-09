@@ -26,7 +26,7 @@ class AgenteAuthController extends Controller
     public function registro(Request $request): RedirectResponse
     {
         $request->validate([
-            'oficina_id' => ['required', 'integer', 'exists:oficinas,id'],
+            'id_oficina' => ['required', 'integer', 'exists:oficinas,id'],
             'nombre' => ['required', 'string', 'max:255'],
             'apellido' => ['required', 'string', 'max:255'],
             'correo_electronico' => [
