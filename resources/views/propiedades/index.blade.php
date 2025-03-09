@@ -16,6 +16,14 @@
                     </a>
                 @endforeach
             </div>
+            <h4 class="fw-bold text-white text-center p-3 rounded mt-4" style="background: #222;">Subcategorías</h4>
+            <div class="d-flex flex-column gap-2">
+                <a href="{{ route('inmuebles.index', ['orden' => 'mas_grande']) }}" class="btn {{ request('orden') == 'mas_grande' ? 'btn-dark' : 'btn-outline-dark' }}">Más Grande</a>
+                <a href="{{ route('inmuebles.index', ['orden' => 'mas_chica']) }}" class="btn {{ request('orden') == 'mas_chica' ? 'btn-dark' : 'btn-outline-dark' }}">Más Chica</a>
+                <a href="{{ route('inmuebles.index', ['orden' => 'mas_cara']) }}" class="btn {{ request('orden') == 'mas_cara' ? 'btn-dark' : 'btn-outline-dark' }}">Más Cara</a>
+                <a href="{{ route('inmuebles.index', ['orden' => 'mas_barata']) }}" class="btn {{ request('orden') == 'mas_barata' ? 'btn-dark' : 'btn-outline-dark' }}">Más Barata</a>
+                <a href="{{ route('inmuebles.index', ['orden' => 'recientes']) }}" class="btn {{ request('orden') == 'recientes' ? 'btn-dark' : 'btn-outline-dark' }}">Recientes</a>
+            </div>
         </div>
 
         <!-- Sección de Inmuebles -->
@@ -26,7 +34,7 @@
                 @foreach($inmuebles as $inmueble)
                     <div class="col">
                         <div class="card border-0 shadow-sm rounded overflow-hidden position-relative" style="background: #111; color: #fff;">
-                            @if($inmueble->created_at > now()->subDays(30))
+                            @if($recientes->contains($inmueble))
                                 <span class="badge bg-success position-absolute top-0 start-0 m-2">Nueva</span>
                             @endif
                             @if($inmueble->fotografias->count() > 1)

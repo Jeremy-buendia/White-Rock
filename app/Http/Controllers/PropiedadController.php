@@ -76,12 +76,41 @@ class PropiedadController extends Controller
         return view('propiedad.view', compact('propiedad', 'imagenes'));
     }
 
-    public function index_clientes()
+    public function index_clientes(Request $request)
     {
-        $inmuebles = Propiedad::where('estado', 'disponible')->get();
+        $query = Propiedad::query()->where('estado', 'disponible');
+
+        if ($request->has('categoria')) {
+            $query->where('tipo_propiedad', $request->input('categoria'));
+        }
+
+        if ($request->has('orden')) {
+            switch ($request->input('orden')) {
+                case 'mas_grande':
+                    $query->orderBy('tamano', 'desc');
+                    break;
+                case 'mas_chica':
+                    $query->orderBy('tamano', 'asc');
+                    break;
+                case 'mas_cara':
+                    $query->orderBy('precio', 'desc');
+                    break;
+                case 'mas_barata':
+                    $query->orderBy('precio', 'asc');
+                    break;
+                case 'recientes':
+                    $query->orderBy('created_at', 'desc')->take(3);
+                    break;
+            }
+        }
+
+        $inmuebles = $query->get();
         $categorias = Propiedad::select('tipo_propiedad')->distinct()->get();
 
-        return view('propiedades.index', compact('inmuebles', 'categorias'));
+        // Obtener las tres propiedades más recientes
+        $recientes = Propiedad::where('estado', 'disponible')->orderBy('created_at', 'desc')->take(3)->get();
+
+        return view('propiedades.index', compact('inmuebles', 'categorias', 'recientes'));
     }
 
     public function edit($id)
