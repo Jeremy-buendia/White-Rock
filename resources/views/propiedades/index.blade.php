@@ -58,7 +58,18 @@
                                 <p class="fw-bold fs-5 text-light">{{ number_format($inmueble->precio, 2) }} €</p>
                                 <p class="text-secondary">{{ ucfirst($inmueble->tipo_propiedad) }}</p>
                                 
-                                <!-- Verificamos si la ruta está definida antes de usarla -->
+                                <!-- Botón para solicitar una visita -->
+                                @inject('solicitudVisita', 'App\Models\SolicitudVisita')
+                                @if(!$solicitudVisita::where('propiedad_id', $inmueble->id)->where('user_id', Auth::id())->exists())
+                                    <form action="{{ route('solicitar.visita', ['propiedad' => $inmueble->id]) }}" method="POST">
+                                        @csrf
+                                        <button type="submit" class="btn btn-outline-light w-100 mb-2">Solicitar Visita</button>
+                                    </form>
+                                @else
+                                    <p class="text-success mb-2">Visita solicitada</p>
+                                @endif
+
+                                <!-- Botón para ver detalles -->
                                 @if(Route::has('propiedades.show'))
                                     <a href="{{ route('propiedades.show', ['propiedad' => $inmueble->id]) }}" class="btn btn-outline-light w-100">Ver Detalles</a>
                                 @else

@@ -4,7 +4,6 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use App\Models\FotografiaPropiedad;
 
 class Propiedad extends Model
 {
@@ -14,11 +13,11 @@ class Propiedad extends Model
 
     protected $fillable = [
         'nombre',
-        'direccion',
-        'tipo_propiedad',
-        'precio',
-        'tamano',
         'descripcion',
+        'precio',
+        'tipo_propiedad',
+        'direccion',
+        'tamano',
         'estado',
         'oficina_id'
     ];

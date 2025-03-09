@@ -9,6 +9,8 @@ use App\Models\Propiedad;
 use App\Models\FotografiaPropiedad;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use App\Models\SolicitudVisita;
+use App\Models\AgenteInmobiliario;
 
 class PropiedadController extends Controller
 {
@@ -158,6 +160,34 @@ class PropiedadController extends Controller
 
     public function show(Propiedad $propiedad)
     {
+        // Verificar si ya se ha solicitado una visita para esta propiedad
+        $propiedad->visita_solicitada = SolicitudVisita::where('propiedad_id', $propiedad->id)
+                                                        ->where('user_id', Auth::id())
+                                                        ->exists();
         return view('propiedades.show', compact('propiedad'));
+    }
+
+    public function solicitarVisita(Request $request, Propiedad $propiedad)
+    {
+        // Verificar si ya se ha solicitado una visita para esta propiedad
+        if (SolicitudVisita::where('propiedad_id', $propiedad->id)
+                           ->where('user_id', Auth::id())
+                           ->exists()) {
+            return redirect()->route('propiedades.show', $propiedad)->with('visita_solicitada', true);
+        }
+
+        // Obtener un agente aleatorio
+        $agente = AgenteInmobiliario::inRandomOrder()->first();
+
+        // Crear la solicitud de visita
+        SolicitudVisita::create([
+            'propiedad_id' => $propiedad->id,
+            'user_id' => Auth::id(),
+            'agente_id' => $agente->id,
+            'estado' => 'pendiente',
+            'fecha_solicitud' => now(),
+        ]);
+
+        return redirect()->route('propiedades.show', $propiedad)->with('visita_solicitada', true);
     }
 }
