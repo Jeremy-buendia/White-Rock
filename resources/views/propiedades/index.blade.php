@@ -71,10 +71,7 @@
                                 <!-- Botón para solicitar una visita -->
                                 @inject('solicitudVisita', 'App\Models\SolicitudVisita')
                                 @if(!$solicitudVisita::where('propiedad_id', $inmueble->id)->where('user_id', Auth::id())->exists())
-                                    <form id="solicitarVisitaForm-{{ $inmueble->id }}" action="{{ route('propiedades.solicitar-visita', ['id' => $inmueble->id]) }}" method="POST" style="display: none;">
-                                        @csrf
-                                    </form>
-                                    <button type="button" class="btn btn-outline-light w-100 mb-1 btn-hover-green" style="padding: 0.5rem;" onclick="document.getElementById('solicitarVisitaForm-{{ $inmueble->id }}').submit();">Solicitar Visita</button>
+                                    <button type="button" class="btn btn-outline-light w-100 mb-1 btn-hover-green" style="padding: 0.5rem;" data-bs-toggle="modal" data-bs-target="#solicitarVisitaModal-{{ $inmueble->id }}">Solicitar Visita</button>
                                 @else
                                     <p class="text-success mb-1">Visita solicitada</p>
                                 @endif
@@ -85,6 +82,28 @@
                                 @else
                                     <button class="btn btn-outline-secondary w-100" disabled>Detalles no disponibles</button>
                                 @endif
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Modal para solicitar visita -->
+                    <div class="modal fade" id="solicitarVisitaModal-{{ $inmueble->id }}" tabindex="-1" aria-labelledby="solicitarVisitaModalLabel-{{ $inmueble->id }}" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="solicitarVisitaModalLabel-{{ $inmueble->id }}">Solicitar Visita</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <form id="solicitarVisitaForm-{{ $inmueble->id }}" action="{{ route('propiedades.solicitar-visita', ['id' => $inmueble->id]) }}" method="POST">
+                                        @csrf
+                                        <div class="mb-3">
+                                            <label for="fecha_propuesta-{{ $inmueble->id }}" class="form-label">Fecha Propuesta</label>
+                                            <input type="date" class="form-control" id="fecha_propuesta-{{ $inmueble->id }}" name="fecha_propuesta" required>
+                                        </div>
+                                        <button type="submit" class="btn btn-primary">Enviar Solicitud</button>
+                                    </form>
+                                </div>
                             </div>
                         </div>
                     </div>

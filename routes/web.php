@@ -13,7 +13,6 @@ use App\Http\Controllers\AgenteInmobiliarioController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Middleware\AuthenticateAgente;
-use App\Http\Controllers\ExportController;
 
 Route::get('/', [PropiedadController::class, 'index_home'])->name('home');
 
@@ -84,8 +83,6 @@ Route::prefix('agente')->group(function () {
         Route::get('/transaccion', [TransaccionController::class, 'index_all'])->name('transaccion.index_all');
         Route::get('/transaccion/{id}', [TransaccionController::class, 'index'])->name('transaccion.index');
 
-        Route::get('exportar-transacciones', [ExportController::class, 'export'])->name('transaccion.export');
-
         //Sacar datos tabla relacionada
         // Route::get('/solicitudes/{idPropiedad}', function ($idPropiedad) {
         //     return view('agente.solicitudes_visitas', ['idPropiedad' => $idPropiedad]);
@@ -114,7 +111,6 @@ Route::post('/logout', function () {
 })->name('logout');
 
 Route::get('/propiedades/{propiedad}', [PropiedadController::class, 'show'])->name('propiedades.show');
-Route::post('/propiedades/{propiedad}/solicitar-visita', [PropiedadController::class, 'solicitarVisita'])->name('solicitar.visita');
 
 Route::post('/propiedades/{id}/solicitar-visita', [PropiedadController::class, 'solicitarVisita'])->name('propiedades.solicitar-visita');
 

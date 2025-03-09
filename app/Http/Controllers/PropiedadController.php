@@ -257,6 +257,10 @@ class PropiedadController extends Controller
     // Método para solicitar una visita a una propiedad específica
     public function solicitarVisita(Request $request, $id)
     {
+        $request->validate([
+            'fecha_propuesta' => 'required|date|after:today',
+        ]);
+
         try {
             // Verificamos si ya se ha solicitado una visita para esta propiedad
             if (SolicitudVisita::where('propiedad_id', $id)
@@ -268,6 +272,10 @@ class PropiedadController extends Controller
 
             // Obtenemos un agente aleatorio
             $agente = AgenteInmobiliario::inRandomOrder()->first();
+            if (!$agente) {
+                Log::error('No se encontró un agente inmobiliario.');
+                return redirect()->back()->with('error', 'No se encontró un agente inmobiliario.');
+            }
 
             // Creamos la solicitud de visita
             SolicitudVisita::create([
@@ -276,12 +284,13 @@ class PropiedadController extends Controller
                 'agente_id' => $agente->id,
                 'estado' => 'pendiente',
                 'fecha_solicitud' => now(),
+                'fecha_propuesta' => $request->fecha_propuesta,
             ]);
 
             // Redirigimos con un mensaje de éxito en la sesión
             return redirect()->back()->with('success', 'Visita solicitada correctamente');
         } catch (\Exception $e) {
-            Log::error($e);
+            Log::error('Error al solicitar la visita: ' . $e->getMessage());
             return redirect()->back()->with('error', 'Error al solicitar la visita. Por favor, inténtalo de nuevo.');
         }
     }
