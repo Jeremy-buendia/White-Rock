@@ -13,6 +13,7 @@ use App\Http\Controllers\AgenteInmobiliarioController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Middleware\AuthenticateAgente;
+use App\Http\Controllers\ExportController;
 
 Route::get('/', [PropiedadController::class, 'index_home'])->name('home');
 
@@ -82,6 +83,8 @@ Route::prefix('agente')->group(function () {
         Route::post('/crear_transaccion', [TransaccionController::class, 'store'])->name('transaccion.store');
         Route::get('/transaccion', [TransaccionController::class, 'index_all'])->name('transaccion.index_all');
         Route::get('/transaccion/{id}', [TransaccionController::class, 'index'])->name('transaccion.index');
+
+        Route::get('export-transacciones', [ExportController::class, 'export']);
 
         //Sacar datos tabla relacionada
         // Route::get('/solicitudes/{idPropiedad}', function ($idPropiedad) {
