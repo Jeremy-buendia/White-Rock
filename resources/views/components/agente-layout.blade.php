@@ -24,7 +24,7 @@
 <body class="font-sans text-gray-900 antialiased">
     <header>
         <h4><a href="{{ route('agente.dashboard') }}">White Rock</a></h4>
-        <h4><a href="{{ route('agente.oficina', $agenteId) }}">Oficina</a></h4>
+        <h4><a href="{{ route('agente.oficina') }}">Oficina</a></h4>
     </header>
 
     <div class="">

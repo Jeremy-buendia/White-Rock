@@ -2,17 +2,18 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 
 class OficinaController extends Controller
 {
-    // public function index($id)
-    // {
-    //     $oficina = Contrato::findOrFail($id);
+    public function index()
+    {
+        $agente = Auth::user();
 
-    //     $usuario = $contrato->user()->first();
-    //     $propiedad = $contrato->propiedad()->first();
+        /** @var \App\Models\Agente $agente */
+        $oficina = $agente->oficina()->where(['id' => $agente->oficina_id])->first();
 
-    //     return view('contrato.index', compact('contrato', 'usuario', 'propiedad'));
-    // }
+        return view('oficina.index', compact('oficina'));
+    }
 }
