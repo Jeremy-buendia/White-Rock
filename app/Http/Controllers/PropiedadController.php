@@ -255,15 +255,15 @@ class PropiedadController extends Controller
     }
 
     // Método para solicitar una visita a una propiedad específica
-    public function solicitarVisita(Request $request, Propiedad $propiedad)
+    public function solicitarVisita(Request $request, $id)
     {
         try {
             // Verificamos si ya se ha solicitado una visita para esta propiedad
-            if (SolicitudVisita::where('propiedad_id', $propiedad->id)
+            if (SolicitudVisita::where('propiedad_id', $id)
                 ->where('user_id', Auth::id())
                 ->exists()
             ) {
-                return response()->json(['message' => 'Visita ya solicitada'], 400);
+                return redirect()->back()->with('error', 'Visita ya solicitada');
             }
 
             // Obtenemos un agente aleatorio
@@ -271,18 +271,18 @@ class PropiedadController extends Controller
 
             // Creamos la solicitud de visita
             SolicitudVisita::create([
-                'propiedad_id' => $propiedad->id,
+                'propiedad_id' => $id,
                 'user_id' => Auth::id(),
                 'agente_id' => $agente->id,
                 'estado' => 'pendiente',
                 'fecha_solicitud' => now(),
             ]);
 
-            // Devolvemos una respuesta JSON con un mensaje de éxito
-            return response()->json(['message' => 'Visita solicitada correctamente']);
+            // Redirigimos con un mensaje de éxito en la sesión
+            return redirect()->back()->with('success', 'Visita solicitada correctamente');
         } catch (\Exception $e) {
             Log::error($e);
-            return response()->json(['message' => 'Error al solicitar la visita. Por favor, inténtalo de nuevo.']);
+            return redirect()->back()->with('error', 'Error al solicitar la visita. Por favor, inténtalo de nuevo.');
         }
     }
 
