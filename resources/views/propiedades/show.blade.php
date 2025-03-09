@@ -6,13 +6,14 @@
         <div class="col-lg-9">
             <h3 class="fw-bold text-white text-center p-3 rounded mb-3" style="background: #333;">Detalles de la Propiedad</h3>
             <div class="card border-0 shadow-sm rounded overflow-hidden position-relative" style="background: #111; color: #fff;">
-                <div class="card-header">
-                    <h3>{{ $propiedad->nombre }}</h3>
+                <div class="card-header text-center">
+                    <h1 class="fw-bold">{{ $propiedad->nombre }}</h1>
                 </div>
                 <div class="card-body">
                     <p><strong>Descripción:</strong> {{ $propiedad->descripcion }}</p>
-                    <p><strong>Precio:</strong> {{ number_format($propiedad->precio, 2) }} €</p>
-                    <p><strong>Tipo de Propiedad:</strong> {{ ucfirst($propiedad->tipo_propiedad) }}</p>
+                    <p><strong>Tipo de Propiedad:</strong> {{ ucfirst($propiedad->tipo_propiedad) }} - <strong>Tamaño:</strong> {{ $propiedad->tamano }} m²</p>
+                    <p><strong>Dirección:</strong> {{ $propiedad->direccion }}</p>
+                    <p class="fw-bold fs-3 text-light"><strong>Precio:</strong> {{ number_format($propiedad->precio, 2) }} €</p>
                     @if($propiedad->fotografias->count() > 0)
                         @if($propiedad->fotografias->count() > 1)
                             <div id="carousel-{{ $propiedad->id }}" class="carousel slide" data-bs-ride="carousel">

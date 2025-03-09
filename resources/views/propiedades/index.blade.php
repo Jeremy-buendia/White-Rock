@@ -57,9 +57,8 @@
 
                             <div class="card-body text-center">
                                 <h5 class="fw-bold">{{ $inmueble->nombre }}</h5>
-                                <p class="text-secondary">{{ Str::limit($inmueble->descripcion, 100) }}</p>
+                                <p class="text-secondary">{{ ucfirst($inmueble->tipo_propiedad) }} - {{ $inmueble->tamano }} m²</p>
                                 <p class="fw-bold fs-5 text-light">{{ number_format($inmueble->precio, 2) }} €</p>
-                                <p class="text-secondary">{{ ucfirst($inmueble->tipo_propiedad) }}</p>
                                 
                                 <!-- Botón para solicitar una visita -->
                                 @inject('solicitudVisita', 'App\Models\SolicitudVisita')
