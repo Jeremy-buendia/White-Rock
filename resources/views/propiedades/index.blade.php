@@ -25,7 +25,10 @@
             <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
                 @foreach($inmuebles as $inmueble)
                     <div class="col">
-                        <div class="card border-0 shadow-sm rounded overflow-hidden" style="background: #111; color: #fff;">
+                        <div class="card border-0 shadow-sm rounded overflow-hidden position-relative" style="background: #111; color: #fff;">
+                            @if($inmueble->created_at > now()->subDays(30))
+                                <span class="badge bg-success position-absolute top-0 start-0 m-2">Nueva</span>
+                            @endif
                             @if($inmueble->fotografias->count() > 1)
                                 <div id="carousel-{{ $inmueble->id }}" class="carousel slide" data-bs-ride="carousel">
                                     <div class="carousel-inner">
@@ -61,7 +64,10 @@
                                 <!-- Botón para solicitar una visita -->
                                 @inject('solicitudVisita', 'App\Models\SolicitudVisita')
                                 @if(!$solicitudVisita::where('propiedad_id', $inmueble->id)->where('user_id', Auth::id())->exists())
-                                    <button type="button" class="btn btn-outline-light w-100 mb-1 btn-hover-green" style="padding: 0.5rem;" onclick="solicitarVisita({{ $inmueble->id }})">Solicitar Visita</button>
+                                    <form id="solicitarVisitaForm-{{ $inmueble->id }}" action="{{ route('propiedades.solicitar-visita', ['id' => $inmueble->id]) }}" method="POST" style="display: none;">
+                                        @csrf
+                                    </form>
+                                    <button type="button" class="btn btn-outline-light w-100 mb-1 btn-hover-green" style="padding: 0.5rem;" onclick="document.getElementById('solicitarVisitaForm-{{ $inmueble->id }}').submit();">Solicitar Visita</button>
                                 @else
                                     <p class="text-success mb-1">Visita solicitada</p>
                                 @endif
@@ -81,13 +87,9 @@
     </div>
 </div>
 
-<!-- Formulario oculto para solicitar visita -->
-<form id="solicitarVisitaForm" action="" method="POST" style="display: none;">
-    @csrf
-</form>
-
 <!-- Modal de confirmación -->
-<div class="modal fade" id="visitaModal" tabindex="-1" aria-labelledby="visitaModalLabel" aria-hidden="true">
+@if(session('success'))
+<div class="modal fade show" id="visitaModal" tabindex="-1" aria-labelledby="visitaModalLabel" aria-hidden="true" style="display: block;">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -95,7 +97,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" onclick="location.reload();"></button>
             </div>
             <div class="modal-body">
-                Se ha solicitado la visita correctamente. Uno de nuestros agentes se pondrá en contacto contigo para concretar día y hora.
+                {{ session('success') }}
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" onclick="location.reload();">Cerrar</button>
@@ -103,48 +105,5 @@
         </div>
     </div>
 </div>
-
-<!-- Estilos personalizados -->
-<style>
-    .btn-hover-green:hover {
-        background-color: #28a745 !important;
-        color: white !important;
-        border-color: #28a745 !important;
-    }
-</style>
-
-<script>
-    function solicitarVisita(propiedadId) {
-        var form = document.getElementById('solicitarVisitaForm');
-        var actionUrl = '/propiedades/' + propiedadId + '/solicitar-visita';
-        var token = document.querySelector('input[name="_token"]').value;
-
-        fetch(actionUrl, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'X-CSRF-TOKEN': token
-            },
-            body: JSON.stringify({})
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.message === 'Visita solicitada correctamente') {
-                var visitaModal = new bootstrap.Modal(document.getElementById('visitaModal'));
-                visitaModal.show();
-            } else {
-                alert(data.message);
-            }
-        })
-        .catch(error => console.error('Error:', error));
-    }
-
-    document.addEventListener('DOMContentLoaded', function() {
-        @if(session('visita_solicitada'))
-            var visitaModal = new bootstrap.Modal(document.getElementById('visitaModal'));
-            visitaModal.show();
-        @endif
-    });
-</script>
-
+@endif
 @endsection

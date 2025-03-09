@@ -161,13 +161,16 @@ class PropiedadController extends Controller
         return view('propiedades.show', compact('propiedad'));
     }
 
-    public function solicitarVisita(Request $request, Propiedad $propiedad)
+    public function solicitarVisita(Request $request, $id)
     {
+        // Verificar si el usuario está autenticado
+        if (!Auth::check()) {
+            return redirect()->back()->with('error', 'Debes iniciar sesión para solicitar una visita.');
+        }
+
         // Verificar si ya se ha solicitado una visita para esta propiedad
-        if (SolicitudVisita::where('propiedad_id', $propiedad->id)
-                           ->where('user_id', Auth::id())
-                           ->exists()) {
-            return response()->json(['message' => 'Visita ya solicitada'], 400);
+        if (SolicitudVisita::where('propiedad_id', $id)->where('user_id', Auth::id())->exists()) {
+            return redirect()->back()->with('error', 'Ya has solicitado una visita para esta propiedad.');
         }
 
         // Obtener un agente aleatorio
@@ -175,22 +178,23 @@ class PropiedadController extends Controller
 
         // Crear la solicitud de visita
         SolicitudVisita::create([
-            'propiedad_id' => $propiedad->id,
+            'propiedad_id' => $id,
             'user_id' => Auth::id(),
             'agente_id' => $agente->id,
             'estado' => 'pendiente',
             'fecha_solicitud' => now(),
         ]);
 
-        return response()->json(['message' => 'Visita solicitada correctamente']);
+        return redirect()->back()->with('success', 'Visita solicitada correctamente.');
     }
 
     public function index_home()
     {
-        $recientes = Propiedad::orderBy('created_at', 'desc')->take(5)->get();
-        $masCaras = Propiedad::orderBy('precio', 'desc')->take(5)->get();
-        $masBaratas = Propiedad::orderBy('precio', 'asc')->take(5)->get();
+        $recientes = Propiedad::orderBy('created_at', 'desc')->take(3)->get();
+        $masCaras = Propiedad::orderBy('precio', 'desc')->take(3)->get();
+        $masBaratas = Propiedad::orderBy('precio', 'asc')->take(3)->get();
+        $masGrandes = Propiedad::orderBy('tamano', 'desc')->take(3)->get();
 
-        return view('home', compact('recientes', 'masCaras', 'masBaratas'));
+        return view('home', compact('recientes', 'masCaras', 'masBaratas', 'masGrandes'));
     }
 }
