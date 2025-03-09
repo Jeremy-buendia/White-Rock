@@ -35,6 +35,7 @@
         <div class="container">
             <a href="#" id="volverArriba">Volver arriba</a>
             <br>
+            <br>
             <nav>
                 <a href="{{ route('agente.login') }}">Acceso Agentes</a>
                 <a href="{{ route('about') }}">Sobre Nosotros</a>
