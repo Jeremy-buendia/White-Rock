@@ -1,5 +1,6 @@
 <x-agente-layout>
     <main class="">
+        <a href="{{ route('transaccion.export') }}">Descargar transacciones</a>
         <ul>
             @foreach ($transacciones as $transaccion)
                 <li>

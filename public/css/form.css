@@ -1,0 +1,64 @@
+*{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box; /* Importante para que el padding no aumente el tamaño del elemento */
+}
+
+body{
+    min-height: 100vh;
+    max-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: "DM Serif Text", serif;
+}
+
+.login{
+    display: flex;
+    width: 80%;
+    max-width: 1200px;
+    margin: 0 auto;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.imagen-login{
+    max-height: 100vh;
+    width: 50%;
+    object-fit: cover;
+}
+
+form{
+    width: 50%;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 50px;
+}
+
+form h3 {
+    text-align: center;
+    margin-bottom: 15px;
+}
+
+input{
+    width: 400px;
+    height: 50px;
+}
+
+.iniciar-sesion {
+  background-color: #007bff;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.iniciar-sesion:hover {
+  background-color: #0056b3;
+}

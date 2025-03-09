@@ -125,6 +125,21 @@ section{
     background-color: rgb(222, 241, 235);
 }
 
+.listado-items{
+    border: 1px solid black;
+    padding-left: 0;
+}
+
+.listado-items li{
+    list-style: none;
+    border-bottom: 1px solid black;
+}
+
+.lista-header{
+    background-color: rgb(227, 243, 220);
+    color: black;
+}
+
 @media (max-width:1645px){
     .truncate {
         white-space: nowrap;

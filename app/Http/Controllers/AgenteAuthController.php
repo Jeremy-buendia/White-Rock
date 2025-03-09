@@ -16,6 +16,9 @@ class AgenteAuthController extends Controller
 {
     public function loginForm()
     {
+        if (Auth::guard('agente')->check()) {
+            return redirect()->route('agente.dashboard');
+        }
         return view('agente.login');
     }
 

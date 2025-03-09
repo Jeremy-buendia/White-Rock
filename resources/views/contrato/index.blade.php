@@ -12,5 +12,7 @@
         <div class="contrato">
             {{ $contrato->condiciones }}
         </div>
+
+        <a href=" {{ route('contrato.index_all') }}">Volver</a>
     </main>
 </x-agente-layout>

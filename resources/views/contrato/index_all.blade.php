@@ -1,15 +1,22 @@
 <x-agente-layout>
-    <main class="">
-        <ul>
+    <main class="container-md">
+        <ul class="listado-items">
+            <li class="item lista-header">
+                <h2>Cliente</h2>
+                <br>
+                <h2>Propiedad</h2>
+                <h2></h2>
+            </li>
             @foreach ($contratos as $contrato)
-                <li>
-                    {{ $contrato->user->name }} {{ $contrato->user->apellido }}
+                <li class="item">
+                    <h2>{{ $contrato->user->name }} {{ $contrato->user->apellido }}</h2>
 
                     <br>
 
-                    {{ $contrato->propiedad->nombre }}
+                    <p>{{ $contrato->propiedad->nombre }}</p>
+
+                    <a href="{{ route('contrato.index', $contrato->id) }}">Ver Contrato</a>
                 </li>
-                <a href="{{ route('contrato.index', $contrato->id) }}">Ver Contrato</a>
             @endforeach
         </ul>
     </main>

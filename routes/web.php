@@ -84,7 +84,7 @@ Route::prefix('agente')->group(function () {
         Route::get('/transaccion', [TransaccionController::class, 'index_all'])->name('transaccion.index_all');
         Route::get('/transaccion/{id}', [TransaccionController::class, 'index'])->name('transaccion.index');
 
-        Route::get('export-transacciones', [ExportController::class, 'export']);
+        Route::get('exportar-transacciones', [ExportController::class, 'export'])->name('transaccion.export');
 
         //Sacar datos tabla relacionada
         // Route::get('/solicitudes/{idPropiedad}', function ($idPropiedad) {
