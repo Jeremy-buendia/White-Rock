@@ -11,16 +11,27 @@ use App\Models\AgenteInmobiliario;
 use App\Models\User;
 use Illuminate\Validation\Rule;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Log;
 
 class VisitaController extends Controller
 {
     public function formularioSolicitarVisita()
     {
-        $agente = Auth::user();
+        try {
+            $agente = Auth::user();
 
-        /** @var \App\Models\Agente $agente */
-        $propiedades = $agente->propiedades()->where(['estado' => 'disponible'])->get();
-        return view('visita.crearSolicitudVisita', compact('propiedades'));
+            if (!$agente) {
+                // Manejar el caso donde no hay un usuario autenticado
+                return redirect()->route('login')->with('error', 'Por favor, inicia sesión.');
+            }
+
+            /** @var \App\Models\Agente $agente */
+            $propiedades = $agente->propiedades()->where(['estado' => 'disponible'])->get();
+            return view('visita.crearSolicitudVisita', compact('propiedades'));
+        } catch (\Exception $e) {
+            Log::error('Error en formularioSolicitarVisita: ' . $e->getMessage());
+            return redirect()->route('agente.dashboard')->with('error', 'Ocurrió un error al cargar el formulario de solicitud de visita.');
+        }
     }
 
     // Envía una solicitud de visita a un agente
@@ -51,19 +62,24 @@ class VisitaController extends Controller
             'fecha_propuesta' => ['required', 'date', 'after:now'],
         ]);
 
-        $idCliente = User::findByEmail($request->input('correo_electronico'))->id;
-        $agenteId = Auth::user()->id;
+        try {
+            $idCliente = User::findByEmail($request->input('correo_electronico'))->id;
+            $agenteId = Auth::user()->id;
 
-        SolicitudVisita::create([
-            'propiedad_id' => $request->input('propiedad_id'),
-            'user_id' => $idCliente,
-            'agente_id' => $agenteId,
-            'estado' => 'aprobada',
-            'fecha_solicitud' => now(),
-            'fecha_propuesta' => $request->input('fecha_propuesta')
-        ]);
+            SolicitudVisita::create([
+                'propiedad_id' => $request->input('propiedad_id'),
+                'user_id' => $idCliente,
+                'agente_id' => $agenteId,
+                'estado' => 'aprobada',
+                'fecha_solicitud' => now(),
+                'fecha_propuesta' => $request->input('fecha_propuesta')
+            ]);
 
-        return redirect()->route('agente.dashboard')->with('success', 'La visita ha sido añadida');
+            return redirect()->route('agente.dashboard')->with('success', 'La visita ha sido añadida');
+        } catch (\Exception $e) {
+            Log::error('Error en solicitarVisitaAgente: ' . $e->getMessage());
+            return redirect()->back()->with('error', 'Ocurrió un error al solicitar la visita. Por favor, inténtalo de nuevo.')->withInput();
+        }
     }
 
     // Consulta el estado de una solicitud de visita
@@ -82,70 +98,100 @@ class VisitaController extends Controller
 
     public function edit($id)
     {
-        $solicitudVisita = SolicitudVisita::findOrFail($id);
+        try {
+            $solicitudVisita = SolicitudVisita::findOrFail($id);
 
-        /** @var \App\Models\Agente $agente */
-        $agente = Auth::user();
-        $propiedades = $agente->propiedades()->get();
+            /** @var \App\Models\Agente $agente */
+            $agente = Auth::user();
 
-        $emailCliente = User::findByid($solicitudVisita->user_id)->email;
-        $propiedadVisita = Propiedad::findOrFail($solicitudVisita->propiedad_id);
+            if (!$agente) {
+                return redirect()->route('login')->with('error', 'Por favor, inicia sesión.');
+            }
 
-        return view('visita.update', compact('solicitudVisita', 'propiedades', 'emailCliente', 'propiedadVisita'));
+            $propiedades = $agente->propiedades()->get();
+
+            $emailCliente = User::findByid($solicitudVisita->user_id)->email;
+            $propiedadVisita = Propiedad::findOrFail($solicitudVisita->propiedad_id);
+
+            return view('visita.update', compact('solicitudVisita', 'propiedades', 'emailCliente', 'propiedadVisita'));
+        } catch (\Exception $e) {
+            Log::error('Error en visita.edit (ID ' . $id . '): ' . $e->getMessage());
+            return redirect()->route('agente.dashboard')->with('error', 'No se pudo cargar el formulario de edición de la solicitud de visita.');
+        }
     }
 
     public function update(Request $request, $id)
     {
-        $solicitudVisita = SolicitudVisita::findOrFail($id);
+        try {
+            $solicitudVisita = SolicitudVisita::findOrFail($id);
 
-        $request->validate([
-            'propiedad_id' => ['required', 'integer', 'exists:propiedades,id'],
-            'correo_electronico' => [
-                'required',
-                'string',
-                'lowercase',
-                'email',
-                'max:255',
-                Rule::exists('users', 'email'),
-            ],
-            'fecha_propuesta' => ['required', 'date', 'after:now'],
-        ]);
+            $request->validate([
+                'propiedad_id' => ['required', 'integer', 'exists:propiedades,id'],
+                'correo_electronico' => [
+                    'required',
+                    'string',
+                    'lowercase',
+                    'email',
+                    'max:255',
+                    Rule::exists('users', 'email'),
+                ],
+                'fecha_propuesta' => ['required', 'date', 'after:now'],
+            ]);
 
-        $solicitudVisita->update($request->all());
-        return redirect()->route('agente.dashboard')->with('success', 'La solicitud de visita ha sido actualizada');
+            $solicitudVisita->update($request->all());
+            return redirect()->route('agente.dashboard')->with('success', 'La solicitud de visita ha sido actualizada');
+        } catch (\Exception $e) {
+            Log::error('Error en visita.update (ID ' . $id . '): ' . $e->getMessage());
+            return redirect()->back()->with('error', 'Ocurrió un error al actualizar la solicitud de visita. Por favor, inténtalo de nuevo.')->withInput();
+        }
     }
 
     public function destroy($id)
     {
-        $solicitudVisita = SolicitudVisita::findOrFail($id);
-        $solicitudVisita->delete();
-        return redirect()->route('agente.dashboard')->with('success', 'La solicitud ha sido eliminada');
+        try {
+            $solicitudVisita = SolicitudVisita::findOrFail($id);
+            $solicitudVisita->delete();
+            return redirect()->route('agente.dashboard')->with('success', 'La solicitud ha sido eliminada');
+        } catch (\Exception $e) {
+            Log::error('Error en visita.destroy (ID ' . $id . '): ' . $e->getMessage());
+            return redirect()->route('agente.dashboard')->with('error', 'Ocurrió un error al eliminar la solicitud.');
+        }
     }
 
     public function aceptar($id)
     {
-        $solicitudVisita = SolicitudVisita::findOrFail($id);
-        $solicitudVisita->update(['estado' => 'aprobada']);
-        return redirect()->route('agente.dashboard')->with('success', 'La solicitud ha sido aceptada');
+        try {
+            $solicitudVisita = SolicitudVisita::findOrFail($id);
+            $solicitudVisita->update(['estado' => 'aprobada']);
+            return redirect()->route('agente.dashboard')->with('success', 'La solicitud ha sido aceptada');
+        } catch (\Exception $e) {
+            Log::error('Error en visita.aceptar (ID ' . $id . '): ' . $e->getMessage());
+            return redirect()->route('agente.dashboard')->with('error', 'Ocurrió un error al aceptar la solicitud.');
+        }
     }
 
     public function index_all()
     {
-        $agente = Auth::user();
-        $agenteId = $agente->id;
+        try {
+            $agente = Auth::user();
+            $agenteId = $agente->id;
 
-        /** @var \App\Models\Agente $agente */
-        $visitas = $agente->solicitudesVisitas()
-            ->with(['user', 'propiedad'])
-            ->where(
-                [
-                    ['fecha_propuesta', '>=', Carbon::now()],
-                    ['estado', '=', 'aprobada']
-                ]
-            )
-            ->orderBy('fecha_propuesta', 'asc')
-            ->get();
+            /** @var \App\Models\Agente $agente */
+            $visitas = $agente->solicitudesVisitas()
+                ->with(['user', 'propiedad'])
+                ->where(
+                    [
+                        ['fecha_propuesta', '>=', Carbon::now()],
+                        ['estado', '=', 'aprobada']
+                    ]
+                )
+                ->orderBy('fecha_propuesta', 'asc')
+                ->get();
 
-        return view('visita.index_all', compact('visitas'));
+            return view('visita.index_all', compact('visitas'));
+        } catch (\Exception $e) {
+            Log::error('Error en visita.index_all: ' . $e->getMessage());
+            return redirect()->route('agente.dashboard')->with('error', 'Ocurrió un error al cargar la lista de solicitudes de visita.');
+        }
     }
 }

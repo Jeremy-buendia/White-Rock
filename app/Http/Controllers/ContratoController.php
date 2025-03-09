@@ -15,31 +15,57 @@ class ContratoController extends Controller
 {
     public function index_all()
     {
-        $agente = Auth::user();
-        $agenteId = $agente->id;
+        try {
+            $agente = Auth::user();
 
-        /** @var \App\Models\Agente $agente */
-        $contratos = $agente->contratos()->with(['user', 'propiedad'])->get();
+            if (!$agente) {
+                return redirect()->route('login')->with('error', 'Por favor, inicia sesión.');
+            }
 
-        return view('contrato.index_all', compact('contratos'));
+            $agenteId = $agente->id;
+
+            /** @var \App\Models\Agente $agente */
+            $contratos = $agente->contratos()->with(['user', 'propiedad'])->get();
+
+            return view('contrato.index_all', compact('contratos'));
+        } catch (\Exception $e) {
+            Log::error('Error en index_all: ' . $e->getMessage());
+            return redirect()->route('agente.dashboard')->with('error', 'Ocurrió un error al cargar los contratos.');
+        }
     }
 
     public function index($id)
     {
-        $contrato = Contrato::findOrFail($id);
+        try {
+            $contrato = Contrato::findOrFail($id);
 
-        $usuario = $contrato->user()->first();
-        $propiedad = $contrato->propiedad()->first();
+            $usuario = $contrato->user()->first();
+            $propiedad = $contrato->propiedad()->first();
 
-        return view('contrato.index', compact('contrato', 'usuario', 'propiedad'));
+            return view('contrato.index', compact('contrato', 'usuario', 'propiedad'));
+        } catch (\Exception $e) {
+            Log::error('Error en index (contrato ID ' . $id . '): ' . $e->getMessage()); // Incluye el ID en el mensaje de error
+            return redirect()->route('contratos.index_all')->with('error', 'No se pudo encontrar el contrato.');
+        }
     }
 
     public function create()
     {
-        $agente = Auth::user();
-        /** @var \App\Models\Agente $agente */
-        $propiedades = $agente->propiedades()->where(['estado' => 'disponible'])->get();
-        return view('contrato.create', compact('propiedades'));
+        try {
+            $agente = Auth::user();
+
+            if (!$agente) {
+                // Manejar el caso donde no hay un usuario autenticado
+                return redirect()->route('login')->with('error', 'Por favor, inicia sesión.');
+            }
+
+            /** @var \App\Models\Agente $agente */
+            $propiedades = $agente->propiedades()->where(['estado' => 'disponible'])->get();
+            return view('contrato.create', compact('propiedades'));
+        } catch (\Exception $e) {
+            Log::error('Error en create: ' . $e->getMessage());
+            return redirect()->route('agente.dashboard')->with('error', 'Ocurrió un error al cargar el formulario de creación de contrato.');
+        }
     }
 
     public function store(Request $request)

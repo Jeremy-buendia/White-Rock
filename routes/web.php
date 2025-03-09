@@ -12,6 +12,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\AgenteInmobiliarioController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Middleware\AuthenticateAgente;
 
 Route::get('/', [PropiedadController::class, 'index_home'])->name('home');
 
@@ -35,14 +36,15 @@ Route::get('/sobre-nosotros', function () {
 })->name('about');
 
 Route::prefix('agente')->group(function () {
-    Route::get('/registro', [AgenteAuthController::class, 'registroForm'])->name('agente.registro');
-    Route::post('/registro', [AgenteAuthController::class, 'registro']);
 
     Route::get('/login', [AgenteAuthController::class, 'loginForm'])->name('agente.login');
     Route::post('/login', [AgenteAuthController::class, 'login']);
     Route::post('/logout', [AgenteAuthController::class, 'logout'])->name('agente.logout');
 
     Route::middleware(['auth:agente'])->group(function () {
+        Route::get('/registro', [AgenteAuthController::class, 'registroForm'])->name('agente.registro');
+        Route::post('/registro', [AgenteAuthController::class, 'registro']);
+
         Route::get('/dashboard', [AgenteInmobiliarioController::class, 'dashboard'])->name('agente.dashboard');
 
         Route::get('/oficina', [OficinaController::class, 'index'])->name('agente.oficina');

@@ -35,30 +35,46 @@ class TransaccionController extends Controller
 
     public function index_all()
     {
-        $agente = Auth::user();
-        $agenteId = $agente->id;
+        try {
+            $agente = Auth::user();
+            $agenteId = $agente->id;
 
-        /** @var \App\Models\Agente $agente */
-        $transacciones = $agente->transacciones()->with('user')->get();
+            /** @var \App\Models\Agente $agente */
+            $transacciones = $agente->transacciones()->with('user')->get();
 
-        return view('transaccion.index_all', compact('transacciones'));
+            return view('transaccion.index_all', compact('transacciones'));
+        } catch (\Exception $e) {
+            Log::error('Error en transaccion.index_all: ' . $e->getMessage());
+            return redirect()->route('agente.dashboard')->with('error', 'Ocurrió un error al cargar la lista de transacciones.');
+        }
     }
 
     public function index($id)
     {
-        $transaccion = Transaccion::findOrFail($id);
+        try {
+            $transaccion = Transaccion::findOrFail($id);
 
-        $usuario = $transaccion->user()->first();
+            $usuario = $transaccion->user()->first();
 
-        return view('transaccion.index', compact('transaccion', 'usuario'));
+            return view('transaccion.index', compact('transaccion', 'usuario'));
+        } catch (\Exception $e) {
+            Log::error('Error en transaccion.index (ID ' . $id . '): ' . $e->getMessage());
+            return redirect()->route('transacciones.index_all')->with('error', 'No se pudo encontrar la transacción.');
+        }
     }
 
     public function create()
     {
-        $agente = Auth::user();
-        /** @var \App\Models\Agente $agente */
-        $propiedades = $agente->propiedades()->get();
-        return view('transaccion.create', compact('propiedades'));
+        try {
+            $agente = Auth::user();
+
+            /** @var \App\Models\Agente $agente */
+            $propiedades = $agente->propiedades()->get();
+            return view('transaccion.create', compact('propiedades'));
+        } catch (\Exception $e) {
+            Log::error('Error en transaccion.create: ' . $e->getMessage());
+            return redirect()->route('agente.dashboard')->with('error', 'Ocurrió un error al cargar el formulario de creación de transacción.');
+        }
     }
 
     public function store(Request $request)

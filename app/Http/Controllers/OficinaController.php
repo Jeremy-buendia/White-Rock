@@ -11,12 +11,21 @@ class OficinaController extends Controller
 {
     public function index()
     {
-        $agente = Auth::user();
+        try {
+            $agente = Auth::user();
 
-        /** @var \App\Models\Agente $agente */
-        $oficina = $agente->oficina()->where(['id' => $agente->oficina_id])->first();
+            if (!$agente) {
+                return redirect()->route('login')->with('error', 'Por favor, inicia sesión.');
+            }
 
-        return view('oficina.index', compact('oficina'));
+            /** @var \App\Models\Agente $agente */
+            $oficina = $agente->oficina()->where(['id' => $agente->oficina_id])->first();
+
+            return view('oficina.index', compact('oficina'));
+        } catch (\Exception $e) {
+            Log::error('Error en oficina.index: ' . $e->getMessage());
+            return redirect()->route('agente.dashboard')->with('error', 'Ocurrió un error al cargar la información de la oficina.');
+        }
     }
 
     public function create()
@@ -50,9 +59,14 @@ class OficinaController extends Controller
 
     public function edit($id)
     {
-        $oficina = Oficina::findOrFail($id);
+        try {
+            $oficina = Oficina::findOrFail($id);
 
-        return view('oficina.update', compact('oficina'));
+            return view('oficina.update', compact('oficina'));
+        } catch (\Exception $e) {
+            Log::error('Error en oficina.edit (ID ' . $id . '): ' . $e->getMessage());
+            return redirect()->route('oficina.index')->with('error', 'No se pudo encontrar la oficina.');
+        }
     }
 
     public function update(Request $request, $id)

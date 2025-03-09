@@ -70,25 +70,40 @@ class PropiedadController extends Controller
 
     public function index($id)
     {
-        //FindOrFail nos permite recuperar un cliente por su id y si no lo encuentra nos devuelve un error 404
-        $propiedad = Propiedad::findOrFail($id);
-        $imagenes = $propiedad->fotografias;
-        return view('propiedad.view', compact('propiedad', 'imagenes'));
+        try {
+            //FindOrFail nos permite recuperar un cliente por su id y si no lo encuentra nos devuelve un error 404
+            $propiedad = Propiedad::findOrFail($id);
+            $imagenes = $propiedad->fotografias;
+            return view('propiedad.view', compact('propiedad', 'imagenes'));
+        } catch (\Exception $e) {
+            Log::error('Error en propiedad.index (ID ' . $id . '): ' . $e->getMessage());
+            return redirect()->route('propiedades.index_clientes')->with('error', 'No se pudo encontrar la propiedad.');
+        }
     }
 
     public function index_clientes()
     {
-        $inmuebles = Propiedad::where('estado', 'disponible')->get();
-        $categorias = Propiedad::select('tipo_propiedad')->distinct()->get();
+        try {
+            $inmuebles = Propiedad::where('estado', 'disponible')->get();
+            $categorias = Propiedad::select('tipo_propiedad')->distinct()->get();
 
-        return view('propiedades.index', compact('inmuebles', 'categorias'));
+            return view('propiedades.index', compact('inmuebles', 'categorias'));
+        } catch (\Exception $e) {
+            Log::error('Error en propiedad.index_clientes: ' . $e->getMessage());
+            return redirect()->route('alguna.ruta.de.error')->with('error', 'Ocurrió un error al cargar la lista de propiedades.');
+        }
     }
 
     public function edit($id)
     {
-        $inmueble = Propiedad::findOrFail($id);
-        $imagenes = $inmueble->fotografias;
-        return view('propiedad.update', compact('inmueble', 'imagenes'));
+        try {
+            $inmueble = Propiedad::findOrFail($id);
+            $imagenes = $inmueble->fotografias;
+            return view('propiedad.update', compact('inmueble', 'imagenes'));
+        } catch (\Exception $e) {
+            Log::error('Error en propiedad.edit (ID ' . $id . '): ' . $e->getMessage());
+            return redirect()->route('propiedades.index_clientes')->with('error', 'No se pudo encontrar la propiedad para editar.');
+        }
     }
 
     public function update(Request $request, $id)
@@ -147,17 +162,22 @@ class PropiedadController extends Controller
 
     public function destroy($id)
     {
-        $inmueble = Propiedad::findOrFail($id);
-        $inmueble->delete();
-        return redirect()->route('agente.dashboard')->with('success', 'La propiedad ha sido eliminada');
+        try {
+            $inmueble = Propiedad::findOrFail($id);
+            $inmueble->delete();
+            return redirect()->route('agente.dashboard')->with('success', 'La propiedad ha sido eliminada');
+        } catch (\Exception $e) {
+            Log::error('Error al eliminar propiedad (ID ' . $id . '): ' . $e->getMessage());
+            return redirect()->route('agente.dashboard')->with('error', 'Ocurrió un error al eliminar la propiedad. Por favor, inténtalo de nuevo.');
+        }
     }
 
     public function show(Propiedad $propiedad)
     {
         // Verificar si ya se ha solicitado una visita para esta propiedad
         $propiedad->visita_solicitada = SolicitudVisita::where('propiedad_id', $propiedad->id)
-                                                        ->where('user_id', Auth::id())
-                                                        ->exists();
+            ->where('user_id', Auth::id())
+            ->exists();
         return view('propiedades.show', compact('propiedad'));
     }
 
@@ -165,8 +185,9 @@ class PropiedadController extends Controller
     {
         // Verificar si ya se ha solicitado una visita para esta propiedad
         if (SolicitudVisita::where('propiedad_id', $propiedad->id)
-                           ->where('user_id', Auth::id())
-                           ->exists()) {
+            ->where('user_id', Auth::id())
+            ->exists()
+        ) {
             return response()->json(['message' => 'Visita ya solicitada'], 400);
         }
 

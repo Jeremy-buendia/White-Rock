@@ -10,6 +10,7 @@ use Illuminate\Validation\Rule;
 use Illuminate\Validation\Rules;
 use App\Models\AgenteInmobiliario;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Log;
 
 class AgenteAuthController extends Controller
 {
@@ -43,20 +44,26 @@ class AgenteAuthController extends Controller
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
         ]);
 
-        $agente = AgenteInmobiliario::create([
-            'nombre' => $request->nombre,
-            'apellido' => $request->apellido,
-            'telefono' => $request->telefono,
-            'correo_electronico' => $request->correo_electronico,
-            'direccion' => $request->direccion,
-            'fecha_contratacion' => now(),
-            'password' => Hash::make($request->password),
-            'oficina_id' => $request->id_oficina,
-        ]);
+        try {
+            $agente = AgenteInmobiliario::create([
+                'nombre' => $request->nombre,
+                'apellido' => $request->apellido,
+                'telefono' => $request->telefono,
+                'correo_electronico' => $request->correo_electronico,
+                'direccion' => $request->direccion,
+                'fecha_contratacion' => now(),
+                'password' => Hash::make($request->password),
+                'oficina_id' => $request->id_oficina,
+            ]);
 
-        Auth::login($agente);
+            return redirect()->route('agente.dashboard');
+        } catch (\Exception $e) {
+            Log::error('Error al registrar agente: ' . $e->getMessage());
 
-        return redirect()->route('agente.dashboard');
+            return redirect()->back()->withInput()->withErrors([
+                'message' => 'Ocurrió un error al registrar el agente. Por favor, inténtalo de nuevo.',
+            ]);
+        }
     }
 
 
@@ -72,11 +79,19 @@ class AgenteAuthController extends Controller
             'password' => $request->password,
         ];
 
-        if (Auth::guard('agente')->attempt($credentials)) {
-            return redirect()->route('agente.dashboard');
-        }
+        try {
+            if (Auth::guard('agente')->attempt($credentials)) {
+                return redirect()->route('agente.dashboard');
+            }
 
-        return back()->withErrors(['correo_electronico' => 'Credenciales incorrectas']);
+            return back()->withErrors(['correo_electronico' => 'Credenciales incorrectas']);
+        } catch (\Exception $e) {
+            Log::error('Error al iniciar sesión: ' . $e->getMessage());
+
+            return back()->withInput()->withErrors([
+                'correo_electronico' => 'Ocurrió un error al iniciar sesión. Por favor, inténtalo de nuevo.',
+            ]);
+        }
     }
 
     public function logout(): RedirectResponse
