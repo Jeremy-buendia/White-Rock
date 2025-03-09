@@ -13,9 +13,15 @@
         </ul>
         
         <h2>Correo Electrónico</h2>
-        <p>whiterock@gmail.com</p>
+        <p>whiterockinmobiliaria@gmail.com</p>
 
-        <h2>Dónde Estamos</h2>
+        <h2>Redes Sociales</h2>
+        <ul>
+            <li><a href="https://www.instagram.com/whiterockinmobiliaria" target="_blank">Instagram</a></li>
+            <li><a href="https://www.twitter.com/whiterock" target="_blank">X (Twitter)</a></li>
+        </ul>
+
+        <h2>Dónde Encontrarnos</h2>
         <p>Nos encontramos en C. Poeta Rafael Alberti, 8, 11500 El Puerto de Sta María, Cádiz</p>
         <div style="width: 100%; height: 400px; border: 2px solid black;">
             <iframe 
@@ -27,7 +33,5 @@
                 loading="lazy">
             </iframe>
         </div>
-        <br>
-        <br>
     </div>
 @endsection
