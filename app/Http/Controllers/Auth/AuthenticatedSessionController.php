@@ -14,10 +14,22 @@ class AuthenticatedSessionController extends Controller
     /**
      * Display the login view.
      */
-    public function create(): View
+    public function create(Request $request)
     {
+        // Obtener la URL anterior
+        $previousUrl = url()->previous();
+
+        // Verificar si la URL anterior contiene '/agente'
+        if ($previousUrl && strpos($previousUrl, '/agente') !== false) {
+            // Redirigir al login de agente si la ruta anterior era de agente
+            return redirect()->route('agente.login');
+        }
+
+        // Si la URL anterior no era de agente, devolver la vista del login normal
         return view('auth.login');
     }
+
+
 
     /**
      * Handle an incoming authentication request.
