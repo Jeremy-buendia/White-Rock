@@ -40,8 +40,10 @@ class ProfileController extends Controller
 
         // Actualizar los datos del usuario
         $user->name = $validatedData['name'];
+        $user->apellido = $validatedData['apellido'];
         $user->email = $validatedData['email'];
         $user->telefono = $validatedData['telefono'];
+        $user->direccion = $validatedData['direccion'];
 
         if ($user->isDirty('email')) {
             $user->email_verified_at = null;

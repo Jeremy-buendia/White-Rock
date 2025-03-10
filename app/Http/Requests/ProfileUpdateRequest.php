@@ -17,6 +17,7 @@ class ProfileUpdateRequest extends FormRequest
     {
         return [
             'name' => ['required', 'string', 'max:255'],
+            'apellido' => ['required', 'string', 'max:255'], 
             'email' => [
                 'required',
                 'string',
@@ -28,6 +29,8 @@ class ProfileUpdateRequest extends FormRequest
             'current_password' => 'required_with:password|string',
             'password' => 'nullable|string|min:8|confirmed',
             'telefono' => 'required|string|max:255',
+            'direccion' => ['required', 'string', 'max:255'], 
+            'imagen' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', 
         ];
     }
 }

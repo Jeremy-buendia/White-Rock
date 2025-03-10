@@ -23,6 +23,14 @@
                 </div>
 
                 <div class="mb-3">
+                    <label for="apellido" class="form-label">Apellido</label>
+                    <input type="text" class="form-control" id="apellido" name="apellido" value="{{ old('apellido', $user->apellido) }}" required>
+                    @error('apellido')
+                        <div class="text-danger">{{ $message }}</div>
+                    @enderror
+                </div>
+
+                <div class="mb-3">
                     <label for="email" class="form-label">Correo Electrónico</label>
                     <input type="email" class="form-control" id="email" name="email" value="{{ old('email', $user->email) }}" required>
                     @error('email')
@@ -34,6 +42,14 @@
                     <label for="telefono" class="form-label">Teléfono</label>
                     <input type="text" class="form-control" id="telefono" name="telefono" value="{{ old('telefono', $user->telefono) }}" required>
                     @error('telefono')
+                        <div class="text-danger">{{ $message }}</div>
+                    @enderror
+                </div>
+
+                <div class="mb-3">
+                    <label for="direccion" class="form-label">Dirección</label>
+                    <input type="text" class="form-control" id="direccion" name="direccion" value="{{ old('direccion', $user->direccion) }}" required>
+                    @error('direccion')
                         <div class="text-danger">{{ $message }}</div>
                     @enderror
                 </div>
