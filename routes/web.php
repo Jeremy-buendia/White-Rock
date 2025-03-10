@@ -25,7 +25,7 @@ Route::get('/dashboard', function () {
 Route::get('auth/google', [SocialiteController::class, 'redirectToGoogle'])->name('auth.google');
 Route::get('auth/google/callback', [SocialiteController::class, 'handleGoogleCallback']);
 
-Route::middleware('auth')->group(function () {
+Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::patch('/profile/update', [ProfileController::class, 'update'])->name('profile.update');
@@ -107,9 +107,12 @@ Route::get('/agente/solicitudes/{idPropiedad}', [IntegracionController::class, '
 
 Route::get('/inmuebles', [PropiedadController::class, 'index_clientes'])->name('inmuebles.index');
 
-Route::get('/perfil', [ProfileController::class, 'show'])->name('perfil')->middleware('auth');
-Route::get('/perfil/editar', [ProfileController::class, 'edit'])->name('profile.edit')->middleware('auth');
-Route::patch('/perfil', [ProfileController::class, 'update'])->name('profile.update')->middleware('auth');
+Route::middleware(['auth', 'verified'])->group(function () {
+    Route::get('/perfil', [ProfileController::class, 'show'])->name('perfil');
+    Route::get('/perfil/editar', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('/perfil', [ProfileController::class, 'update'])->name('profile.update');
+});
+
 
 Route::get('/logout', function () {
     Auth::logout();
@@ -118,17 +121,20 @@ Route::get('/logout', function () {
 
 Route::get('/propiedades/{propiedad}', [PropiedadController::class, 'show'])->name('propiedades.show');
 
-Route::post('/propiedades/{id}/solicitar-visita', [PropiedadController::class, 'solicitarVisita'])->name('propiedades.solicitar-visita');
 
 Route::get('/propiedades/{id}', [PropiedadController::class, 'show'])->name('propiedad.show');
 
-Route::delete('/solicitud/{id}/cancelar', [VisitaController::class, 'cancelar'])->name('solicitud.cancelar');
+Route::middleware(['auth', 'verified'])->group(function () {
+    Route::post('/propiedades/{id}/solicitar-visita', [PropiedadController::class, 'solicitarVisita'])->name('propiedades.solicitar-visita');
+    Route::delete('/solicitud/{id}/cancelar', [VisitaController::class, 'cancelar'])->name('solicitud.cancelar');
+});
+
 
 // Add routes for other controllers
-Route::resource('visitas', VisitaController::class);
-Route::resource('contratos', ContratoController::class);
-Route::resource('oficinas', OficinaController::class);
-Route::resource('users', UserController::class);
-Route::resource('agente-inmobiliario', AgenteInmobiliarioController::class);
+// Route::resource('visitas', VisitaController::class);
+// Route::resource('contratos', ContratoController::class);
+// Route::resource('oficinas', OficinaController::class);
+// Route::resource('users', UserController::class);
+// Route::resource('agente-inmobiliario', AgenteInmobiliarioController::class);
 
 require __DIR__ . '/auth.php';

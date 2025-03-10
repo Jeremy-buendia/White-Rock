@@ -177,6 +177,7 @@ section{
     text-align: justify;
     padding: 70px;
     box-shadow: 0px 0px 10px 5px rgba(0, 0, 0, 0.3);
+    font-family: 'Times New Roman', Times, serif;
 }
 
 @media (max-width:1645px){
