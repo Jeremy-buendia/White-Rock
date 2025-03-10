@@ -180,6 +180,10 @@ section{
     font-family: 'Times New Roman', Times, serif;
 }
 
+.img-ofice{
+    width: 100%;
+}
+
 @media (max-width:1645px){
     .truncate {
         white-space: nowrap;
