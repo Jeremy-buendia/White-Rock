@@ -37,6 +37,13 @@
                 </a>
                 @endif
             </div>
+            <br>
+            <!-- Google Login -->
+            <div class="flex items-center justify-center mt-4">
+                <a href="{{ route('auth.google') }}" class="btn btn-primary">
+                    {{ __('Iniciar sesión con Google') }}
+                </a>
+            </div>
         </form>
     </div>
 </x-guest-layout>

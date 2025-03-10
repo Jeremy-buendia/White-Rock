@@ -13,6 +13,7 @@ use App\Http\Controllers\AgenteInmobiliarioController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\ExportController;
+use App\Http\Controllers\Auth\SocialiteController;
 use App\Http\Middleware\AuthenticateAgente;
 
 Route::get('/', [PropiedadController::class, 'index_home'])->name('home');
@@ -20,6 +21,9 @@ Route::get('/', [PropiedadController::class, 'index_home'])->name('home');
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
+
+Route::get('auth/google', [SocialiteController::class, 'redirectToGoogle'])->name('auth.google');
+Route::get('auth/google/callback', [SocialiteController::class, 'handleGoogleCallback']);
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
