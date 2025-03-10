@@ -1,5 +1,5 @@
 @extends('layouts.app')
-
+@vite(['resources/js/confirmar_eliminar.js'])
 @section('content')
 <!-- Contenedor principal -->
 <div class="container-fluid mt-0" style="margin-top: 0 !important;">
