@@ -24,9 +24,9 @@
                         </div>
                     @endif
                 </div>
-                <a href="{{ route('profile.edit') }}" class="btn btn-primary mt-3">Editar</a>
+                <a href="{{ route('profile.edit') }}" class="btn btn-primary mt-3">Modificar</a>
                 <a href="#" class="btn btn-danger mt-3"
-                    onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Salir</a>
+                    onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Cerrar sesion</a>
                 <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                     @csrf
                 </form>
@@ -66,7 +66,7 @@
                                             onsubmit="confirmarEliminacion(event)">
                                             @csrf
                                             @method('DELETE')
-                                            <button type="submit" class="btn btn-outline-danger">Eliminar</button>
+                                            <button type="submit" class="btn btn-outline-danger">Cancelar</button>
                                         </form>
                                     </td>
                                 </tr>
