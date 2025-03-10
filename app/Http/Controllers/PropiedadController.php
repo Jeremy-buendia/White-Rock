@@ -12,9 +12,16 @@ use Illuminate\Support\Facades\Log;
 use App\Models\SolicitudVisita;
 use App\Models\AgenteInmobiliario;
 
+/**
+ * Controlador para la gestión de propiedades inmobiliarias
+ * Maneja el CRUD de propiedades y sus imágenes asociadas
+ */
 class PropiedadController extends Controller
 {
-    // Método para mostrar la vista de creación de una nueva propiedad
+    /**
+     * Muestra el formulario de creación de una nueva propiedad
+     * @return \Illuminate\View\View|\Illuminate\Http\RedirectResponse
+     */
     public function create()
     {
         try {
@@ -25,7 +32,12 @@ class PropiedadController extends Controller
         }
     }
 
-    // Método para almacenar una nueva propiedad en la base de datos
+    /**
+     * Almacena una nueva propiedad en la base de datos
+     * Incluye el procesamiento de imágenes múltiples
+     * @param Request $request Datos del formulario de creación
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function store(Request $request)
     {
         // Validación de los datos recibidos

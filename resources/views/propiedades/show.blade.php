@@ -1,15 +1,20 @@
+{{-- Vista que muestra el detalle de una propiedad individual --}}
 @extends('layouts.app')
 
 @section('content')
+    {{-- Contenedor principal con información detallada de la propiedad --}}
     <div class="container-lg mt-0" style="margin-top: 0 !important;">
         <div class="card border-0 shadow-sm rounded overflow-hidden position-relative">
             <div class="card-header text-center">
                 <h1 class="fw-bold">{{ $propiedad->nombre }}</h1>
             </div>
+            
+            {{-- Carrusel de imágenes de la propiedad --}}
             <div class="card-body">
                 <div class="row">
                     <div class="col-md-4">
                         @if ($propiedad->fotografias->count() > 0)
+                            {{-- Implementación del carrusel si hay múltiples imágenes --}}
                             @if ($propiedad->fotografias->count() > 1)
                                 <div id="carousel-{{ $propiedad->id }}" class="carousel slide" data-bs-ride="carousel">
                                     <div class="carousel-inner">
@@ -36,9 +41,12 @@
                                     style="height: 400px; object-fit: cover;">
                             @endif
                         @else
+                            {{-- Mensaje cuando no hay imágenes disponibles --}}
                             <p>No hay imágenes disponibles para esta propiedad.</p>
                         @endif
                     </div>
+                    
+                    {{-- Información principal y botón de solicitud de visita --}}
                     <div class="col-md-8 d-flex justify-content-center flex-column">
                         <p class="fw-bold fs-3"><strong>Precio:</strong>
                             {{ number_format($propiedad->precio, 2) }} €</p>
@@ -65,7 +73,7 @@
         </div>
     </div>
 
-    <!-- Modal para solicitar visita -->
+    {{-- Modal para solicitud de visitas --}}
     <div class="modal fade" id="solicitarVisitaModal-{{ $propiedad->id }}" tabindex="-1"
         aria-labelledby="solicitarVisitaModalLabel-{{ $propiedad->id }}" aria-hidden="true">
         <div class="modal-dialog">

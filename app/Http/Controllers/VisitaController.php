@@ -13,8 +13,17 @@ use Illuminate\Validation\Rule;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Log;
 
-class VisitaController extends Controller
+/**
+ * Controlador que maneja las funcionalidades relacionadas con las visitas a propiedades
+ * Incluye la gestión de solicitudes de visitas entre clientes y agentes inmobiliarios
+ */
+class VisitaController extends Controller 
 {
+    /**
+     * Muestra el formulario para solicitar una visita
+     * Verifica la autenticación del usuario y obtiene las propiedades disponibles
+     * @return \Illuminate\View\View|\Illuminate\Http\RedirectResponse
+     */
     public function formularioSolicitarVisita()
     {
         try {
@@ -34,7 +43,13 @@ class VisitaController extends Controller
         }
     }
 
-    // Envía una solicitud de visita a un agente
+    /**
+     * Procesa la solicitud de visita enviada por un cliente
+     * @param int $idCliente ID del cliente que solicita la visita
+     * @param int $idPropiedad ID de la propiedad a visitar
+     * @param string $fechaPropuesta Fecha propuesta para la visita
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function solicitarVisita($idCliente, $idPropiedad, $fechaPropuesta)
     {
         $solicitud = new SolicitudVisita();
