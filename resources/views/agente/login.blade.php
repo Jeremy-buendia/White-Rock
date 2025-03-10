@@ -36,7 +36,7 @@
             </div>
             <br>
             <!-- Botón de inicio -->
-            <div class="flex items-center justify-end mt-4">
+            <div class="flex items-center justify-end boton-login">
                 <x-primary-button class="ms-4 iniciar-sesion">
                     {{ __('Iniciar Sesión') }}
                 </x-primary-button>

@@ -36,7 +36,8 @@
 
             <!-- Sección de Inmuebles -->
             <div class="col-lg-9">
-                <h3 class="fw-bold text-white text-center p-3 rounded mb-3" style="background: #333;">Inmuebles Disponibles
+                <h3 class="fw-bold border-bottom p-3 rounded mb-3 mt-2">Inmuebles
+                    Disponibles
                 </h3>
 
                 <div class="row row-cols-1 g-4">
@@ -123,7 +124,7 @@
                                             <div class="mb-3">
                                                 <label for="fecha_propuesta-{{ $inmueble->id }}" class="form-label">Fecha
                                                     Propuesta</label>
-                                                <input type="date" class="form-control"
+                                                <input type="datetime-local" class="form-control"
                                                     id="fecha_propuesta-{{ $inmueble->id }}" name="fecha_propuesta"
                                                     required>
                                             </div>

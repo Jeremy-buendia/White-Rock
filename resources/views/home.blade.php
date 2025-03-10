@@ -114,7 +114,7 @@
                     </div>
                 </div>
             </div>
-            <a href="" class="ver-inmuebles">Ver Inmuebles</a>
+            <a href="{{ route('inmuebles.index') }}" class="ver-inmuebles">Ver Inmuebles</a>
         </div>
     </div>
 

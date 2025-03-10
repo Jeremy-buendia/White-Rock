@@ -12,7 +12,7 @@ body{
 }
 
 main{
-    padding-top: 20px;
+    padding-top: 90px;
 }
 
 .img-header{
@@ -126,11 +126,6 @@ footer nav a{
 }
 
 /*
-.login{
-    display: flex;
-    background-image: url('../img/marmol.jpg');
-}
-
 .login img{
     height: 100vh;
 }

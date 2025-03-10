@@ -29,6 +29,21 @@ body{
     object-fit: cover;
 }
 
+.login{
+    max-height: 80vh;
+
+}
+
+.login img{
+    max-height: 100vh;
+    width: 50%;
+    object-fit: cover;
+}
+
+.boton-login{
+    margin-top: 20px;
+}
+
 form{
     width: 50%;
     padding: 20px;
