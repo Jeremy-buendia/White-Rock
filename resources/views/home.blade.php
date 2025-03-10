@@ -29,9 +29,11 @@
                 <img src="{{ asset('favicon.ico') }}" alt="White Rock Logo" style="width: 200px; height: 200px;">
             </div>
         </div>
+    </div>
 
-        <!-- Sección de propiedades recientemente creadas -->
-        <h2 class="text-center text-white p-3 rounded mb-3" style="background: #444;">Propiedades Recientes</h2>
+    <!-- Sección de propiedades recientemente creadas -->
+    <h2 class="text-center p-3 rounded mb-3">Propiedades Recientes</h2>
+    <div class="micro-propiedades">
         <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
             @foreach ($recientes as $propiedad)
                 <div class="col">
@@ -60,4 +62,60 @@
             @endforeach
         </div>
     </div>
+
+    <div class="container mt-5">
+        <h2 class="text-center mb-4">Lo que dicen nuestros compradores</h2>
+        <div class="row">
+            <div class="col-md-4">
+                <div class="card shadow-sm border-0">
+                    <div class="card-body">
+                        <p class="card-text">"Excelente servicio y atención personalizada. Encontraron la casa perfecta para
+                            mi familia en tiempo récord. Precio asequible y calidad excepcional ¡Recomendables al 100%!"</p>
+                        <div class="d-flex align-items-center mt-3">
+                            <img src="{{ asset('img/p2.jpg') }}" alt="Foto de Juan" class="rounded-circle me-3 img-review"
+                                width="50" height="50">
+                            <div>
+                                <h6 class="mb-0">Juan Pérez</h6>
+                                <small class="text-muted">Comprador</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card shadow-sm border-0">
+                    <div class="card-body">
+                        <p class="card-text">"Muy profesionales y transparentes en todo el proceso. Me guiaron en cada paso
+                            y resolvieron todas mis dudas. ¡Gracias por ayudarme a encontrar mi hogar!"</p>
+                        <div class="d-flex align-items-center mt-3">
+                            <img src="{{ asset('img/p1.jpg') }}" alt="Foto de María" class="rounded-circle me-3 img-review"
+                                width="50" height="50">
+                            <div>
+                                <h6 class="mb-0">José Gómez</h6>
+                                <small class="text-muted">Comprador</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card shadow-sm border-0">
+                    <div class="card-body">
+                        <p class="card-text">"La mejor experiencia que he tenido al comprar una propiedad. Su conocimiento
+                            del mercado y su dedicación son incomparables. ¡Los recomiendo ampliamente!"</p>
+                        <div class="d-flex align-items-center mt-3">
+                            <img src="{{ asset('img/p3.jpg') }}" alt="Foto de Carlos"
+                                class="rounded-circle me-3 img-review" width="50" height="50">
+                            <div>
+                                <h6 class="mb-0">Carlos Rodríguez</h6>
+                                <small class="text-muted">Comprador</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <a href="" class="ver-inmuebles">Ver Inmuebles</a>
+        </div>
+    </div>
+
 @endsection

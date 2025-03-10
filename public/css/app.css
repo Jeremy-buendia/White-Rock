@@ -26,6 +26,29 @@ header h1{
     font-style: italic;
 }
 
+.img-review{
+    object-fit: cover;
+}
+
+.ver-inmuebles{
+    padding: 20px;
+    margin: 20px 0;
+    border-radius: 20px;
+    color: slategray;
+    text-align: center;
+}
+
+.ver-inmuebles:hover{
+    color: black;
+}
+
+.micro-propiedades{
+    width: 100%;
+    background-color: #ccc;
+    margin-bottom: 20px;
+    padding: 0 300px;
+}
+
 header{
     position: fixed;
     width: 100%;
