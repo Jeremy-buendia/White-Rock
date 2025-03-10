@@ -12,7 +12,7 @@ body{
 }
 
 main{
-    padding-top: 100px;
+    padding-top: 20px;
 }
 
 header h1{
@@ -125,7 +125,7 @@ form label{
     border-radius: 10px;
     border:1px solid black;
     width: 93%;
-} */
+}
 
 .iniciar-sesion{
     margin-top: 20px;
