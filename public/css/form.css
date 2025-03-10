@@ -21,6 +21,7 @@ body{
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
     border-radius: 8px;
     overflow: hidden;
+    max-height: 80vh;
 }
 
 .imagen-login{
@@ -29,13 +30,31 @@ body{
     object-fit: cover;
 }
 
-.login{
-    max-height: 80vh;
-
+.login input{
+    max-width: 20vw;
 }
 
 .login img{
-    max-height: 100vh;
+    width: 50%;
+    object-fit: cover;
+}
+
+.register{
+    display: flex;
+    width: 80%;
+    max-width: 1200px;
+    margin: 0 auto;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.register input{
+    max-width: 20vw;
+    height: 4.5vh;
+}
+
+.register img{
     width: 50%;
     object-fit: cover;
 }
