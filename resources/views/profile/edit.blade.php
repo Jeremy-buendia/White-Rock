@@ -10,7 +10,7 @@
             Editar Información del Usuario
         </div>
         <div class="card-body">
-            <form method="POST" action="{{ route('profile.update') }}">
+            <form method="POST" action="{{ route('profile.update') }}" enctype="multipart/form-data">
                 @csrf
                 @method('PATCH')
 
@@ -34,6 +34,14 @@
                     <label for="telefono" class="form-label">Teléfono</label>
                     <input type="text" class="form-control" id="telefono" name="telefono" value="{{ old('telefono', $user->telefono) }}" required>
                     @error('telefono')
+                        <div class="text-danger">{{ $message }}</div>
+                    @enderror
+                </div>
+
+                <div class="mb-3">
+                    <label for="imagen" class="form-label">Imagen de Perfil</label>
+                    <input type="file" class="form-control" id="imagen" name="imagen">
+                    @error('imagen')
                         <div class="text-danger">{{ $message }}</div>
                     @enderror
                 </div>

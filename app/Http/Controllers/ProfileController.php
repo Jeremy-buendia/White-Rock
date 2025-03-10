@@ -27,34 +27,40 @@ class ProfileController extends Controller
     }
 
     public function update(ProfileUpdateRequest $request): RedirectResponse
-{
-    $user = $request->user();
+    {
+        $user = $request->user();
 
-    // Validar los datos
-    $validatedData = $request->validated();
+        // Validar los datos
+        $validatedData = $request->validated();
 
-    // Verificar la contraseña actual
-    if ($request->filled('password') && !Hash::check($request->input('current_password'), $user->password)) {
-        return Redirect::route('profile.edit')->withErrors(['current_password' => 'La contraseña actual no es correcta.']);
+        // Verificar la contraseña actual
+        if ($request->filled('password') && !Hash::check($request->input('current_password'), $user->password)) {
+            return Redirect::route('profile.edit')->withErrors(['current_password' => 'La contraseña actual no es correcta.']);
+        }
+
+        // Actualizar los datos del usuario
+        $user->name = $validatedData['name'];
+        $user->email = $validatedData['email'];
+        $user->telefono = $validatedData['telefono'];
+
+        if ($user->isDirty('email')) {
+            $user->email_verified_at = null;
+        }
+
+        if (!empty($validatedData['password'])) {
+            $user->password = bcrypt($validatedData['password']);
+        }
+
+        // Manejar la subida de la imagen
+        if ($request->hasFile('imagen')) {
+            $path = $request->file('imagen')->store('profile_images', 'public');
+            $user->imagen = $path;
+        }
+
+        $user->save();
+
+        return Redirect::route('profile.edit')->with('status', 'profile-updated');
     }
-
-    // Actualizar los datos del usuario
-    $user->name = $validatedData['name'];
-    $user->email = $validatedData['email'];
-    $user->telefono = $validatedData['telefono'];
-
-    if ($user->isDirty('email')) {
-        $user->email_verified_at = null;
-    }
-
-    if (!empty($validatedData['password'])) {
-        $user->password = bcrypt($validatedData['password']);
-    }
-
-    $user->save();
-
-    return Redirect::route('profile.edit')->with('status', 'profile-updated');
-}
 
     /**
      * Delete the user's account.

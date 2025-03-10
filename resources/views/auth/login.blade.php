@@ -31,18 +31,14 @@
             <br>
             <!-- Forgot Password -->
             <div class="flex items-center justify-end mt-4">
+
+                <a href="" class="inline-block px-6 py-2 text-while bg-red-600 rounded-lg">Iniciar sesion por google</a>
+
                 @if (Route::has('password.request'))
                 <a class="underline text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:focus:ring-offset-gray-800" href="{{ route('password.request') }}">
                     {{ __('¿Olvidaste tu contraseña?') }}
                 </a>
                 @endif
-            </div>
-            <br>
-            <!-- Google Login -->
-            <div class="flex items-center justify-center mt-4">
-                <a href="{{ route('auth.google') }}" class="btn btn-primary">
-                    {{ __('Iniciar sesión con Google') }}
-                </a>
             </div>
         </form>
     </div>
