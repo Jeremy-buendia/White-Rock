@@ -15,6 +15,11 @@ main{
     padding-top: 20px;
 }
 
+.img-header{
+    width: 100%;
+    object-fit: contain;
+}
+
 header h1{
     font-family: "DM Serif Text", serif;
     font-weight: 400;

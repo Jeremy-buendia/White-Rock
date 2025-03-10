@@ -13,11 +13,11 @@ header {
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-main {
+/* main {
     flex: 1;
     display: flex;
-    margin-top: 80px; /* Ajusta este valor según la altura del header */
-}
+    margin-top: 80px;
+} */
 
 .sidebar {
     background-color: rgba(255, 255, 255, 0.8);

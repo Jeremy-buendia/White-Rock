@@ -28,7 +28,7 @@
         </div>
     </header>
 
-    <main class="d-flex">
+    <main>
         @yield('content')
     </main>
 

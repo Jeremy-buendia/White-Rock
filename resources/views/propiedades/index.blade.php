@@ -45,7 +45,7 @@
                             <div class="col-md-5">
 
                                 @if ($inmueble->fotografias->count() > 1)
-                                    <div id="carousel-{{ $inmueble->id }}" class="carousel slide" data-bs-ride="carousel">
+                                    <div id="carousel-{{ $inmueble->id }}" class="carousel slide">
                                         <div class="carousel-inner">
                                             @if ($inmueble->es_reciente)
                                                 <span
