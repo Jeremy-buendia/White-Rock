@@ -1,10 +1,11 @@
 <x-agente-layout>
-    <main class="container-md">
+    <main class="container-md mt-3">
         <ul class="listado-items">
             <li class="item lista-header">
                 <h2>Cliente</h2>
                 <br>
                 <h2>Propiedad</h2>
+
                 <h2></h2>
             </li>
             @foreach ($contratos as $contrato)

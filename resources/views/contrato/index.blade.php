@@ -1,18 +1,22 @@
 <x-agente-layout>
     <main class="">
-        <nav>
+        <nav class="header-datos">
             <ul>
-                <li> {{ $usuario->name }}</li>
-                <li> {{ $usuario->email }}</li>
-                <li> {{ $usuario->telefono }}</li>
-                <li> {{ $propiedad->nombre }}</li>
+                <li> <b>Cliente: </b>{{ $usuario->name }}</li>
+                <li> <b>Email: </b> {{ $usuario->email }}</li>
+                <li> <b>Teléfono: </b> {{ $usuario->telefono }}</li>
+                <li> <b>Propiedad: </b>{{ $propiedad->nombre }}</li>
             </ul>
         </nav>
 
-        <div class="contrato">
-            {{ $contrato->condiciones }}
-        </div>
+        <div class="centrado">
+            <div class="contrato">
+                <?php
+                $condicionesConSaltosDeLinea = str_replace('¬', '<br>', $contrato->condiciones);
+                echo $condicionesConSaltosDeLinea;
+                ?>
+            </div>
 
-        <a href=" {{ route('contrato.index_all') }}">Volver</a>
+        </div>
     </main>
 </x-agente-layout>

@@ -40,9 +40,9 @@ Route::prefix('agente')->group(function () {
 
     Route::get('/login', [AgenteAuthController::class, 'loginForm'])->name('agente.login');
     Route::post('/login', [AgenteAuthController::class, 'login']);
-    Route::post('/logout', [AgenteAuthController::class, 'logout'])->name('agente.logout');
 
     Route::middleware(['auth:agente'])->group(function () {
+        Route::get('/logout', [AgenteAuthController::class, 'logout'])->name('agente.logout');
         Route::get('/registro', [AgenteAuthController::class, 'registroForm'])->name('agente.registro');
         Route::post('/registro', [AgenteAuthController::class, 'registro']);
 
@@ -107,7 +107,7 @@ Route::get('/perfil', [ProfileController::class, 'show'])->name('perfil')->middl
 Route::get('/perfil/editar', [ProfileController::class, 'edit'])->name('profile.edit')->middleware('auth');
 Route::patch('/perfil', [ProfileController::class, 'update'])->name('profile.update')->middleware('auth');
 
-Route::post('/logout', function () {
+Route::get('/logout', function () {
     Auth::logout();
     return redirect('/login');
 })->name('logout');
