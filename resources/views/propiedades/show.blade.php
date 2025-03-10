@@ -46,14 +46,33 @@
 
                     @inject('solicitudVisita', 'App\Models\SolicitudVisita')
                     @if(!$solicitudVisita::where('propiedad_id', $propiedad->id)->where('user_id', Auth::id())->exists())
-                        <form id="solicitarVisitaForm-{{ $propiedad->id }}" action="{{ route('propiedades.solicitar-visita', ['id' => $propiedad->id]) }}" method="POST" style="display: none;">
-                            @csrf
-                        </form>
-                        <button type="button" class="btn btn-outline-light w-100 mt-3 btn-hover-green" onclick="document.getElementById('solicitarVisitaForm-{{ $propiedad->id }}').submit();">Solicitar Visita</button>
+                        <button type="button" class="btn btn-outline-light w-100 mt-3 btn-hover-green" data-bs-toggle="modal" data-bs-target="#solicitarVisitaModal-{{ $propiedad->id }}">Solicitar Visita</button>
                     @else
                         <p class="text-success mt-3">Ya has solicitado una visita para esta propiedad.</p>
                     @endif
                 </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal para solicitar visita -->
+<div class="modal fade" id="solicitarVisitaModal-{{ $propiedad->id }}" tabindex="-1" aria-labelledby="solicitarVisitaModalLabel-{{ $propiedad->id }}" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="solicitarVisitaModalLabel-{{ $propiedad->id }}">Solicitar Visita</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="solicitarVisitaForm-{{ $propiedad->id }}" action="{{ route('propiedades.solicitar-visita', ['id' => $propiedad->id]) }}" method="POST">
+                    @csrf
+                    <div class="mb-3">
+                        <label for="fecha_propuesta-{{ $propiedad->id }}" class="form-label">Fecha Propuesta</label>
+                        <input type="date" class="form-control" id="fecha_propuesta-{{ $propiedad->id }}" name="fecha_propuesta" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary w-100">Enviar Solicitud</button>
+                </form>
             </div>
         </div>
     </div>
