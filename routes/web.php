@@ -73,6 +73,7 @@ Route::prefix('agente')->group(function () {
         Route::delete('/editar_solicitud/{id}', [VisitaController::class, 'destroy'])->name('visita.destroy');
 
         Route::get('/solicitudes', [VisitaController::class, 'index_all'])->name('solicitud.index_all');
+        Route::get('/solicitudes/{id}', [VisitaController::class, 'index_all_propiedad'])->name('solicitud.index_all_propiedad');
 
         Route::get('/aprobar_solicitud/{id}', [VisitaController::class, 'aceptar'])->name('visita.aceptar');
 

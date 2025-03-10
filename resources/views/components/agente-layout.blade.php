@@ -34,8 +34,9 @@
     </div>
 
 
-    <footer>
+    <footer class="d-flex justify-content-between">
         <p>© 2025 White Rock. Todos los derechos reservados.</p>
+        <a href="{{ route('agente.logout') }}" class="text-white">Salir</a>
     </footer>
 
     <script src=" https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"

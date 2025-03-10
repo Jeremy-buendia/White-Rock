@@ -207,4 +207,17 @@ class VisitaController extends Controller
             return redirect()->route('agente.dashboard')->with('error', 'Ocurrió un error al cargar la lista de solicitudes de visita.');
         }
     }
+
+    public function index_all_propiedad($id)
+    {
+        try {
+            $visitas = SolicitudVisita::where('propiedad_id', $id)->get();
+            $propiedad = Propiedad::findOrFail($id);
+
+            return view('visita.index_all_propiedad', compact('visitas', 'propiedad'));
+        } catch (\Exception $e) {
+            Log::error('Error en visita.index_all: ' . $e->getMessage());
+            return redirect()->route('agente.dashboard')->with('error', 'Ocurrió un error al cargar la lista de solicitudes de visita.');
+        }
+    }
 }

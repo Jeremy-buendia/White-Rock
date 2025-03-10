@@ -1,7 +1,12 @@
 <x-agente-layout>
     <main class="">
 
-        <h1>{{ $propiedad->nombre }}</h1>
+        <div class="d-flex justify-content-between container-lg">
+            <h1>{{ $propiedad->nombre }}</h1>
+            <a href=" {{ route('solicitud.index_all_propiedad', $propiedad->id) }}" class="mt-3">Ver Solicitudes
+                Adheridas</a>
+        </div>
+
         <div class="d-flex">
             <div id="carouselExampleAutoplaying" class="carousel slide w-50" data-bs-ride="carousel">
                 <div class="carousel-inner">
