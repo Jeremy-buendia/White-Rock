@@ -1,91 +1,87 @@
-<x-guest-layout>
-    <form method="POST" action="{{ route('agente.crearInmueble') }}" enctype='multipart/form-data'>
-        @csrf
+<x-agente-layout>
+    <main class="container-lg">
+        <h1 class="mt-4 mb-4">Crear Inmueble</h1>
+        <form method="POST" action="{{ route('agente.crearInmueble') }}" enctype='multipart/form-data' class="row g-3">
+            @csrf
 
-        <!-- Dirección -->
-        <div>
-            <x-input-label for="nombre" :value="__('Nombre: ')" />
-            <x-text-input id="nombre" type="text" name="nombre" :value="old('nombre')" required autofocus
-                autocomplete="nombre" />
-            <x-input-error :messages="$errors->get('nombre')" class="mt-2" />
-        </div>
+            <!-- Nombre -->
+            <div class="col-md-6">
+                <x-input-label for="nombre" class="form-label" :value="__('Nombre: ')" />
+                <x-text-input id="nombre" class="form-control" type="text" name="nombre" :value="old('nombre')"
+                    required autofocus autocomplete="nombre" />
+                <x-input-error :messages="$errors->get('nombre')" class="invalid-feedback d-block" />
+            </div>
 
-        <!-- Tipo de propiedad -->
-        <div>
-            <x-input-label for="tipo_propiedad" :value="__('Tipo de Propiedad: ')" />
+            <!-- Tipo de propiedad -->
+            <div class="col-md-6">
+                <x-input-label for="tipo_propiedad" class="form-label" :value="__('Tipo de Propiedad: ')" />
+                <select id="tipo_propiedad" name="tipo_propiedad" class="form-select">
+                    <option value="casa" {{ old('tipo_propiedad') == 'casa' ? 'selected' : '' }}>Casa</option>
+                    <option value="apartamento" {{ old('tipo_propiedad') == 'apartamento' ? 'selected' : '' }}>
+                        Apartamento
+                    </option>
+                    <option value="terreno" {{ old('tipo_propiedad') == 'terreno' ? 'selected' : '' }}>Terreno</option>
+                </select>
+                <x-input-error :messages="$errors->get('tipo_propiedad')" class="invalid-feedback d-block" />
+            </div>
 
-            <select id="tipo_propiedad" name="tipo_propiedad"
-                class="block mt-1 w-full border-gray-300 rounded-md shadow-sm focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-                <option value="casa" {{ old('tipo_propiedad') == 'casa' ? 'selected' : '' }}>Casa</option>
-                <option value="apartamento" {{ old('tipo_propiedad') == 'apartamento' ? 'selected' : '' }}>Apartamento
-                </option>
-                <option value="terreno" {{ old('tipo_propiedad') == 'terreno' ? 'selected' : '' }}>Terreno</option>
-            </select>
+            <!-- Precio -->
+            <div class="col-md-4">
+                <x-input-label for="precio" class="form-label" :value="__('Precio: ')" />
+                <x-text-input id="precio" class="form-control" type="text" name="precio" :value="old('precio')"
+                    required autocomplete="precio" />
+                <x-input-error :messages="$errors->get('precio')" class="invalid-feedback d-block" />
+            </div>
 
-            <x-input-error :messages="$errors->get('tipo_propiedad')" class="mt-2" />
-        </div>
+            <!-- Tamaño -->
+            <div class="col-md-4">
+                <x-input-label for="tamano" class="form-label" :value="__('Tamaño: ')" />
+                <x-text-input id="tamano" class="form-control" type="text" name="tamano" :value="old('tamano')"
+                    required autocomplete="tamano" />
+                <x-input-error :messages="$errors->get('tamano')" class="invalid-feedback d-block" />
+            </div>
 
-        <!-- Precio -->
-        <div>
-            <x-input-label for="precio" :value="__('Precio: ')" />
-            <x-text-input id="precio" type="text" name="precio" :value="old('precio')" required
-                autocomplete="precio" />
-            <x-input-error :messages="$errors->get('precio')" class="mt-2" />
-        </div>
+            <!-- Estado -->
+            <div class="col-md-4">
+                <x-input-label for="estado" class="form-label" :value="__('Estado: ')" />
+                <select id="estado" name="estado" class="form-select">
+                    <option value="disponible" {{ old('estado') == 'disponible' ? 'selected' : '' }}>Disponible</option>
+                    <option value="vendido" {{ old('estado') == 'vendido' ? 'selected' : '' }}>Vendido</option>
+                    <option value="alquilado" {{ old('estado') == 'alquilado' ? 'selected' : '' }}>Alquilado</option>
+                </select>
+                <x-input-error :messages="$errors->get('estado')" class="invalid-feedback d-block" />
+            </div>
 
-        <!-- Tamaño -->
-        <div>
-            <x-input-label for="tamano" :value="__('Tamaño: ')" />
-            <x-text-input id="tamano" type="text" name="tamano" :value="old('tamano')" required
-                autocomplete="tamano" />
-            <x-input-error :messages="$errors->get('tamano')" class="mt-2" />
-        </div>
+            <!-- Dirección -->
+            <div class="col-12">
+                <x-input-label for="direccion" class="form-label" :value="__('Dirección: ')" />
+                <x-text-input id="direccion" class="form-control" type="text" name="direccion" :value="old('direccion')"
+                    required autocomplete="direccion" />
+                <x-input-error :messages="$errors->get('direccion')" class="invalid-feedback d-block" />
+            </div>
 
-        <!-- Dirección -->
-        <div>
-            <x-input-label for="direccion" :value="__('Dirección: ')" />
-            <x-text-input id="direccion" class="" type="text" name="direccion" :value="old('direccion')" required
-                autocomplete="direccion" />
-            <x-input-error :messages="$errors->get('direccion')" class="mt-2" />
-        </div>
+            <!-- Descripción -->
+            <div class="col-12">
+                <x-input-label for="descripcion" class="form-label" :value="__('Descripción: ')" />
+                <textarea name="descripcion" id="descripcion" rows="4" class="form-control">{{ old('descripcion') }}</textarea>
+                <x-input-error :messages="$errors->get('descripcion')" class="invalid-feedback d-block" />
+            </div>
 
-        <!-- Estado -->
-        <div>
-            <x-input-label for="estado" :value="__('Estado: ')" />
+            <!-- Imágenes -->
+            <div class="col-12">
+                <label for="imagenes" class="form-label">Selecciona las imágenes:</label>
+                <input type="file" class="form-control" id="imagenes" name="imagenes[]"
+                    accept=".jpg,.jpeg,.png,.svg" multiple>
+            </div>
 
-            <select id="estado" name="estado" class="">
-                <option value="disponible" {{ old('estado') == 'disponible' ? 'selected' : '' }}>Disponible</option>
-                <option value="vendido" {{ old('estado') == 'vendido' ? 'selected' : '' }}>Vendido</option>
-                <option value="alquilado" {{ old('estado') == 'alquilado' ? 'selected' : '' }}>Alquilado</option>
-            </select>
+            <!-- Botones -->
+            <div class="col-12">
+                <x-primary-button class="btn btn-primary">
+                    {{ __('Añadir Inmueble') }}
+                </x-primary-button>
 
-            <x-input-error :messages="$errors->get('estado')" class="mt-2" />
-        </div>
-
-
-        <!-- Descripción -->
-        <div>
-            <x-input-label for="descripcion" :value="__('Descripción: ')" />
-
-            <textarea name="descripcion" id="descripcion" rows="4" cols="50">{{ old('descripcion') }}</textarea>
-
-            <x-input-error :messages="$errors->get('descripcion')" class="mt-2" />
-        </div>
-
-        <div class="form-group">
-            <label for="imagenes">Selecciona las imágenes:</label>
-            <input type="file" class="form-control" id="imagenes" name="imagenes[]" accept=".jpg,.jpeg,.png,.svg"
-                multiple>
-        </div>
-
-        <div class="">
-            <x-primary-button class="ms-4">
-                {{ __('Añadir Inmueble') }}
-            </x-primary-button>
-        </div>
-
-        <div class="">
-            <a href="{{ route('agente.dashboard') }}">Volver</a>
-        </div>
-    </form>
-</x-guest-layout>
+                <a href="{{ route('agente.dashboard') }}" class="btn btn-secondary">Volver</a>
+            </div>
+        </form>
+    </main>
+</x-agente-layout>

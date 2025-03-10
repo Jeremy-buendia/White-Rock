@@ -1,60 +1,55 @@
 <x-agente-layout>
-    <main class="">
-        <form method="POST" action="{{ route('transaccion.store') }}">
+    <main class="container-lg">
+        <h1 class="mt-4 mb-4">Registrar Transacción</h1>
+        <form method="POST" action="{{ route('transaccion.store') }}" class="row g-3">
             @csrf
 
             <!-- Correo Electrónico -->
-            <div>
-                <x-input-label for="correo_electronico" :value="__('Correo Electrónico Cliente: ')" />
-                <x-text-input id="correo_electronico" type="email" name="correo_electronico" :value="old('correo_electronico')" required
-                    autofocus autocomplete="correo_electronico" />
-                <x-input-error :messages="$errors->get('correo_electronico')" class="mt-2" />
+            <div class="col-md-6">
+                <x-input-label for="correo_electronico" class="form-label" :value="__('Correo Electrónico Cliente: ')" />
+                <x-text-input id="correo_electronico" class="form-control" type="email" name="correo_electronico"
+                    :value="old('correo_electronico')" required autofocus autocomplete="correo_electronico" />
+                <x-input-error :messages="$errors->get('correo_electronico')" class="invalid-feedback d-block" />
             </div>
 
             <!-- Propiedad -->
-            <div>
-                <x-input-label for="propiedad_id" :value="__('Propiedad: ')" />
-
-                <select id="propiedad_id" name="propiedad_id"
-                    class="block mt-1 w-full border-gray-300 rounded-md shadow-sm focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+            <div class="col-md-6">
+                <x-input-label for="propiedad_id" class="form-label" :value="__('Propiedad: ')" />
+                <select id="propiedad_id" name="propiedad_id" class="form-select">
                     @foreach ($propiedades as $propiedad)
                         <option value="{{ $propiedad->id }}">{{ $propiedad->nombre }}</option>
                     @endforeach
                 </select>
-
-                <x-input-error :messages="$errors->get('propiedad_id')" class="mt-2" />
+                <x-input-error :messages="$errors->get('propiedad_id')" class="invalid-feedback d-block" />
             </div>
 
-            <div>
-                <x-input-label for="tipo_transaccion" :value="__('Tipo de Transacción: ')" />
-
-                <select id="tipo_transaccion" name="tipo_transaccion" class="">
+            <!-- Tipo de Transacción -->
+            <div class="col-md-6">
+                <x-input-label for="tipo_transaccion" class="form-label" :value="__('Tipo de Transacción: ')" />
+                <select id="tipo_transaccion" name="tipo_transaccion" class="form-select">
                     <option value="compra" {{ old('tipo_transaccion') == 'compra' ? 'selected' : '' }}>Compra</option>
                     <option value="venta" {{ old('tipo_transaccion') == 'venta' ? 'selected' : '' }}>Venta</option>
                     <option value="alquiler" {{ old('tipo_transaccion') == 'alquiler' ? 'selected' : '' }}>Alquiler
                     </option>
                 </select>
-
-                <x-input-error :messages="$errors->get('estado')" class="mt-2" />
+                <x-input-error :messages="$errors->get('tipo_transaccion')" class="invalid-feedback d-block" />
             </div>
 
-            <!-- Fecha Inicio -->
-
-            <div>
-                <x-input-label for="precio_transaccion" :value="__('Cantidad: ')" />
-                <x-text-input id="precio_transaccion" type="text" name="precio_transaccion" :value="old('precio_transaccion')"
-                    required autofocus autocomplete="precio_transaccion" />
-                <x-input-error :messages="$errors->get('precio_transaccion')" class="mt-2" />
+            <!-- Precio Transacción -->
+            <div class="col-md-6">
+                <x-input-label for="precio_transaccion" class="form-label" :value="__('Cantidad: ')" />
+                <x-text-input id="precio_transaccion" class="form-control" type="text" name="precio_transaccion"
+                    :value="old('precio_transaccion')" required autofocus autocomplete="precio_transaccion" />
+                <x-input-error :messages="$errors->get('precio_transaccion')" class="invalid-feedback d-block" />
             </div>
 
-            <div class="">
-                <x-primary-button class="ms-4">
+            <!-- Botones -->
+            <div class="col-12">
+                <x-primary-button class="btn btn-primary">
                     {{ __('Registrar Transacción') }}
                 </x-primary-button>
-            </div>
 
-            <div class="">
-                <a href="{{ route('agente.dashboard') }}">Volver</a>
+                <a href="{{ route('agente.dashboard') }}" class="btn btn-secondary">Volver</a>
             </div>
         </form>
     </main>
