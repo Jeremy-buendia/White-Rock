@@ -95,7 +95,7 @@ footer nav a{
     transition: 0.3s ease all;
     color: white;
 }
-
+/*
 .login{
     display: flex;
     background-image: url('../img/marmol.jpg');
@@ -139,4 +139,4 @@ form label{
     background-color: rgb(231, 231, 231);
     transition: 0.3s all ease;
     color: slategray;
-}
+} */
