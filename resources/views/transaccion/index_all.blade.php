@@ -1,16 +1,22 @@
 <x-agente-layout>
-    <main class="">
+    <main class="container-md">
         <a href="{{ route('transaccion.export') }}">Descargar transacciones</a>
-        <ul>
+        <ul class="listado-items">
+            <li class="item lista-header">
+                <h2>Cliente</h2>
+
+                <h2>Cantidad</h2>
+                <h2></h2>
+            </li>
             @foreach ($transacciones as $transaccion)
-                <li>
-                    {{ $transaccion->user->name }} {{ $transaccion->user->apellido }}
+                <li class="item">
+                    <h2>{{ $transaccion->user->name }} {{ $transaccion->user->apellido }}</h2>
 
-                    <br>
 
-                    {{ $transaccion->precio_transaccion }}
+
+                    <p>{{ $transaccion->precio_transaccion }}</p>
+                    <a href="{{ route('transaccion.index', $transaccion->id) }}">Ver Transacción</a>
                 </li>
-                <a href="{{ route('transaccion.index', $transaccion->id) }}">Ver Transacción</a>
             @endforeach
         </ul>
     </main>
