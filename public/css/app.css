@@ -67,17 +67,17 @@ footer a{
     color: black;
 }
 
-footer > a{
+#volverArriba{
     border-bottom: 1px solid rgb(183, 183, 183);
     padding: 15px;
     display: block;
     color: black;
     text-decoration: none;
-
     font-weight: 400;
     font-style: italic;
     font-size: 20px;
     transition: 0.3s ease all;
+    width: 100%;
 }
 
 footer nav a{
@@ -94,7 +94,9 @@ footer nav a{
     background: slategray;
     transition: 0.3s ease all;
     color: white;
+    display: block;
 }
+
 /*
 .login{
     display: flex;
