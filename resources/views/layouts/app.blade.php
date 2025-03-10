@@ -32,10 +32,9 @@
         @yield('content')
     </main>
 
-    <footer class="bg-light py-3">
+    <footer>
         <div class="container">
             <a href="#" id="volverArriba">Volver arriba</a>
-            <br>
             <br>
             <nav>
                 <a href="{{ route('agente.login') }}">Acceso Agentes</a>
