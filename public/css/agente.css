@@ -33,6 +33,10 @@ header a:hover{
     text-decoration: none;
 }
 
+.listado{
+    margin-bottom: 10px;
+}
+
 .contenedor{
     display: grid;
     grid-template-columns: 1fr 4fr;

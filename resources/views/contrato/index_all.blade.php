@@ -15,7 +15,8 @@
 
                     <p>{{ $contrato->propiedad->nombre }}</p>
 
-                    <a href="{{ route('contrato.index', $contrato->id) }}">Ver Contrato</a>
+                    <a href="{{ route('contrato.index', $contrato->id) }}" class="listado btn btn-primary">Ver
+                        Contrato</a>
                 </li>
             @endforeach
         </ul>
