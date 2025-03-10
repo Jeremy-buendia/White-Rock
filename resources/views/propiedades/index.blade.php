@@ -101,7 +101,7 @@
                                             <label for="fecha_propuesta-{{ $inmueble->id }}" class="form-label">Fecha Propuesta</label>
                                             <input type="date" class="form-control" id="fecha_propuesta-{{ $inmueble->id }}" name="fecha_propuesta" required>
                                         </div>
-                                        <button type="submit" class="btn btn-primary">Enviar Solicitud</button>
+                                        <button type="submit" class="btn btn-primary w-100">Enviar Solicitud</button>
                                     </form>
                                 </div>
                             </div>

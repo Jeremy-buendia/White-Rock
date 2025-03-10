@@ -170,6 +170,19 @@ class VisitaController extends Controller
         }
     }
 
+    public function cancelar($id)
+    {
+        try {
+            $solicitudVisita = SolicitudVisita::findOrFail($id);
+            $solicitudVisita->delete();
+
+            return redirect()->back()->with('success', 'Solicitud de visita cancelada correctamente.');
+        } catch (\Exception $e) {
+            Log::error('Error al cancelar la solicitud de visita: ' . $e->getMessage());
+            return redirect()->back()->with('error', 'Error al cancelar la solicitud de visita. Por favor, inténtalo de nuevo.');
+        }
+    }
+
     public function index_all()
     {
         try {

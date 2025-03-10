@@ -26,5 +26,43 @@
             </form>
         </div>
     </div>
+
+    <div class="card mt-4">
+        <div class="card-header">
+            Solicitudes de Visita
+        </div>
+        <div class="card-body">
+            @if($user->solicitudesVisitas->isEmpty())
+                <p>No hay solicitudes de visita.</p>
+            @else
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Propiedad</th>
+                            <th>Fecha de Solicitud</th>
+                            <th>Estado</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach($user->solicitudesVisitas as $solicitud)
+                            <tr>
+                                <td><a href="{{ route('propiedad.show', $solicitud->propiedad->id) }}">{{ $solicitud->propiedad->nombre }}</a></td>
+                                <td>{{ $solicitud->created_at->format('d/m/Y') }}</td>
+                                <td>{{ ucfirst($solicitud->estado) }}</td>
+                                <td>
+                                    <button type="button" class="btn btn-danger btn-sm" onclick="event.preventDefault(); if(confirm('¿Estás seguro de que deseas cancelar esta solicitud?')) { document.getElementById('cancel-form-{{ $solicitud->id }}').submit(); }">Cancelar</button>
+                                    <form id="cancel-form-{{ $solicitud->id }}" action="{{ route('solicitud.cancelar', $solicitud->id) }}" method="POST" style="display: none;">
+                                        @csrf
+                                        @method('DELETE')
+                                    </form>
+                                </td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            @endif
+        </div>
+    </div>
 </div>
 @endsection

@@ -305,7 +305,6 @@ class PropiedadController extends Controller
                 'fecha_propuesta' => $request->fecha_propuesta,
             ]);
 
-
             // Redirigimos con un mensaje de éxito en la sesión
             return redirect()->back()->with('success', 'Visita solicitada correctamente');
         } catch (\Exception $e) {

@@ -116,6 +116,10 @@ Route::get('/propiedades/{propiedad}', [PropiedadController::class, 'show'])->na
 
 Route::post('/propiedades/{id}/solicitar-visita', [PropiedadController::class, 'solicitarVisita'])->name('propiedades.solicitar-visita');
 
+Route::get('/propiedades/{id}', [PropiedadController::class, 'show'])->name('propiedad.show');
+
+Route::delete('/solicitud/{id}/cancelar', [VisitaController::class, 'cancelar'])->name('solicitud.cancelar');
+
 // Add routes for other controllers
 Route::resource('visitas', VisitaController::class);
 Route::resource('contratos', ContratoController::class);
