@@ -50,7 +50,6 @@
                         @endif
                         <div class="card-body text-center">
                             <h5 class="fw-bold">{{ $propiedad->nombre }}</h5>
-                            <p class="text-secondary">{{ Str::limit($propiedad->descripcion, 100) }}</p>
                             <p class="fw-bold fs-5 text-light">{{ number_format($propiedad->precio, 2) }} €</p>
                             <p class="text-secondary">{{ $propiedad->tamano }} m²</p>
                             <a href="{{ route('propiedades.show', ['propiedad' => $propiedad->id]) }}"
