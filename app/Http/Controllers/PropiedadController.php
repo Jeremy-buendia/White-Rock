@@ -257,6 +257,20 @@ class PropiedadController extends Controller
     // Método para solicitar una visita a una propiedad específica
     public function solicitarVisita(Request $request, $id)
     {
+        // Asegurarse de que haya un usuario autenticado
+        if (Auth::check()) {
+            $user = Auth::user();
+            $userModel = get_class($user);
+
+            //Usuario es agente
+            if ($userModel === AgenteInmobiliario::class) {
+                return redirect()->route('login');
+            }
+        } else {
+            // No hay ningún usuario autenticado
+            return redirect()->route('login');
+        }
+
         $request->validate([
             'fecha_propuesta' => 'required|date|after:today',
         ]);
