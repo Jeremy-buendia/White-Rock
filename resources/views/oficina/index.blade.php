@@ -13,7 +13,12 @@
                 <li><b>Fax: </b> {{ $oficina->fax }}</li>
             </ul>
         </nav>
-        <a href="{{ route('oficina.crear') }}">Crear Oficina</a>
-        <a href="{{ route('oficina.editar', $oficina->id) }}">Editar</a>
+        <div class="d-flex justify-content-between">
+            <div>
+                <a href="{{ route('oficina.crear') }}">Crear Oficina</a>
+                <a href="{{ route('oficina.editar', $oficina->id) }}">Editar Oficina</a>
+            </div>
+            <a href="{{ route('agente.registro') }}">Crear Agente</a>
+        </div>
     </main>
 </x-agente-layout>
