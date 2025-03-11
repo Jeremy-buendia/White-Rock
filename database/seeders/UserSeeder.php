@@ -2,10 +2,11 @@
 
 namespace Database\Seeders;
 
-use App\Models\Oficina;
+use App\Models\User;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Hash;
 
-class OficinaSeeder extends Seeder
+class UserSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -14,7 +15,7 @@ class OficinaSeeder extends Seeder
      */
     public function run()
     {
-        // Crear algunas oficinas de ejemplo
-        Oficina::factory()->count(5)->create();
+        // Crear algunos usuarios de ejemplo
+        User::factory()->count(5)->create();
     }
 }

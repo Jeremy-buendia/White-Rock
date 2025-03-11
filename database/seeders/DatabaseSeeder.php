@@ -16,7 +16,6 @@ class DatabaseSeeder extends Seeder
 
         $this->call([
             OficinaSeeder::class,
-            ClienteSeeder::class,
             AgenteInmobiliarioSeeder::class,
             PropiedadSeeder::class,
             AgentePropiedadSeeder::class,
@@ -25,6 +24,7 @@ class DatabaseSeeder extends Seeder
             VisitaSeeder::class,
             SolicitudVisitaSeeder::class,
             ContratoSeeder::class,
+            UserSeeder::class
         ]);
     }
 }

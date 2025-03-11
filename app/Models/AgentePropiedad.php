@@ -12,7 +12,7 @@ class AgentePropiedad extends Model
     protected $table = 'agente_propiedad';
 
     protected $fillable = [
-        'agente_id',
+        'agente_inmobiliario_id',
         'propiedad_id',
     ];
 

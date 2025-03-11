@@ -2,26 +2,40 @@
 
 namespace Database\Factories;
 
-use Illuminate\Database\Eloquent\Factories\Factory;
 use App\Models\Propiedad;
+use App\Models\Oficina;
+use Illuminate\Database\Eloquent\Factories\Factory;
 
-/**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Propiedad>
- */
 class PropiedadFactory extends Factory
 {
+    /**
+     * The name of the factory's corresponding model.
+     *
+     * @var string
+     */
+    protected $model = Propiedad::class;
 
-    protected $propiedad = Propiedad::class;
-    public function definition(): array
+    /**
+     * Define the model's default state.
+     *
+     * @return array
+     */
+    public function definition()
     {
+        $tiposPropiedad = ['casa', 'apartamento', 'terreno'];
+        $estados = ['disponible', 'vendido', 'alquilado'];
+
         return [
-            'direccion' => $this->faker->streetAddress,
-            'tipo_propiedad' => $this->faker->randomElement(['Casa', 'Departamento', 'Terreno', 'Local Comercial']),
-            'precio' => $this->faker->numberBetween(50000, 500000),
+            'nombre' => $this->faker->sentence(3),
+            'descripcion' => $this->faker->paragraph,
+            'precio' => $this->faker->numberBetween(50000, 1000000),
+            'tipo_propiedad' => $this->faker->randomElement($tiposPropiedad),
+            'direccion' => $this->faker->address,
             'tamano' => $this->faker->numberBetween(50, 500),
-            'descripcion' => $this->faker->sentence(10),
-            'estado' => $this->faker->randomElement(['disponible', 'vendido', 'alquilado']),
-            'fecha_publicacion' => $this->faker->date(),
+            'estado' => $this->faker->randomElement($estados),
+            'oficina_id' => function () {
+                return Oficina::factory()->create()->id;
+            },
         ];
     }
 }

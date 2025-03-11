@@ -4,31 +4,42 @@ namespace Database\Factories;
 
 use App\Models\Transaccion;
 use App\Models\Propiedad;
-use App\Models\Cliente;
+use App\Models\User;
 use App\Models\AgenteInmobiliario;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-/**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Transaccion>
- */
 class TransaccionFactory extends Factory
 {
+    /**
+     * The name of the factory's corresponding model.
+     *
+     * @var string
+     */
     protected $model = Transaccion::class;
 
     /**
      * Define the model's default state.
      *
-     * @return array<string, mixed>
+     * @return array
      */
-    public function definition(): array
+    public function definition()
     {
+        $tiposTransaccion = ['compra', 'venta', 'alquiler'];
+        $fechaTransaccion = $this->faker->dateTimeBetween('-1 year', 'now');
+
         return [
-            'propiedad_id' => Propiedad::factory(),
-            'cliente_id' => Cliente::factory(),
-            'agente_id' => AgenteInmobiliario::factory(),
-            'tipo_transaccion' => $this->faker->randomElement(['compra', 'venta', 'alquiler']),
-            'fecha_transaccion' => $this->faker->date(),
-            'precio_transaccion' => $this->faker->randomFloat(2, 10000, 1000000),
+            'propiedad_id' => function () {
+                return Propiedad::factory()->create()->id;
+            },
+            'user_id' => function () {
+                return User::factory()->create()->id;
+            },
+            'agente_id' => function () {
+                return AgenteInmobiliario::factory()->create()->id;
+            },
+            'tipo_transaccion' => $this->faker->randomElement($tiposTransaccion),
+            'fecha_transaccion' => $fechaTransaccion,
+            'precio_transaccion' => $this->faker->numberBetween(50000, 1000000),
         ];
     }
 }

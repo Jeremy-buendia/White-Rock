@@ -2,24 +2,30 @@
 
 namespace Database\Factories;
 
-use Illuminate\Database\Eloquent\Factories\Factory;
 use App\Models\Oficina;
+use Illuminate\Database\Eloquent\Factories\Factory;
 
-/**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Oficina>
- */
 class OficinaFactory extends Factory
 {
+    /**
+     * The name of the factory's corresponding model.
+     *
+     * @var string
+     */
+    protected $model = Oficina::class;
 
-    protected $oficina = Oficina::class;
-
-    public function definition(): array
+    /**
+     * Define the model's default state.
+     *
+     * @return array
+     */
+    public function definition()
     {
         return [
-            'nombre' => 'Oficina ' . $this->faker->city,
+            'nombre' => $this->faker->company,
             'direccion' => $this->faker->address,
             'telefono' => $this->faker->phoneNumber,
-            'fax' => $this->faker->phoneNumber,
+            'fax' => $this->faker->phoneNumber
         ];
     }
 }

@@ -2,19 +2,27 @@
 
 namespace Database\Factories;
 
-use Illuminate\Database\Eloquent\Factories\Factory;
-use App\Models\Oficina;
 use App\Models\AgenteInmobiliario;
+use App\Models\Oficina;
+use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Hash;
 
-
-/**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\AgenteInmobiliario>
- */
 class AgenteInmobiliarioFactory extends Factory
 {
-    protected $agenteInmobiliario = AgenteInmobiliario::class;
+    /**
+     * The name of the factory's corresponding model.
+     *
+     * @var string
+     */
+    protected $model = AgenteInmobiliario::class;
 
-    public function definition(): array
+    /**
+     * Define the model's default state.
+     *
+     * @return array
+     */
+    public function definition()
     {
         return [
             'nombre' => $this->faker->firstName,
@@ -23,7 +31,25 @@ class AgenteInmobiliarioFactory extends Factory
             'correo_electronico' => $this->faker->unique()->safeEmail,
             'direccion' => $this->faker->address,
             'fecha_contratacion' => $this->faker->date(),
-            'oficina_id' => Oficina::inRandomOrder()->first()->id ?? Oficina::factory()
+            'password' => Hash::make('password'), //  Contraseña predeterminada
+            'oficina_id' => function () {
+                return Oficina::factory()->create()->id; // Crea una oficina si no existe
+            },
+            'remember_token' => Str::random(10),
         ];
+    }
+
+    /**
+     * Indicate that the model's email address should be unverified.
+     *
+     * @return \Illuminate\Database\Eloquent\Factories\Factory
+     */
+    public function unverified()
+    {
+        return $this->state(function (array $attributes) {
+            return [
+                'email_verified_at' => null,
+            ];
+        });
     }
 }

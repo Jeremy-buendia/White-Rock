@@ -6,24 +6,28 @@ use App\Models\FotografiaPropiedad;
 use App\Models\Propiedad;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-/**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\FotografiaPropiedad>
- */
 class FotografiaPropiedadFactory extends Factory
 {
+    /**
+     * The name of the factory's corresponding model.
+     *
+     * @var string
+     */
     protected $model = FotografiaPropiedad::class;
 
     /**
      * Define the model's default state.
      *
-     * @return array<string, mixed>
+     * @return array
      */
-    public function definition(): array
+    public function definition()
     {
         return [
-            'propiedad_id' => Propiedad::factory(),
-            'url_fotografia' => $this->faker->imageUrl(),
-            'descripcion' => $this->faker->sentence(),
+            'propiedad_id' => function () {
+                return Propiedad::factory()->create()->id; // Crea una Propiedad si no existe
+            },
+            'url_fotografia' => $this->faker->imageUrl(640, 480, 'property', true), // Genera una URL de imagen aleatoria
+            'descripcion' => $this->faker->sentence,
         ];
     }
 }

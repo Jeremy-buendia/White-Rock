@@ -25,7 +25,11 @@ class PropiedadController extends Controller
     public function create()
     {
         try {
-            return view('agente.crearInmueble');
+            $agente = Auth::user();
+            /** @var \App\Models\Agente $agente */
+            $oficina = $agente->oficina;
+            $oficina_id = $oficina->id;
+            return view('agente.crearInmueble', compact('oficina_id'));
         } catch (\Exception $e) {
             Log::error($e);
             return redirect()->back()->with('error', 'Error al mostrar el formulario de creación de propiedad. Por favor, inténtalo de nuevo.');

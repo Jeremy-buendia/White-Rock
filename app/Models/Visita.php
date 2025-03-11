@@ -11,7 +11,7 @@ class Visita extends Model
 
     protected $fillable = [
         'propiedad_id',
-        'cliente_id',
+        'user_id',
         'agente_id',
         'fecha_visita',
         'hora_visita',

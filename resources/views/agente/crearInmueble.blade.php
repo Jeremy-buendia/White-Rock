@@ -74,6 +74,8 @@
                     accept=".jpg,.jpeg,.png,.svg" multiple>
             </div>
 
+            <input type="hidden" name="oficina_id" value="{{ $oficina_id }}">
+
             <!-- Botones -->
             <div class="col-12">
                 <x-primary-button class="btn btn-primary">

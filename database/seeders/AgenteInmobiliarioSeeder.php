@@ -2,14 +2,19 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
-use Illuminate\Database\Seeder;
 use App\Models\AgenteInmobiliario;
+use Illuminate\Database\Seeder;
 
 class AgenteInmobiliarioSeeder extends Seeder
 {
-    public function run(): void
+    /**
+     * Run the database seeds.
+     *
+     * @return void
+     */
+    public function run()
     {
-        AgenteInmobiliario::factory()->count(10)->create();
+        // Crear algunos agentes inmobiliarios de ejemplo
+        AgenteInmobiliario::factory()->count(5)->create();
     }
 }

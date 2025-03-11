@@ -7,23 +7,29 @@ use App\Models\AgenteInmobiliario;
 use App\Models\Propiedad;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-/**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\AgentePropiedad>
- */
 class AgentePropiedadFactory extends Factory
 {
+    /**
+     * The name of the factory's corresponding model.
+     *
+     * @var string
+     */
     protected $model = AgentePropiedad::class;
 
     /**
      * Define the model's default state.
      *
-     * @return array<string, mixed>
+     * @return array
      */
-    public function definition(): array
+    public function definition()
     {
         return [
-            'agente_id' => AgenteInmobiliario::factory(),
-            'propiedad_id' => Propiedad::factory(),
+            'agente_inmobiliario_id' => function () {
+                return AgenteInmobiliario::factory()->create()->id; // Crea un agente si no existe
+            },
+            'propiedad_id' => function () {
+                return Propiedad::factory()->create()->id; // Crea una propiedad si no existe
+            },
         ];
     }
 }
