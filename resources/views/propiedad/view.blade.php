@@ -45,7 +45,7 @@
                         </tr>
                         <tr class="">
                             <td scope="row"><b>Tamaño</b></td>
-                            <td>{{ $propiedad->tamano }} metros cuadrados</td>
+                            <td>{{ $propiedad->tamano }} m²</td>
                         </tr>
                         <tr class="">
                             <td scope="row"><b>Descripción</b></td>

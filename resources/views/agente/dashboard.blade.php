@@ -54,7 +54,7 @@
                                 </h2>
                                 <p><b>Dirección: </b>{{ $inmueble->direccion }}</p>
                                 <p><b>Precio: </b>{{ $inmueble->precio }}€</p>
-                                <p><b>Dimensiones: </b>{{ $inmueble->tamano }} metros cuadrados</p>
+                                <p><b>Dimensiones: </b>{{ $inmueble->tamano }} m²</p>
                             </div>
 
                             <div class="btnItem">

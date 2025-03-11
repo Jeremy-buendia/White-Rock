@@ -1,62 +1,56 @@
 <x-agente-layout>
-    <main class="">
-        <form method="POST" action="{{ route('visita.editar', $solicitudVisita->id) }}">
+    <main class="container-lg">
+        <h1 class="mt-4 mb-4">Editar Solicitud de Visita</h1>
+        <form method="POST" action="{{ route('visita.editar', $solicitudVisita->id) }}" class="row g-3">
             @csrf
             @method('PUT')
 
             <!-- Correo Electrónico -->
-            <div>
-                <x-input-label for="correo_electronico" :value="__('Correo Electrónico: ')" />
-                <x-text-input id="correo_electronico" type="email" name="correo_electronico" value="{{ $emailCliente }}"
-                    required autofocus autocomplete="correo_electronico" />
-                <x-input-error :messages="$errors->get('correo_electronico')" class="mt-2" />
+            <div class="col-md-6">
+                <x-input-label for="correo_electronico" class="form-label" :value="__('Correo Electrónico: ')" />
+                <x-text-input id="correo_electronico" class="form-control" type="email" name="correo_electronico"
+                    value="{{ $emailCliente }}" required autofocus autocomplete="correo_electronico" />
+                <x-input-error :messages="$errors->get('correo_electronico')" class="invalid-feedback d-block" />
             </div>
 
             <!-- Propiedad -->
-            <div>
-                <x-input-label for="propiedad_id" :value="__('Propiedad: ')" />
-
-                <select id="propiedad_id" name="propiedad_id"
-                    class="block mt-1 w-full border-gray-300 rounded-md shadow-sm focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+            <div class="col-md-6">
+                <x-input-label for="propiedad_id" class="form-label" :value="__('Propiedad: ')" />
+                <select id="propiedad_id" name="propiedad_id" class="form-select">
                     @foreach ($propiedades as $propiedad)
                         <option value="{{ $propiedad->id }}" @if ($propiedad->id == $propiedadVisita->id) selected @endif>
                             {{ $propiedad->nombre }}</option>
                     @endforeach
                 </select>
-
-                <x-input-error :messages="$errors->get('propiedad_id')" class="mt-2" />
+                <x-input-error :messages="$errors->get('propiedad_id')" class="invalid-feedback d-block" />
             </div>
 
             <!-- Fecha Propuesta -->
-
-            <div>
-                <x-input-label for="fecha_propuesta" :value="__('Fecha y Hora: ')" />
-                <x-text-input id="fecha_propuesta" type="datetime-local" name="fecha_propuesta"
+            <div class="col-md-6">
+                <x-input-label for="fecha_propuesta" class="form-label" :value="__('Fecha y Hora: ')" />
+                <x-text-input id="fecha_propuesta" class="form-control" type="datetime-local" name="fecha_propuesta"
                     value="{{ $solicitudVisita->fecha_propuesta }}" required autocomplete="fecha_propuesta" />
-                <x-input-error :messages="$errors->get('fecha_propuesta')" class="mt-2" />
+                <x-input-error :messages="$errors->get('fecha_propuesta')" class="invalid-feedback d-block" />
             </div>
 
-            <div>
-                <x-input-label for="estado" :value="__('Estado: ')" />
-
-                <select id="estado" name="estado"
-                    class="block mt-1 w-full border-gray-300 rounded-md shadow-sm focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+            <!-- Estado -->
+            <div class="col-md-6">
+                <x-input-label for="estado" class="form-label" :value="__('Estado: ')" />
+                <select id="estado" name="estado" class="form-select">
                     <option value="pendiente" @if ($solicitudVisita->estado == 'pendiente') selected @endif>Pendiente</option>
                     <option value="aprobada" @if ($solicitudVisita->estado == 'aprobada') selected @endif>Aprobada</option>
                     <option value="rechazada" @if ($solicitudVisita->estado == 'rechazada') selected @endif>Rechazada</option>
                 </select>
-
-                <x-input-error :messages="$errors->get('tipo_propiedad')" class="mt-2" />
+                <x-input-error :messages="$errors->get('estado')" class="invalid-feedback d-block" />
             </div>
 
-            <div class="">
-                <x-primary-button class="ms-4">
-                    {{ __('Establecer Visita') }}
+            <!-- Botones -->
+            <div class="col-12">
+                <x-primary-button class="btn btn-primary">
+                    {{ __('Guardar Cambios') }}
                 </x-primary-button>
-            </div>
 
-            <div class="">
-                <a href="{{ route('agente.dashboard') }}">Volver</a>
+                <a href="{{ route('agente.dashboard') }}" class="btn btn-secondary">Volver</a>
             </div>
         </form>
     </main>
